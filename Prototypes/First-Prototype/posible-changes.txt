@@ -1,0 +1,17 @@
+MES
+* may not be able to use the logo for McMaster, we can sub the current logo for MES, or if we can include McMaster, include both
+
+degree schedule appearance
+* possibly change to drag and drop
+
+ideas to simplify:
+* drop down options: then a go to button, for the generate schedules, filtered courses, maybe saved schedules
+* change degree progress to a drop down
+* less roundedness
+* changes transcript upload, maybe have it say the last upload
+
+things to add: 
+* show that generated is favourite schedules
+* options to opt out of notifications
+* options to look at other saved schedules
+* options to look at favourited courses
