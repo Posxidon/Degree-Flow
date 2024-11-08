@@ -1,25 +1,25 @@
 {
-    "extends": [
-      "airbnb"                   // Extends Airbnb's JavaScript and React rules
-    ],
-    "env": {
-      "browser": true,           // Enables browser globals like 'window' and 'document'
-      "node": true,              // Enables Node.js globals for module imports/exports
-      "es2021": true             // Allows modern ECMAScript features
-    },
-    "parserOptions": {
-      "ecmaVersion": 12,         // Specifies ECMAScript version
-      "sourceType": "module"     // Enables ES6 modules
-    },
-    "rules": {
-      "linebreak-style": 0,
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], // Allows JSX in .js files
-      "no-console": "off",       // Allows console statements (useful during development)
-      "no-unused-vars": ["warn"],// Warns on unused variables
-      "comma-dangle": ["error", "never"], // Disables trailing commas (optional)
-      "react/prop-types": "off",  // Disables prop-types rule for React
-      "vue/singleline-html-element-content-newline": "off",
-      "vue/multiline-html-element-content-newline": "off",
-      "arrow-parens": "as-needed" 
-    }
+  "extends": [
+    "airbnb"                   // Extends Airbnb's JavaScript and React rules
+  ],
+  "env": {
+    "browser": true,           // Enables browser globals like 'window' and 'document'
+    "node": true,              // Enables Node.js globals for module imports/exports
+    "es2021": true             // Allows modern ECMAScript features
+  },
+  "parserOptions": {
+    "ecmaVersion": 12,         // Specifies ECMAScript version
+    "sourceType": "module"     // Enables ES6 modules
+  },
+  "rules": {
+    "linebreak-style": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], // Allows JSX in .js files
+    "no-console": "off",       // Allows console statements (useful during development)
+    "no-unused-vars": ["warn"],// Warns on unused variables
+    "comma-dangle": ["error", "never"], // Disables trailing commas (optional)
+    "react/prop-types": "off",  // Disables prop-types rule for React
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "arrow-parens": ["error", "as-needed"] // Corrected configuration
   }
+}
