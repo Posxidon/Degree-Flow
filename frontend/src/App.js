@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './Logo_Name_Red.png';
 import menu from './51b3808ae01037d3b2519b24860dbeb6.png';
-import footer from './mcmaster-footer-banner.png';
+import footer from './Logo_Name_White.png';
 import './App.css';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           <div className="inline-text">Hamtilton, Ontario L8S 4L8.</div>
           <div className="inline-text">(905) 525-9140</div>
         </div>
-        <div className="inline-text">@McMaster University</div>
+        <div className="inline-text">© 2024 McMaster Engineering Society</div>
       </footer>
     </div>
   );

@@ -32,7 +32,8 @@
   color: white;
 }
 .footer-img {
-  width: 30%;
+  width: 150px;
+  padding-top: 10px;
 }
 .title {
   color:#85013c;
