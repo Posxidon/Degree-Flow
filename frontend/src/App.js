@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './Logo_Name_Red.png';
-import menu from './51b3808ae01037d3b2519b24860dbeb6.png';
 import footer from './Logo_Name_White.png';
+import ButtonSection from './components/buttonSection/ButtonSection';
+import UserNav from './components/userNav/UserNav';
 import './App.css';
 
 function App() {
@@ -10,12 +11,13 @@ function App() {
       <header className="header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1 className="title">DegreeFlow</h1>
-        <div className="user-info-div">
-          <div className="inline-text">login</div>
-          <div className="inline-text">2024 fall</div>
-          <img src={menu} className="menu-icon" alt="menu" />
-        </div>
+        <UserNav />
       </header>
+
+      <main className="main-content">
+        <ButtonSection />
+      </main>
+
       <footer className="footer">
         <img src={footer} alt="footer" className="footer-img" />
         <div className="footer-text">
