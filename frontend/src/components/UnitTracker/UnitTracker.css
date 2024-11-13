@@ -1,0 +1,33 @@
+/* src/components/UnitTracker/UnitTracker.css */
+
+
+.unit-tracker-container {
+    background-color: #d3d6d8; /* Light gray background for the container */
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    margin: 20px 0; /* Space around the unit tracker container */
+    margin-bottom: 60px; /* Adds space at the bottom to prevent overlap with footer */
+  }
+   .unit-tracker {
+    margin-bottom: 20px;
+  }
+   .unit-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+   .progress-bar {
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 2px solid #000; /* Adds a border to the progress bar */
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+  }
+   .progress-fill {
+    height: 100%;
+    background-color: #800020; /* Dark red color */
+    transition: width 0.3s ease;
+    border-radius: 15px 0 0 15px; /* Rounded left side */
+  }
+ 
