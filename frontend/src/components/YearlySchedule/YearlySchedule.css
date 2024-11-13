@@ -1,0 +1,66 @@
+.yearly-schedule-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+   .year-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+  }
+   .year-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #85013c;
+    margin-bottom: 15px;
+  }
+   .semester-box {
+    background-color: #85013c;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 8px 0;
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+   .semester-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #f6f2f4;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+   /* White Box Styling */
+  .white-box {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: center;
+  }
+   .white-box .course-code,
+  .white-box .course-name {
+    margin: 0; /* Remove any margin between the course name and code */
+  }
+   .course-code {
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+  }
+   .course-name {
+    font-size: 0.9em;
+    color: #333;
+    margin-top: 5px;
+    font-style: italic; /* Optional: For better distinction */
+  }
+ 
