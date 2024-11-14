@@ -1,0 +1,35 @@
+.Login {
+    text-align: center;   
+  }
+body{
+  background-color: lightgray;
+}
+.input-fld {
+  width: 300px;
+  padding: 10px;
+  font-size: 15px;
+}
+.login-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 100px 50px 100px;
+  border: 20px solid #85013c;
+  border-radius: 30px;
+  background-color: white;
+}
+.title {
+  color:#85013c;
+  padding: 0;
+  margin: 0;
+  border-bottom: 5px solid lightgrey;
+  margin-bottom: 30px;
+}
+.logo{
+  width: 400px;
+}
