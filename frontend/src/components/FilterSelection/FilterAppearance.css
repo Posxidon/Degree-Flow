@@ -1,0 +1,118 @@
+.custom-checkbox {
+    display: inline-block;          /* Ensure it's visible inline */
+    width: 15px;                   /* Set the size of the checkbox */
+    height: 15px;                  /* Same height as width */
+    border: 2px solid #000;        /* Add a visible border */
+    background-color: #fff;        /* Set a white background */
+    text-align: center;            /* Center text inside */
+    line-height: 15px;             /* Align the text vertically */
+    font-size: 14px;               /* Adjust font size for symbols */
+    font-weight: bold;             /* Make the symbols bold */
+    user-select: none;             /* Prevent text selection */
+    cursor: pointer;               /* Show pointer cursor on hover */
+    min-width: 15px;
+    min-height: 15px;
+
+
+
+}
+.checkbox-checkmark {
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Style for X */
+.checkbox-x {
+    color: rgb(165, 1, 75);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.custom-checkbox:hover {
+    background-color: #f0f0f0;     /* Add a hover effect */
+}
+
+/* Label styling */
+label {
+    margin-left: 10px;
+}
+
+
+/* Container for each option */
+.option-div {
+    display: flex;                
+    align-items: center;         
+    margin-bottom: 10px;         
+}
+
+.filter-title{
+    font-family: sans-serif;
+    display: flex;         
+    width: 100%;           
+    margin-bottom: 5px;      
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: white;
+    color: black;
+    border: none;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+}
+.icon-change{
+    font-size:  26px;                /* Size of the + or − icon */
+    color: black;                   /* Color of the icon */
+}
+
+
+
+
+.filter-selection {
+    width: 700px;
+    padding: 10px;
+    /*border: 2px solid #000;*/
+    
+    background-color: rgb(225, 228, 230);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.filter-subtitles {
+    display: grid;             /* Enables flexbox flex; */
+    grid-template-columns: repeat(3, 1fr);            /* Allows the options to wrap to the next line if needed flex-wrap: wrap;  */
+    gap: 10px;                    /* Adds space between each option */
+    margin-top: 10px;             /* Adds some spacing above the options */
+    align-items: start;
+}
+
+.option-div {
+    font-family: sans-serif;
+    display: flex;         /* Ensures each option is inline and aligns next to each other */
+    align-items: center;          /* Vertically centers the checkbox and label */
+    gap: 5px;                     /* Adds space between the checkbox and label */
+
+
+    height: 60px;
+}
+
+
+.filter {   
+    font-size:  20px;   
+    font-family: sans-serif;
+    width: 725px;                   /* Set the width of the container */
+    padding:  20px;                  /* Add padding inside the rectangle */
+    border-radius: 15px;            /* Rounds the edges of the rectangle */
+    background-color: rgb(225, 228, 230);      /* Light gray background color */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    border: 1px solid #ccc;         /* Optional: Adds a subtle border */
+    margin: 60px auto;
+    max-width: 725px;
+}
+
+.filter h2 {
+    margin: 0; /* Remove default margin around the h2 title */
+}
+
