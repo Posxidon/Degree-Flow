@@ -1,5 +1,6 @@
 import React from 'react';
 import './ButtonSection.css';
+import { useNavigate } from 'react-router-dom';// this is to use routing function
 
 function ActionButton({ children, onClick }) {
   return (
@@ -49,8 +50,10 @@ function UploadTranscript() {
 }
 
 function ButtonSection() {
+  const navigate = useNavigate(); // Initialize useNavigate
   const handleSearchClick = () => {
     console.log('Search button clicked');
+    navigate('/FilterSelection'); // Navigate to Filter Page
   };
 
   const handleGenerateClick = () => {
