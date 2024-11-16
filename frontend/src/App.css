@@ -5,7 +5,7 @@ html, body {
 }
 
 .App {
-  text-align: center;
+ 
   display: flex;
   flex-direction: column;
   min-height: 100vh;  /* Makes the container fill the viewport height */
