@@ -58,6 +58,11 @@ function Filter() {
         '★★★',
         '★★★★',
         '★★★★★'];
+    } else if (filterid === 'course-level') {
+      options = ['Level 1',
+        'Level 2',
+        'Level 3',
+        'Level 4'];
     }
 
     if (filterDiv.style.display === 'none') {
@@ -128,6 +133,12 @@ function Filter() {
           <span className="icon-change">+</span>
         </button>
         <div id="rating" className="filter-subtitles" style={{ display: 'none' }} />
+
+        <button type="button" className="filter-title" onClick={(e) => expandFilter('course-level', e.currentTarget)}>
+          COURSE LEVEL
+          <span className="icon-change">+</span>
+        </button>
+        <div id="course-level" className="filter-subtitles" style={{ display: 'none' }} />
 
       </div>
     </div>
