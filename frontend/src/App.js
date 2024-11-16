@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import FilterSelection from './components/FilterSelection/FilterSelection';
+import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import logo from './Logo_Name_Red.png';
 import footer from './Logo_Name_White.png';
 import ButtonSection from './components/buttonSection/ButtonSection';
@@ -42,8 +43,13 @@ function App() {
           <Route
             path="/FilterSelection"
             element={
-              <FilterSelection />
-            }
+            (
+              <div>
+                <FilterPageButtons />
+                <FilterSelection />
+              </div>
+            )
+          }
           />
         </Routes>
 
