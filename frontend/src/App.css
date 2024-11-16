@@ -1,5 +1,14 @@
+html, body {
+  margin: 0;          /* Removes default browser margins */
+  padding: 0;         /* Removes default browser padding */
+  height: 100%;       /* Ensures the full height of the viewport is used */
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* Makes the container fill the viewport height */
  }
  
  
@@ -34,6 +43,7 @@
   align-items: flex-start;
   padding: 20px;
   gap: 20px;
+  flex: 1;
  }
  
  
@@ -113,7 +123,7 @@
   justify-content: center;
   align-items: center;
   padding: 10px 0;
-  margin-top: 20px;
+  margin-top: auto;
  }
  
  
