@@ -49,6 +49,183 @@ html, body {
  
  .left-content {
   display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 25%; /* Adjusted for better layout */
+ }
+ 
+ 
+ .button-container {
+  margin-bottom: 20px;
+ }
+ 
+ 
+ .unit-tracker-container {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+ }
+ 
+ 
+ .center-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%; /* Adjusted to provide more room on the left */
+ }
+ 
+ 
+ .schedule-grid {
+  background-color: #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 500px;
+  margin-top: 20px;
+ }
+ 
+ 
+ .schedule-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: left;
+  color: #85013c;
+ }
+ 
+ 
+ .yearly-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px; /* Add max width to avoid overflow */
+ }
+ 
+ 
+ .schedule-cell {
+  background-color: #d4a5bd;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+ }
+ 
+ 
+ .footer {
+  position: relative;
+  width: 100%;
+  background-color: #85013c;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  margin-top: auto;
+ }
+ 
+ 
+ .footer-img {
+  width: 150px;
+  padding-top: 10px;
+ }
+ 
+ 
+ .title {
+  color: #85013c;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 5px solid lightgrey;
+ }
+ 
+ 
+ .inline-text {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  font-size: 12px;
+ }
+ 
+ 
+ .user-info-div {
+  padding-top: 60px;
+ }
+ 
+ 
+ .menu-icon {
+  width: 20px;
+  height: 15px;
+ }
+ 
+ 
+ .App-link {
+  color: #61dafb;
+ }
+ 
+ 
+ .unit-tracker-title {
+  font-size: 18px;
+  color: #85013c;
+  margin-bottom: 15px;
+ }
+ 
+ 
+ html, body {
+  margin: 0;          /* Removes default browser margins */
+  padding: 0;         /* Removes default browser padding */
+  height: 100%;       /* Ensures the full height of the viewport is used */
+}
+
+.App {
+ 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;  /* Makes the container fill the viewport height */
+ }
+ 
+ 
+ .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+ }
+ 
+ 
+ @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    width: 200px;
+    height: 100px;
+  }
+ }
+ 
+ 
+ .header {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  color: rgb(0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 20px solid #85013c;
+ }
+ 
+ 
+ .main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+  flex: 1;
+ }
+ 
+ 
+ .left-content {
+  display: flex;
+  gap: 20px;
   flex-direction: column;
   align-items: flex-start;
   width: 25%; /* Adjusted for better layout */
