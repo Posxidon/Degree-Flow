@@ -2,11 +2,12 @@
 
 
 .unit-tracker-container {
-    background-color: #d3d6d8; /* Light gray background for the container */
+    
+    margin-top: 150px; /* Optional: Add space above the unit tracker */
+    background-color:#d3d6d8;;/*   Light gray background for the container */
     padding: 20px;
     border-radius: 12px;
     width: 100%;
-    margin: 20px 0; /* Space around the unit tracker container */
     margin-bottom: 60px; /* Adds space at the bottom to prevent overlap with footer */
   }
    .unit-tracker {
@@ -30,4 +31,4 @@
     transition: width 0.3s ease;
     border-radius: 15px 0 0 15px; /* Rounded left side */
   }
- 
+  
