@@ -115,7 +115,10 @@ label {
     border: 1px solid #ccc;         /* Optional: Adds a subtle border */
     
     max-width: 725px;
-    overflow-y: visible;
+    max-height: 700px; /* Limits the height of the options container */
+    overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
+    scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
+    
 }
 
 .filter h2 {
