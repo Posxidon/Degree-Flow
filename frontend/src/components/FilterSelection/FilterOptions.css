@@ -43,7 +43,7 @@
 /* Course Box Styles */
 .course-box { 
   border:  2px solid white;
-  padding: 40px;
+  padding: 15px;
   margin: 0px 0;
   background-color: rgb(198, 149, 171);
   cursor: pointer;
