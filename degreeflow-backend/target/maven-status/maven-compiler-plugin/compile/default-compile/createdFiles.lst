@@ -1,0 +1,5 @@
+com\degreeflow\service\CourseService.class
+com\degreeflow\controller\CourseController.class
+com\degreeflow\model\Course.class
+com\degreeflow\repository\CourseRepository.class
+com\degreeflow\DegreeFlowApplication.class
