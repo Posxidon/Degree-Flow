@@ -1,5 +1,6 @@
 package com.degreeflow.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,9 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class Degree implements Serializable {
-
+public class Degree {
     private String degreeName;
+    @JsonManagedReference
     private List<CourseGroup> reqCourses;
 
     public void AddCourse(CourseGroup cg){
