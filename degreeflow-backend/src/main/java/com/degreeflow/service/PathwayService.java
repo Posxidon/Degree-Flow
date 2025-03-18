@@ -21,20 +21,21 @@ import java.util.List;
 @Service
 public class PathwayService {
 
+
     public Degree parseDegreePlan(int degreeID){
-        String httpResponse;
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-            String url = "https://api.mcmaster.ca/academic-calendar/v2/courses/class-search?courseCode=115147";
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Ocp-Apim-Subscription-Key", "3da32390cf04415e91ed4feac51c9f00").header("secondary-key", "3da32390cf04415e91ed4feac51c9f00").build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            httpResponse = response.body();
-        }catch (Exception e){
-            System.out.println("http failed");
-            return null;
-        }
-        System.out.println(httpResponse);
-        JSONObject jsonObject = new JSONObject(httpResponse);
+//        String httpResponse;
+//        try {
+//            HttpClient client = HttpClient.newHttpClient();
+//            String url = "https://api.mcmaster.ca/academic-calendar/v2/courses/class-search?courseCode=115147";
+//            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Ocp-Apim-Subscription-Key", "3da32390cf04415e91ed4feac51c9f00").header("secondary-key", "3da32390cf04415e91ed4feac51c9f00").build();
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            httpResponse = response.body();
+//        }catch (Exception e){
+//            System.out.println("http failed");
+//            return null;
+//        }
+//        System.out.println(httpResponse);
+//        JSONObject jsonObject = new JSONObject(httpResponse);
 //        System.out.println((String)jsonObject.get("id"));
 //        System.out.println(jsonObject.get("courses"));
 

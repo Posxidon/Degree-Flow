@@ -12,6 +12,14 @@
     "sourceType": "module"     // Enables ES6 modules
   },
   "rules": {
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], // Allows JSX in .js files
+    "no-console": "off",       // Allows console statements (useful during development)
+    "no-unused-vars": ["warn"],// Warns on unused variables
+    "comma-dangle": ["error", "never"], // Disables trailing commas (optional)
+    "react/prop-types": "off",  // Disables prop-types rule for React
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "arrow-parens": ["error", "always"] // Corrected configuration
   }
 }
