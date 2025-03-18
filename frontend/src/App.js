@@ -9,6 +9,7 @@ import ButtonSection from './components/buttonSection/ButtonSection';
 import UserNav from './components/userNav/UserNav';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
+import What_if from "./What_if";
 import './App.css';
 
 function App() {
@@ -40,7 +41,14 @@ function App() {
               )
             }
           />
-
+            <Route
+            path="/What_if"
+            element={
+                (<div>
+                        <What_if/>
+                </div>
+                )
+            }/>
           <Route
             path="/FilterSelection"
             element={
@@ -54,7 +62,6 @@ function App() {
           }
           />
         </Routes>
-
         <footer className="footer">
           <img src={footer} alt="footer" className="footer-img" />
           <div className="footer-text">

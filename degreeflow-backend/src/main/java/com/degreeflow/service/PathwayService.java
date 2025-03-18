@@ -4,9 +4,17 @@ import com.degreeflow.model.Course;
 import com.degreeflow.model.CourseGroup;
 import com.degreeflow.model.CourseNode;
 import com.degreeflow.model.Degree;
+import netscape.javascript.JSObject;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +22,23 @@ import java.util.List;
 public class PathwayService {
 
     public Degree parseDegreePlan(int degreeID){
+        String httpResponse;
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            String url = "https://api.mcmaster.ca/academic-calendar/v2/courses/class-search?courseCode=115147";
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Ocp-Apim-Subscription-Key", "3da32390cf04415e91ed4feac51c9f00").header("secondary-key", "3da32390cf04415e91ed4feac51c9f00").build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            httpResponse = response.body();
+        }catch (Exception e){
+            System.out.println("http failed");
+            return null;
+        }
+        System.out.println(httpResponse);
+        JSONObject jsonObject = new JSONObject(httpResponse);
+//        System.out.println((String)jsonObject.get("id"));
+//        System.out.println(jsonObject.get("courses"));
+
+
         if (degreeID == 26811) {
             List<CourseGroup> cscg = new ArrayList<>();
             List<CourseNode> cs1csCourses = new ArrayList<>();
@@ -48,13 +73,12 @@ public class PathwayService {
         List<CourseNode> coop1 = new ArrayList<>();
         List<CourseNode> coop2 = new ArrayList<>();
         Course c1 = new Course("coop","coop1","");
-        Course c2 = new Course("coop","coop1","");
+        Course c2 = new Course("coop","coop2","");
         coop1.add(new CourseNode(c1,1,null));
         coop2.add(new CourseNode(c2,2,null));
         coop.add(new CourseGroup(coop1,1));
         coop.add(new CourseGroup(coop2,1));
         return new Degree("coops",coop);
-
     }
     public List<CourseGroup> splitCourseGroup(CourseGroup cg, int courseSplitCnt){
         List<CourseNode> c1 = new ArrayList<>();
