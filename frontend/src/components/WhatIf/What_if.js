@@ -1,9 +1,14 @@
 import React from 'react';
 import Node from './Node';
-
-
+/* eslint-disable dot-notation */
+const password = 'ca5731bb-7cae-4cac-8fbc-7091df883b47';
 function getJson(url) {
-  return fetch(url, { method: 'GET' }).then((response) => response.json())
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${btoa(`user:${password}`)}`
+    }
+  }).then((response) => response.json())
     .catch((error) => {
       console.error(error);
     });
@@ -22,10 +27,11 @@ function courseParse(json) {
         </il>
       </ul>
     );
-    if (Object.keys(json.get('prereqs')).length > 0) {
-      for (i; i < Object.keys(json.get('prereqs')).length; i += 1) {
-        const key = Object.keys(json.get('prereqs'))[i];
-        element += treeTraverse(json.get('prereqs').get(key));
+    if (Object.keys(json['prereqs']).length > 0) {
+      for (i; i < Object.keys(json['prereqs']).length; i += 1) {
+        const key = Object.keys(json['prereqs'])[i];
+        // eslint-disable-next-line no-use-before-define
+        element += treeTraverse(json['prereqs'][key]);
       }
     }
     return element;
@@ -39,8 +45,11 @@ function treeTraverse(json) {
     const key = Object.keys(json)[i];
     console.log(key);
     if (key === 'reqCourses') {
-      const name = json.get('name');
+      // eslint-disable-next-line prefer-destructuring
+      const name = json['name'];
+
       let element = (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
           <ul>
             <il>
@@ -54,14 +63,15 @@ function treeTraverse(json) {
         element += treeTraverse(elem);
       }
       return element;
-    } else if (key === 'courseGroup') {
+    } if (key === 'courseGroup') {
       const courses = json[key];
       const keys = Object.keys(courses);
       if (keys.length > 1) {
         let element = (
+          // eslint-disable-next-line react/jsx-no-useless-fragment
           <>
             <p>
-              {json.get('numreq')}
+              {json['numreq']}
             </p>
           </>
         );
@@ -70,21 +80,26 @@ function treeTraverse(json) {
           element += courseParse(courses[k]);
         }
         return (
-          <>
-            <ul>
-              {element}
-            </ul>
-          </>
+          <ul>
+            {element}
+          </ul>
         );
-      } else if (keys.length === 1) {
+      } if (keys.length === 1) {
         return courseParse(courses[keys[0]]);
       }
     }
   }
   return null;
 }
+// eslint-disable-next-line camelcase
 function What_if() {
   const json = getJson('http://localhost:8080/api/degree');
-  return treeTraverse(json);
+  return json.then((result) => {
+    console.log(result);
+    const r = treeTraverse(result);
+    console.log(r);
+    return r;
+  });
 }
+// eslint-disable-next-line camelcase
 export default What_if;

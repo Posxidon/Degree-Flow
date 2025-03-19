@@ -9,7 +9,8 @@ import ButtonSection from './components/buttonSection/ButtonSection';
 import UserNav from './components/userNav/UserNav';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
-import What_if from "./components/WhatIf/What_if";
+// eslint-disable-next-line camelcase
+import What_if from './components/WhatIf/What_if';
 import './App.css';
 
 function App() {
@@ -44,11 +45,14 @@ function App() {
           <Route
             path="/What_if"
             element={
-            (<div>
-                <What_if/>
-            </div>
+            (
+              <div>
+                {/* eslint-disable-next-line react/jsx-pascal-case */}
+                <What_if />
+              </div>
             )
-          }/>
+          }
+          />
           <Route
             path="/FilterSelection"
             element={
