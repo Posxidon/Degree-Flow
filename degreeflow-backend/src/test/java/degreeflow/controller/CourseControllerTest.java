@@ -1,4 +1,4 @@
-package com.degreeflow.controller;
+package raj.controller;
 
 import com.degreeflow.model.Course;
 import com.degreeflow.service.CourseService;

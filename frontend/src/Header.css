@@ -1,0 +1,75 @@
+.custom-header {
+    font-family: Arial, sans-serif;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Row 1: Logo, Title, and Login button */
+.secondary-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #7a003c; /* Burgundy instead of white */
+    padding: 0.75rem 2rem;
+}
+
+/* If your MES logo is the red version, consider using a white/light version
+   if it becomes hard to see on the burgundy background. */
+
+.mes-logo {
+    height: 60px;
+    margin-right: 1rem;
+}
+
+/* Make the title white, since the background is now burgundy */
+.app-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff; /* Was #7a003c; now white for contrast */
+    margin: 0 auto;
+    text-align: center;
+    flex: 1;
+}
+
+/* Login button on burgundy background */
+.login-button {
+    background-color: #fff; /* White button stands out on burgundy */
+    color: #7a003c;
+    border: 2px solid #7a003c;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.login-button:hover {
+    background-color: #7a003c;
+    color: #fff;
+}
+
+/* Row 2: Centered nav links (Home, Filtered, etc.) */
+.action-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background-color: #7a003c; /* also burgundy */
+    padding: 0.5rem 2rem;
+    border-top: 2px solid #ccc; /* optional if you want a line between rows */
+    border-bottom: 2px solid #ccc; /* optional if you want a line between rows */
+}
+
+/* Turn nav buttons to white text on burgundy */
+.action-bar button {
+    background: none;
+    border: none;
+    color: #fff;         /* White text for contrast */
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.action-bar button:hover {
+    border-bottom: 2px solid #fff; /* white underline on hover */
+    color: #fff;
+}
