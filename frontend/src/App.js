@@ -1,69 +1,69 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+
+// Header has the single logo + 3 menu buttons + seat alert
+import Header from './Header';
+
+// Page components
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
-import logo from './Logo_Name_Red.png';
-import footer from './Logo_Name_White.png';
-import ButtonSection from './components/buttonSection/ButtonSection';
-import UserNav from './components/userNav/UserNav';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
-import './App.css';
+import SeatAlertPage from './pages/SeatAlertPage';
+
+// Separate Footer component
+import Footer from './Footer';
 
 function App() {
   return (
     <Router>
-      {/* this component will enables routing */}
       <div className="App">
-        <header className="header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="title">DegreeFlow</h1>
-          <UserNav />
-        </header>
+        <Header />
 
-        <Routes>
-          {/* section contains all the features of the first loaded page, these are changeable */}
-          <Route
-            path="/"
-            element={
-              (
-                <main className="main-content">
+        {/* All routes within the main-content wrapper */}
+        <main className="main-content">
+          <Routes>
+            {/* Home / Main page */}
+            <Route
+              path="/"
+              element={(
+                <>
                   <div className="left-content">
-                    <ButtonSection />
+                    {/* <ButtonSection /> // remove if not needed */}
                     <UnitTrackerSection />
                   </div>
                   <div className="center-panel">
                     <YearlySchedule />
                   </div>
-                </main>
-              )
-            }
-          />
+                </>
+                            )}
+            />
 
-          <Route
-            path="/FilterSelection"
-            element={
-            (
-              <div>
-                <FilterPageButtons />
-                <FilterSelection />
-                <FilterOptions />
-              </div>
-            )
-          }
-          />
-        </Routes>
+            {/* Filter Selection page */}
+            <Route
+              path="/FilterSelection"
+              element={(
+                <>
+                  <FilterPageButtons />
+                  <FilterSelection />
+                  <FilterOptions />
+                </>
+                            )}
+            />
 
-        <footer className="footer">
-          <img src={footer} alt="footer" className="footer-img" />
-          <div className="footer-text">
-            <div className="inline-text">1280 Main St West.</div>
-            <div className="inline-text">Hamilton, Ontario L8S 4L8.</div>
-            <div className="inline-text">(905) 525-9140</div>
-          </div>
-          <div className="inline-text">© 2024 McMaster Engineering Society</div>
-        </footer>
+            {/* Seat Alert page */}
+            <Route
+              path="/seat-alert"
+              element={<SeatAlertPage />}
+            />
+
+            {/* Add more routes as needed */}
+          </Routes>
+        </main>
+
+        <Footer />
       </div>
     </Router>
   );
