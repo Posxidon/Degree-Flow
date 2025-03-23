@@ -26,7 +26,6 @@ public class DegreeController {
 
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
-
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -57,6 +56,6 @@ public class DegreeController {
 
     @GetMapping
     public Degree test() {
-        return pathwayService.parseDegreePlan(26811);
+        return pathwayService.parseDegreePlan("HCOMPSCICO");
     }
 }

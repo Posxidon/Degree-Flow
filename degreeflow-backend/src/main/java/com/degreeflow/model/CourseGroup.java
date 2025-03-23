@@ -15,17 +15,12 @@ import java.util.Objects;
 
 public class CourseGroup {
     @JsonManagedReference
+    private static int courseGroupCount;
     private List<CourseNode> courseGroup;
+    private int courseGroupId;
     private int numReq;
-    private int yearsReq;
     private boolean isSummer;
-
-    public void AddCourse(CourseNode course,boolean isReq){
-        this.courseGroup.add(course);
-        if (isReq){
-            this.numReq ++;
-        }
-    }
+    private String name;
 
     public void SetSummer(){
         this.isSummer = true;
@@ -33,6 +28,10 @@ public class CourseGroup {
 
     public boolean isSummerCourse(){
         return this.isSummer;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public List<Integer> GetYears(){
@@ -54,7 +53,13 @@ public class CourseGroup {
         }
         return courses;
     }
-
+    private void assignId(){
+        this.courseGroupId = courseGroupCount;
+        courseGroupCount ++;
+    }
+    public int getCourseGroupId(){
+        return this.courseGroupId;
+    }
     public int CourseCount(){
         return this.courseGroup.size();
     }
@@ -85,6 +90,7 @@ public class CourseGroup {
         this.courseGroup = courseGroup;
         this.numReq = numReq;
         this.isSummer = false;
+        assignId();
     }
 
 

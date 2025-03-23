@@ -15,13 +15,13 @@ import java.util.List;
 public class Degree {
     private String degreeName;
     @JsonManagedReference
-    private List<CourseGroup> reqCourses;
+    private List<LevelGroup> reqCourses;
 
-    public void AddCourse(CourseGroup cg){
-        this.reqCourses.add(cg);
+    public void AddRequirementGroup(LevelGroup lg){
+        this.reqCourses.add(lg);
     }
 
-    public List<CourseGroup> getReqCourses() {
+    public List<LevelGroup> getReqCourses() {
         return this.reqCourses;
     }
 
@@ -34,7 +34,7 @@ public class Degree {
     }
 
     // Constructor with parameters
-    public Degree(String degreeName, List<CourseGroup> reqCourses) {
+    public Degree(String degreeName, List<LevelGroup> reqCourses) {
         this.degreeName = degreeName;
         this.reqCourses = reqCourses;
 
