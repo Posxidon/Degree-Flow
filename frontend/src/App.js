@@ -54,10 +54,10 @@ function App() {
             />
 
             {/* Seat Alert page */}
-            <Route
-              path="/seat-alert"
-              element={<SeatAlertPage />}
-            />
+            // <Route
+            //   path="/seat-alert"
+            //   element={<SeatAlertPage />}
+            // />
 
             {/* Add more routes as needed */}
           </Routes>
