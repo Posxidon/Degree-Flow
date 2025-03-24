@@ -55,7 +55,13 @@ public class DegreeController {
     private PathwayService pathwayService;
 
     @GetMapping
-    public Degree test() {
-        return pathwayService.parseDegreePlan("HCOMPSCICO");
+    public Degree test(@RequestParam("degreeName") String degreeName) {
+        System.out.println("param");
+        System.out.println(degreeName);
+        if (degreeName.length()>0){
+            return pathwayService.parseDegreePlan(degreeName);
+        }else {
+            return pathwayService.parseDegreePlan("HCOMPSCICO");
+        }
     }
 }

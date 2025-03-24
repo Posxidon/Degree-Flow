@@ -1,18 +1,14 @@
 package com.degreeflow.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.Data;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * courseGroup represents the requirements within a group of course nodes
+ * it is the most atomic representation of requirements
+ */
 public class CourseGroup {
     @JsonManagedReference
     private static int courseGroupCount;

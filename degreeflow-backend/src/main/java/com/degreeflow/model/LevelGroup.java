@@ -2,6 +2,10 @@ package com.degreeflow.model;
 
 import java.util.List;
 
+/**
+ * level group represents a group of requirement groups
+ * aka what requirements are at each level
+ */
 public class LevelGroup {
     private List<RequirementGroup> reqGrp;
 

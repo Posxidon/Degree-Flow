@@ -3,10 +3,20 @@ package com.degreeflow.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * requirement group represents the relationship between a list of course groups
+ * every list of integer within the reqIds represents a group of courseGroups in which only one is needed
+ */
+
 public class RequirementGroup {
     private List<CourseGroup> reqGroup;
     private List<List<Integer>> reqIds;
 
+    /**
+     * adds course group along with requirement param
+     * @param cg - course group to be added
+     * @param isReq - if course group is a new requirement, if it is then a new entry (list<integer>) is added. if it isn't, then it gets added to the previous requirement group
+     */
     public void addCourseGroup(CourseGroup cg, boolean isReq){
         if (isReq){
             List<Integer> id = new ArrayList<>();

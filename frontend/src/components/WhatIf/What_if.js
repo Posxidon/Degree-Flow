@@ -1,52 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Node from './Node';
 import './What_if.css';
+import Node from './Node';
+import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
-const password = '2ac9b9a0-4aec-4107-85c0-0a5316141982';
-
-function combineLst(d1, d2) {
-  return d1.filter((x) => d2.includes(x))
-    .concat(d2.filter((x) => !d1.includes(x)))
-    .concat(d1.filter((x) => !d2.includes(x)));
-}
-
-function updateData(d1, d2) {
-  let i;
-  const courseDict = {};
-  const CH1 = d1['courseHistory'];
-  const CH2 = d2['courseHistory'];
-  const CD1 = d1['courseDict'];
-  const CD2 = d2['courseDict'];
-  const CG1 = d1['courseGroupHistory'];
-  const CG2 = d2['courseGroupHistory'];
-
-  const courseHistory = combineLst(CH1, CH2);
-  const courseGroupHistory = combineLst(CD1, CD2);
-  const sameYears = Object.keys(CD1)
-    .filter((x) => Object.keys(CD2).includes(x));
-  const dYears1 = Object.keys(CD1)
-    .filter((x) => !Object.keys(CD2).includes(x));
-  const dYears2 = Object.keys(CD2)
-    .filter((x) => !Object.keys(CD1).includes(x));
-  for (i = 0; i < sameYears.length; i += 1) {
-    courseDict[i] = combineLst(CG1[i], CG2[i]);
-  }
-  for (i = 0; i < dYears1.length; i += 1) {
-    courseDict[i] = combineLst(CG1[i], CG2[i]);
-  }
-  for (i = 0; i < dYears2.length; i += 1) {
-    courseDict[i] = combineLst(CG2[i], CG1[i]);
-  }
-  return { courseHistory, courseDict, courseGroupHistory };
-}
+const password = 'f109918d-a036-4eba-ba75-bfd36b2dca34';
 
 function courseGroupParse(json, data) {
-  const [courseHistory, courseDict, courseGroupHistory] = [data['courseHistory'], data['courseDict'], data['courseGroupHistory']];
   let i;
   let v;
   let cData = data;
+  const [courseHistory, courseDict, courseGroupHistory] = [cData['courseHistory'], cData['courseDict'], cData['courseGroupHistory']];
   const jsonKeys = Object.keys(json);
   for (v = 0; v < jsonKeys.length; v += 1) {
     const vthGrp = json[jsonKeys[v]];
@@ -70,37 +35,26 @@ function courseGroupParse(json, data) {
 }
 function courseParse(json, data) {
   const [courseHistory, courseDict, courseGroupHistory] = [data['courseHistory'], data['courseDict'], data['courseGroupHistory']];
-  const keys = Object.keys(json);
   let i = 0;
-  if (keys.length === 5) {
-    for (i = 0; i < courseHistory.length; i += 1) {
-      if (json['courseCode'] === courseHistory[i] && !(json['courseCode'] === 'elective')) {
-        // console.log('repeat course');
-        return { courseHistory, courseDict, courseGroupHistory };
-      }
+  for (i = 0; i < courseHistory.length; i += 1) {
+    if (json['courseCode'] === courseHistory[i] && !(json['courseCode'] === 'elective')) {
+      // console.log('repeat course');
+      return { courseHistory, courseDict, courseGroupHistory };
     }
-    let hasYear = false;
-    const cdKeys = Object.keys(courseDict);
-    for (i = 0; i < cdKeys.length; i += 1) {
-      if (json['years'].toString() === cdKeys[i]) {
-        hasYear = true;
-      }
-    }
-    if (hasYear) {
-      courseDict[json['years']].push(json);
-    } else {
-      courseDict[json['years']] = [(json)];
-    }
-    // console.log(hasYear);
-    // console.log(courseDict);
-    courseHistory.push(json['courseCode']);
-    // if (Object.keys(json['prereqs']).length > 0) {
-    //   for (i = 0; i < Object.keys(json['prereqs']).length; i += 1) {
-    //     const key = Object.keys(json['prereqs'])[i];
-    //     treeTraverse(json['prereqs'][key]);
-    //   }
-    // }
   }
+  let hasYear = false;
+  const cdKeys = Object.keys(courseDict);
+  for (i = 0; i < cdKeys.length; i += 1) {
+    if (json['years'].toString() === cdKeys[i]) {
+      hasYear = true;
+    }
+  }
+  if (hasYear) {
+    courseDict[json['years']].push(json);
+  } else {
+    courseDict[json['years']] = [(json)];
+  }
+  courseHistory.push(json['courseCode']);
   return { courseHistory, courseDict, courseGroupHistory };
 }
 
@@ -110,8 +64,7 @@ function treeTraverse(json) {
   let a;
   let reqGrps;
   let cg;
-  const iData = { courseHistory: [], courseDict: {}, courseGroupHistory: [] };
-  let tData;
+  let tData = { courseHistory: [], courseDict: {}, courseGroupHistory: [] };
   // eslint-disable-next-line prefer-destructuring
   const reqCourses = json['reqCourses'];
   for (i = 0; i < Object.keys(reqCourses).length; i += 1) {
@@ -121,7 +74,7 @@ function treeTraverse(json) {
       cg = reqGrps[Object.keys(reqGrps)[v]]['courseGroups'];
       for (a = 0; a < Object.keys(cg).length; a += 1) {
         // console.log(cg[Object.keys(cg)[a]]);
-        tData = courseGroupParse(cg[Object.keys(cg)[a]], iData);
+        tData = courseGroupParse(cg[Object.keys(cg)[a]], tData);
       }
     }
   }
@@ -131,52 +84,60 @@ function treeTraverse(json) {
 // eslint-disable-next-line camelcase
 function What_if() {
   const [html, setHTML] = useState({ __html: {} });
-  const url = 'http://localhost:8080/api/degree';
-  useEffect(() => {
-    async function createMarkup() {
-      const response = await fetch(url, {
+  const [d, setData] = useState('HCOMPSCICO');
+  const url = 'http://localhost:8080/api/degree?';
+  const handleClick = async () => {
+    try {
+      const response = await (await fetch(url + new URLSearchParams({
+        degreeName: d
+      }), {
         method: 'GET',
         headers: {
           Authorization: `Basic ${btoa(`user:${password}`)}`
         }
-      });
-      const backendHtmlString = await response.text();
-      return { __html: backendHtmlString };
+      })).json();
+      console.log(response);
+      setHTML(response);
+    } catch (err) {
+      console.log(err.message);
     }
-    createMarkup().then(
-      (result) => {
-        setHTML(result);
-      }
-    );
-  }, []);
-  console.log(html['__html']);
-  let resp;
-  if (typeof html['__html'] === 'string') {
-    resp = JSON.parse(html['__html']);
-    console.log('response');
-    // console.log(resp);
-    const data = treeTraverse(resp);
-    const [courseHistory, courseDict, courseGroupHistory] = [data['courseHistory'], data['courseDict'], data['courseGroupHistory']];
-    console.log(courseHistory);
-    console.log(Object.keys(courseDict));
-    console.log(courseGroupHistory.length);
-    return (
-      <div>
-        {Object.keys(courseDict).map((years) => (
-          <div key={years} className="years">
-            year :
-            {years}
-            {(courseDict[years]).map((course) => (
-              course['courseCode'].includes('elective')
-                ? <Node key={course['courseCode']} courseCode={course['courseCode']} />
-                : <Node key={course['courseCode'].concat(years)} courseCode={course['courseCode']} />
-            ))}
-          </div>
-        ))}
-      </div>
-    );
+  };
+  console.log(html);
+  let data = { courseHistory: [], courseDict: {}, courseGroupHistory: [] };
+  let [courseHistory, courseDict, courseGroupHistory] = [data['courseHistory'], data['courseDict'], data['courseGroupHistory']];
+  if (Object.keys(html).length > 1) {
+    data = treeTraverse(html);
+    [courseHistory, courseDict, courseGroupHistory] = [data['courseHistory'], data['courseDict'], data['courseGroupHistory']];
   }
-  return <div />;
+  console.log(courseHistory);
+  console.log(Object.keys(courseDict));
+  console.log(courseGroupHistory.length);
+  return (
+    <>
+      <input name="degreeName" onChange={(e) => setData(e.target.value)} />
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
+      <button onClick={() => handleClick()}>submit</button>
+      <div className="what-if">
+        {courseGroupHistory.map((courseGroup) => (
+          <CourseGroupNode courseNodes={courseGroup} />
+        ))}
+        <div>
+          {Object.keys(courseDict).map((years) => (
+            <div key={years} className="years">
+              year :
+              {years}
+              {(courseDict[years]).map((course) => (
+                course['courseCode'].includes('elective')
+                  ? <Node key={course['courseCode']} courseCode={course['courseCode']} />
+                  : <Node key={course['courseCode'].concat(years)} courseCode={course['courseCode']} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <p>{html['name']}</p>
+    </>
+  );
 }
 
 // eslint-disable-next-line camelcase

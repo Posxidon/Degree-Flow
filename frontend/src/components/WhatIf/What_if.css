@@ -1,3 +1,13 @@
 .years{
     display: inline-block;
 }
+.what-if{
+    border: solid 1px black;
+    width: 60%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    float: right;
+}
