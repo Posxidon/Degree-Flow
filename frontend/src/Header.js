@@ -1,11 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import mesLogo from './Logo_Name_White.png';
 
 function Header() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const currentPath = location.pathname;
+  console.log('Current path:', currentPath);
   return (
     <div className="custom-header">
       <div className="secondary-bar">
@@ -24,12 +26,14 @@ function Header() {
         {/* HOME Button */}
         <button
           type="button"
+          className={currentPath === '/' ? 'active' : ''}
           onClick={() => navigate('/')}
         >
           Home
         </button>
         <button
           type="button"
+          className={currentPath === '/upload-transcript' ? 'active' : ''}
           onClick={() => navigate('/upload-transcript')}
         >
           Upload Transcript
@@ -38,18 +42,21 @@ function Header() {
         {/* Existing menu buttons */}
         <button
           type="button"
+          className={currentPath === '/FilterSelection' ? 'active' : ''}
           onClick={() => navigate('/FilterSelection')}
         >
           Search Filtered Courses
         </button>
         <button
           type="button"
+          className={currentPath === '/' ? 'active' : ''}
           onClick={() => navigate('/')}
         >
           Generate New Schedules
         </button>
         <button
           type="button"
+          className={currentPath === '/seat-alert' ? 'active' : ''}
           onClick={() => navigate('/seat-alert')}
         >
           Seat Alert
