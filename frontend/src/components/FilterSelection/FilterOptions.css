@@ -1,18 +1,32 @@
 /* General Styles */
+
 .course {
   font-family: sans-serif;
-  margin: 20px 0; /* Vertical margin only */
-  width: 40%; /* 60% of screen width */
-  position: absolute; /* Positioning relative to parent */
-  right: 10px; /* Align to the right of the screen */
-  top: 120px;
-  bottom: 70px;
-  box-sizing: border-box; /* Includes padding and borders in width calculation */
-  
-  max-height: 100%; /* Limits the height of the options container */
-  overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
-  scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
+  margin: 1-px 0;
+  width: 40%;
+  box-sizing: border-box;
+
+  flex: 1; /* allows .course to grow within the flex layout */
+  min-height: 0; /* prevents content from forcing overflow */
+  overflow-y: auto; /* enables internal scrolling */
+  max-height: calc(100vh - 260px); 
 }
+/*
+.course {
+  font-family: sans-serif;
+  margin: 15px 0; // Vertical margin only
+  width: 40%; // 60% of screen width
+  position: absolute; // Positioning relative to parent
+  right: 10px; // Align to the right of the screen
+  top: 120px;
+  bottom: 90px;
+  box-sizing: border-box; // Includes padding and borders in width calculation
+  
+  max-height: 100%; // Limits the height of the options container
+  overflow-y: auto; // Enables vertical scrolling when content exceeds height
+  scrollbar-width: auto; // Makes scrollbar thinner for Firefox
+}
+*/
 
 /* Button Styles */
 .course-title {
@@ -20,7 +34,7 @@
   color: black;
   border: none;
   padding: 10px 1px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -43,7 +57,7 @@
 /* Course Box Styles */
 .course-box { 
   border:  2px solid white;
-  padding: 15px;
+  padding: 10px;
   margin: 0px 0;
   background-color: rgb(198, 149, 171);
   cursor: pointer;
@@ -59,14 +73,14 @@
 
 .course-box h3 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
 
   
 }
 
 .course-box p {
   margin: 5px 0;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: black;
 }
 
