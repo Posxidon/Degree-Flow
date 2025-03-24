@@ -48,10 +48,10 @@ html, body {
  flex: 1;
  justify-content: space-between;
  align-items: flex-start;
- padding: 20px;
+ padding: 10px;
  gap: 20px;
  /* grows to fill vertical space, pushing the footer down */
- padding-bottom: 80px;
+
 }
 
 .left-content {

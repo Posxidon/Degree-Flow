@@ -28,9 +28,6 @@ function ButtonSection() {
   return (
     <div className="button-container">
       <div className="filter-page-buttons">
-        <ActionButton onClick={handleBackClick}>
-          Main Page
-        </ActionButton>
         <ActionButton onClick={handleApplyClick}>
           Apply Filters
         </ActionButton>
