@@ -11,7 +11,7 @@ import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
-//import SeatAlertPage from './pages/SeatAlertPage';
+// import SeatAlertPage from './pages/SeatAlertPage';
 
 // Separate Footer component
 import Footer from './Footer';
@@ -54,10 +54,12 @@ function App() {
             />
 
             {/* Seat Alert page */}
-            // <Route
-            //   path="/seat-alert"
-            //   element={<SeatAlertPage />}
-            // />
+            {/*
+             <Route
+               path="/seat-alert"
+               element={<SeatAlertPage />}
+             />
+             */}
 
             {/* Add more routes as needed */}
           </Routes>
