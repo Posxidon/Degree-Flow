@@ -1,54 +1,48 @@
 .footer {
-    background-color: #85013c;
-    color: #fff;
+    background-color: #5e002d;
+    padding: 1rem ;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    color: #e0e0e0;
+}
+
+.footer-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
     display: flex;
-    /* Let columns occupy the full height, making vertical borders align */
-    align-items: stretch;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
-
-/* Each of the 3 columns is flexed so they occupy equal widths */
-.footer-left,
-.footer-center,
-.footer-right {
-    flex: 1;
-    display: flex;           /* so we can vertically center content */
     flex-direction: column;
-    justify-content: center; /* center text within each column */
-    text-align: center;      /* horizontally center the text/logos/links */
-    padding: 0 1rem;         /* side padding inside columns */
+    gap: 0.5rem;
 }
 
-/* Borders on left & center columns only */
-.footer-left,
-.footer-center {
-    border-right: 1px solid #fff;
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 9rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+    text-transform: uppercase;
 }
 
-/* MES Logo styling */
-.footer-logo {
-    max-height: 70px;  /* adjust as needed */
-    margin: 0 auto 0.5rem;
-    display: block;
-}
-
-/* Adjust the footer title to a more readable size */
-.footer-title {
-    margin: 0;
-    font-size: 1rem;   /* increase from 0.2rem to 1rem (or bigger) */
-    font-weight: bold;
-}
-
-/* The center column has links side by side.
-   If you want them stacked, remove the margin. */
-.footer-center a {
-    color: #fff;
+.footer-links a {
+    color: #e0e0e0;
     text-decoration: none;
-    margin: 0 1rem;   /* space between links */
-    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-.footer-center a:hover {
-    text-decoration: underline;
+.footer-links a:hover {
+    color: #ffffff; /* subtle modern pink hover */
+}
+
+.footer-description {
+    font-size: 0.875rem;
+    color: #c1c1c1;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.footer-copy {
+    font-size: 0.75rem;
+    color: #ffffff;
+    margin-top: 1rem;
 }
