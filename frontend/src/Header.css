@@ -93,6 +93,11 @@
     color: #ffffff;
 }
 
+.action-bar button.active::after {
+    width: 100%;
+  }
+
 .action-bar button:hover::after {
     width: 100%;
 }
+
