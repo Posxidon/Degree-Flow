@@ -257,7 +257,7 @@ public class PathwayService {
                     }
                     // if it has the word elective in the description, then we do not parse it and instead replace it with a placeholder course
                     // i do this for performance options as electives are like all the courses offered in McMaster
-                    if (reqItem.getString("shortDescription").toLowerCase().contains("elective") && (!includeTechElec || !reqItem.getString("shortDescription").toLowerCase().contains("computer science"))){
+                    if (reqItem.getString("shortDescription").toLowerCase().contains("elective") && (!includeTechElec || !(reqItem.getString("shortDescription").toLowerCase().contains("science") || reqItem.getString("shortDescription").toLowerCase().contains("technical")))){
                         List<CourseNode> electives = new ArrayList<>();
                         for (int v=0;v<amtReq;v++){
                             Course course = new Course(reqItem.getString("shortDescription").concat(Integer.toString(electiveCnt)),"elective","elective");

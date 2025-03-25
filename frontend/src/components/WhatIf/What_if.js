@@ -5,7 +5,7 @@ import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
-const password = '868e9a36-9a37-4d43-92ed-0ea2d99549e4';
+const password = 'ed34ba8c-cea8-4028-b203-26a75faa886c';
 
 function courseGroupParse(json, data) {
   let i;
