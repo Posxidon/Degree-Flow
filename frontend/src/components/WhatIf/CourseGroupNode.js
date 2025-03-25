@@ -8,12 +8,12 @@ function CourseGroupNode({ courseNodes }) {
     <div className="courseGroupNode">
       <p>
         {courseNodes['numReq']}
-        is required for this course group
+        &nbsp; is required for this course group
       </p>
       {courseNodes['courses'].map((courseNode) => (
         courseNode['courseCode'].includes('elective')
-          ? <Node key={courseNode['courseCode'].concat(courseNode['years'])} courseCode={courseNode['courseCode'].concat(courseNode['years'])} />
-          : <Node key={courseNode['courseCode']} courseCode={courseNode['courseCode']} />
+          ? <Node key={courseNode['id']} courseNode={courseNode} />
+          : <Node key={courseNode['id']} courseNode={courseNode} />
       ))}
     </div>
   );

@@ -1,13 +1,32 @@
 .years{
     display: inline-block;
 }
-.what-if{
-    border: solid 1px black;
+.container{
+    overflow: hidden;
+}
+.display-container{
+    border: 1px black;
     width: 60%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    float: right;
+
+}
+.component-container{
+    border: solid 1px black;
     overflow-x: scroll;
     overflow-y: hidden;
     display: flex;
     flex-direction: row;
     height: 100%;
     float: right;
+    text-align: center;
+}
+.input-container{
+    display: flex;
+    justify-content: center;
 }

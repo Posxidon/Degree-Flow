@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import './Node.css';
 
 /* eslint-disable dot-notation */
-function Node({ courseCode }) {
-  // const [isShown, setIsShown] = useState(false);
+function Node({ courseNode }) {
+  const [isShown, setIsShown] = useState(false);
   return (
     <div
       className="courseNode"
-      // onMouseEnter={() => setIsShown(true)}
-      // onMouseLeave={() => setIsShown(false)}
+      onMouseEnter={() => setIsShown(true)}
+      onMouseLeave={() => setIsShown(false)}
     >
-      {courseCode}
+      {courseNode['courseCode']}
+      {isShown && (
+        <div className="desc-window">
+          {courseNode['desc']}
+        </div>
+      )}
     </div>
   );
 }

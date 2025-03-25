@@ -1,4 +1,5 @@
 package com.degreeflow.model;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public class CourseNode {
     // each list of string will represent a group in which only one is needed
     private List<List<String>> prereqs;
     private List<String> antireqs;
+    private String desc;
 
     public long getId(){
         return this.course.getId();
@@ -30,6 +32,10 @@ public class CourseNode {
         return this.yearsReq;
     }
 
+    public String getDesc(){
+        return this.desc;
+    }
+
     public void setYear(int year){ this.yearsReq = year; }
 
     public String getCourseCode(){
@@ -45,6 +51,7 @@ public class CourseNode {
         this.course = course;
         this.yearsReq = yearsReq;
         this.prereqs = prereqs;
+        this.desc = course.getDescription();
         this.antireqs = antireqs;
     }
 }

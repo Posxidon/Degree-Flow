@@ -5,7 +5,7 @@ import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
-const password = 'f109918d-a036-4eba-ba75-bfd36b2dca34';
+const password = '3c9fd82b-9a5b-4aa5-bb08-f6a6d4e34319';
 
 function courseGroupParse(json, data) {
   let i;
@@ -113,30 +113,34 @@ function What_if() {
   console.log(Object.keys(courseDict));
   console.log(courseGroupHistory.length);
   return (
-    <>
-      <input name="degreeName" onChange={(e) => setData(e.target.value)} />
-      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
-      <button onClick={() => handleClick()}>submit</button>
-      <div className="what-if">
-        {courseGroupHistory.map((courseGroup) => (
-          <CourseGroupNode courseNodes={courseGroup} />
-        ))}
-        <div>
+    <div className="container">
+      <div className="input-container">
+        <input name="degreeName" onChange={(e) => setData(e.target.value)} />
+        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
+        <button onClick={() => handleClick()}>submit</button>
+      </div>
+      <div className="display-container">
+        <div className="component-container">
+          {courseGroupHistory.map((courseGroup) => (
+            <CourseGroupNode courseNodes={courseGroup} />
+          ))}
+        </div>
+        <div className="component-container">
           {Object.keys(courseDict).map((years) => (
             <div key={years} className="years">
               year :
               {years}
               {(courseDict[years]).map((course) => (
                 course['courseCode'].includes('elective')
-                  ? <Node key={course['courseCode']} courseCode={course['courseCode']} />
-                  : <Node key={course['courseCode'].concat(years)} courseCode={course['courseCode']} />
+                  ? <Node key={course['id']} courseNode={course} />
+                  : <Node key={course['id']} courseNode={course} />
               ))}
             </div>
           ))}
         </div>
       </div>
       <p>{html['name']}</p>
-    </>
+    </div>
   );
 }
 

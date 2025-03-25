@@ -2,4 +2,9 @@
     padding: 10px;
     border: #333333 solid 1px;
     width: 200px;
+    border-radius: 5px;
+    margin: 10px;
+}
+.desc-window {
+    background: #959595;
 }

@@ -255,7 +255,7 @@ public class PathwayService {
                     if (reqItem.getString("shortDescription").toLowerCase().contains("elective")){
                         List<CourseNode> electives = new ArrayList<>();
                         for (int v=0;v<amtReq;v++){
-                            Course course = new Course(reqItem.getString("shortDescription").concat(Integer.toString(electiveCnt).concat("Year")),"elective","elective");
+                            Course course = new Course(reqItem.getString("shortDescription").concat(Integer.toString(electiveCnt)),"elective","elective");
                             electives.add(new CourseNode(course,1,new ArrayList<>(),new ArrayList<>()));
                             electiveCnt ++;
                         }
