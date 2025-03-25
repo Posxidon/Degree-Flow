@@ -1,17 +1,16 @@
-/* General Styles */
 .course {
   font-family: sans-serif;
-  margin: 20px 0; /* Vertical margin only */
-  width: 40%; /* 60% of screen width */
-  position: absolute; /* Positioning relative to parent */
-  right: 10px; /* Align to the right of the screen */
-  top: 120px;
-  bottom: 70px;
-  box-sizing: border-box; /* Includes padding and borders in width calculation */
+  margin: 20px 0; 
+  width: 40%; 
+  position: absolute; 
+  right: 40px; 
+  top: 140px;
+  bottom: 10%;
+  box-sizing: border-box; 
   
-  max-height: 100%; /* Limits the height of the options container */
-  overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
-  scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
+  max-height: 100%;
+  overflow-y: auto; 
+  scrollbar-width: auto; 
 }
 
 /* Button Styles */
@@ -23,21 +22,20 @@
   font-size: 1.5rem;
   cursor: pointer;
   display: flex;
+  text-align: left;
+  justify-content: space-between;  
   align-items: center;
-  justify-content: space-between;
   transition: background-color 0.3s ease;
-  width: 100%; /* Ensures button spans the container width */
+  width: 100%; 
 }
 
 .course-title:hover {
- 
   /*background-color: rgb(229, 174, 199)  text-decoration: underline;*/
 }
 
 .icon-change2 {
   font-size:  36px;                /* Size of the + or − icon */
   color: black;                   /* Color of the icon */
-
 }
 
 /* Course Box Styles */
@@ -51,17 +49,12 @@
 }
 
 .course-box:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
-
-
 
 .course-box h3 {
   margin: 0;
   font-size: 1.2rem;
-
-  
 }
 
 .course-box p {
@@ -92,4 +85,8 @@
   .course-box {
     padding: 10px;
   }
+}
+
+.courses-options, .no-courses-message {
+  font-size: 25px;
 }
