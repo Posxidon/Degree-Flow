@@ -6,15 +6,19 @@ import Node from './Node';
 function CourseGroupNode({ courseNodes }) {
   return (
     <div className="courseGroupNode">
-      <p>
-        {courseNodes['numReq']}
-        &nbsp; is required for this course group
-      </p>
-      {courseNodes['courses'].map((courseNode) => (
-        courseNode['courseCode'].includes('elective')
-          ? <Node key={courseNode['id']} courseNode={courseNode} />
-          : <Node key={courseNode['id']} courseNode={courseNode} />
-      ))}
+      <div className="grp-title title">
+        <p>
+          {courseNodes['numReq']}
+          &nbsp; is required for this course group
+        </p>
+      </div>
+      <div className="courses">
+        {courseNodes['courses'].map((courseNode) => (
+          courseNode['courseCode'].includes('elective')
+            ? <Node key={courseNode['id']} courseNode={courseNode} />
+            : <Node key={courseNode['id']} courseNode={courseNode} />
+        ))}
+      </div>
     </div>
   );
 }

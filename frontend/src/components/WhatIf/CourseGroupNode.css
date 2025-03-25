@@ -1,6 +1,10 @@
 .courseGroupNode {
+    background-color: white;
     border: solid 1px black;
     border-radius: 10px;
     margin-right: 10px;
     text-align: center;
+}
+.grp-title{
+    font-weight: 600;
 }

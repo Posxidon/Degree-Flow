@@ -5,7 +5,7 @@ import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
-const password = '3c9fd82b-9a5b-4aa5-bb08-f6a6d4e34319';
+const password = '0ecc5fb8-6d09-49f0-ab09-1066b48acfc4';
 
 function courseGroupParse(json, data) {
   let i;
@@ -115,11 +115,12 @@ function What_if() {
   return (
     <div className="container">
       <div className="input-container">
-        <input name="degreeName" onChange={(e) => setData(e.target.value)} />
+        <input name="degreeName" onChange={(e) => setData(e.target.value)} className="submission-fld" />
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
-        <button onClick={() => handleClick()}>submit</button>
+        <button onClick={() => handleClick()} className="submission-btn">submit</button>
       </div>
       <div className="display-container">
+        <p className="degree-name">{html['name']}</p>
         <div className="component-container">
           {courseGroupHistory.map((courseGroup) => (
             <CourseGroupNode courseNodes={courseGroup} />
@@ -128,7 +129,7 @@ function What_if() {
         <div className="component-container">
           {Object.keys(courseDict).map((years) => (
             <div key={years} className="years">
-              year :
+              year :&nbsp;
               {years}
               {(courseDict[years]).map((course) => (
                 course['courseCode'].includes('elective')
@@ -139,7 +140,7 @@ function What_if() {
           ))}
         </div>
       </div>
-      <p>{html['name']}</p>
+
     </div>
   );
 }

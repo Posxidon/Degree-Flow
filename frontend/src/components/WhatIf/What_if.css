@@ -1,25 +1,36 @@
 .years{
     display: inline-block;
+    color: #85013c;
 }
 .container{
-    overflow: hidden;
+    margin: 10px;
+    font-weight: 600;
+}
+.submission-btn{
+    background-color: #85013c;
+    padding:10px;
+    color: white;
+}
+.submission-fld{
+    padding: 10px;
 }
 .display-container{
-    border: 1px black;
-    width: 60%;
+    background-color: #85013c;
+    color: white;
+    border: 1px black solid;
+    border-radius: 10px;
     overflow-x: scroll;
-    overflow-y: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
     float: right;
-
 }
 .component-container{
+    background-color: #f1f0f0;
+    padding: 10px;
     border: solid 1px black;
     overflow-x: scroll;
-    overflow-y: hidden;
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -29,4 +40,8 @@
 .input-container{
     display: flex;
     justify-content: center;
+    margin: 20px;
+}
+.degree-name{
+    text-align: center;
 }

@@ -4,7 +4,12 @@
     width: 200px;
     border-radius: 5px;
     margin: 10px;
+    color: black;
+    background-color: white;
 }
 .desc-window {
-    background: #959595;
+    background-color: lightgray;
+    color: black;
+    border: 1px white solid;
+    border-radius: 5px;
 }

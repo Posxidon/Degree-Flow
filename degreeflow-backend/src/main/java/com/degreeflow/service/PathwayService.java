@@ -305,7 +305,7 @@ public class PathwayService {
  * @param degreeName - name of degree to parse
  * @return a list of level group object representing each year of the degree
  */
-    public List<LevelGroup> parseDegree(String degreeName){
+    public Degree parseDegree(String degreeName){
         String baseuUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
         JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName));
@@ -335,7 +335,8 @@ public class PathwayService {
                 }
             }
         }
-        return lgs;
+
+        return new Degree(req.getString("description"),lgs);
     }
     /**
      * Parses a degree and generates a degree object
@@ -344,7 +345,7 @@ public class PathwayService {
      */
     public Degree parseDegreePlan(String degreeName){
         System.out.println("fetched");
-        return new Degree("cs1",parseDegree(degreeName));
+        return parseDegree(degreeName);
     }
     //unfunctional get coop
     public Degree getCoop(){
