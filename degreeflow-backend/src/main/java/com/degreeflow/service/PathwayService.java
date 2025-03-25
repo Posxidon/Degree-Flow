@@ -140,7 +140,9 @@ public class PathwayService {
                 }
 //                List<List<List<String>>> reqs = parseReq(course.getString("longDescription"));
 //                cns.add(new CourseNode(c, year, reqs.get(0),reqs.get(1).get(0)));
-                cns.add(new CourseNode(c, year, new ArrayList<>(),new ArrayList<>()));
+                CourseNode cn = new CourseNode(c, year, new ArrayList<>(),new ArrayList<>());
+                cn.setUnit((int) course.getDouble("minimumUnits"));
+                cns.add(cn);
             }
         }
         return cns;
@@ -225,9 +227,10 @@ public class PathwayService {
     /**
      * parse all the requirement items in a requirement section
      * @param reqItems - the json array of requirement items
+     * @param includeTechElec - option to include list of tech electives instead of generalizing
      * @return a level group which represents a combination of all the requirement items aka represents the requirement
      */
-    public LevelGroup parseReqItems(JSONArray reqItems){
+    public LevelGroup parseReqItems(JSONArray reqItems, boolean includeTechElec){
         int reqL = reqItems.length();
         // for id purposes on front end
         int electiveCnt = 0;
@@ -245,14 +248,16 @@ public class PathwayService {
                     // NOTE TODO this is only a temporary placeholder and does NOT accurately depict the amount of courses required
                     // To accurately depict the amount required, you must go through all items in the course list and try to see how much credits each course
                     // in order to accurately obtain the amount required
+                    int minUnit = 0;
                     if (reqItem.keySet().contains("minimumUnits")){
                         amtReq = reqItem.getInt("minimumUnits") / 3;
+                        minUnit = reqItem.getInt("minimumUnits");
                     }else if(reqItem.keySet().contains("minimumCourses")){
                         amtReq = reqItem.getInt("minimumCourses");
                     }
                     // if it has the word elective in the description, then we do not parse it and instead replace it with a placeholder course
                     // i do this for performance options as electives are like all the courses offered in McMaster
-                    if (reqItem.getString("shortDescription").toLowerCase().contains("elective")){
+                    if (reqItem.getString("shortDescription").toLowerCase().contains("elective") && (!includeTechElec || !reqItem.getString("shortDescription").toLowerCase().contains("computer science"))){
                         List<CourseNode> electives = new ArrayList<>();
                         for (int v=0;v<amtReq;v++){
                             Course course = new Course(reqItem.getString("shortDescription").concat(Integer.toString(electiveCnt)),"elective","elective");
@@ -260,7 +265,9 @@ public class PathwayService {
                             electiveCnt ++;
                         }
                         List<CourseGroup> es = new ArrayList<>();
-                        es.add(new CourseGroup(electives,amtReq));
+                        CourseGroup cg = new CourseGroup(electives,amtReq);
+                        cg.setName(reqItem.getString("shortDescription"));
+                        es.add(cg);
                         List<Boolean> reqs = new ArrayList<>();
                         reqs.add(true);
                         lg.addReqGrp(new RequirementGroup(es,reqs));
@@ -268,9 +275,15 @@ public class PathwayService {
                     // else if it is an or, then they are optional and should be added as a non required group
                     }else if (reqItem.keySet().contains("connector")) {
                         if (Objects.equals(reqItem.getString("connector").toLowerCase(), "and")) {
-                            lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq),true);
+                            CourseGroup cg = new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq);
+                            cg.setName(reqItem.getString("shortDescription"));
+                            cg.setMinUnit(minUnit);
+                            lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(cg,true);
                         } else if (Objects.equals(reqItem.getString("connector").toLowerCase(), "or")){
-                            lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq),false);
+                            CourseGroup cg = new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq);
+                            cg.setName(reqItem.getString("shortDescription"));
+                            cg.setMinUnit(minUnit);
+                            lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(cg,false);
                         }
                     //if it has no connectors and is not an elective, then we add it as a normal requirement group
                     } else {
@@ -303,9 +316,10 @@ public class PathwayService {
 /**
  * parse a given degree and returns the requirements for each year
  * @param degreeName - name of degree to parse
+ * @param includeTechElec - option to include list of tech electives instead of generalizing
  * @return a list of level group object representing each year of the degree
  */
-    public Degree parseDegree(String degreeName){
+    public Degree parseDegree(String degreeName, boolean includeTechElec){
         String baseuUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
         JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName));
@@ -319,7 +333,7 @@ public class PathwayService {
                 //parse each item in requirement items
                 if (Objects.equals(j.getString("type").toLowerCase(), "requirement")) {
                     JSONArray reqItems = j.getJSONArray("requirementItems");
-                    LevelGroup lg = parseReqItems(reqItems);
+                    LevelGroup lg = parseReqItems(reqItems,includeTechElec);
                     String shortDesc = j.getString("shortDescription");
                     // changes all computer science 1 requirement courses to year 1
                     if(Objects.equals(shortDesc.toLowerCase(),"computer science i")){
@@ -341,12 +355,14 @@ public class PathwayService {
     /**
      * Parses a degree and generates a degree object
      * @param degreeName - name of the degree to parse
+     * @param includeTechElec - option to include list of tech electives instead of generalizing
      * @return a degree object that represents the requirements of the degree
      */
-    public Degree parseDegreePlan(String degreeName){
+    public Degree parseDegreePlan(String degreeName,boolean includeTechElec){
         System.out.println("fetched");
-        return parseDegree(degreeName);
+        return parseDegree(degreeName, includeTechElec);
     }
+
     //unfunctional get coop
     public Degree getCoop(){
         List<CourseGroup> coop = new ArrayList<>();

@@ -5,25 +5,18 @@ import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
-const password = '0ecc5fb8-6d09-49f0-ab09-1066b48acfc4';
+const password = '868e9a36-9a37-4d43-92ed-0ea2d99549e4';
 
 function courseGroupParse(json, data) {
   let i;
-  let v;
   let cData = data;
   const [courseHistory, courseDict, courseGroupHistory] = [cData['courseHistory'], cData['courseDict'], cData['courseGroupHistory']];
-  const jsonKeys = Object.keys(json);
-  for (v = 0; v < jsonKeys.length; v += 1) {
-    const vthGrp = json[jsonKeys[v]];
-    if (Object.keys(vthGrp).length === 4) {
-      const cgKeys = Object.keys(courseGroupHistory);
-      for (i = 0; i < cgKeys.length; i += 1) {
-        const ithEntry = courseGroupHistory[cgKeys[i]];
-        if (ithEntry['courseGroupId'] === vthGrp['courseGroupId']) {
-          // console.log('repeat course group');
-          return { courseHistory, courseDict, courseGroupHistory };
-        }
-      }
+  const cgKeys = Object.keys(courseGroupHistory);
+  for (i = 0; i < cgKeys.length; i += 1) {
+    const ithEntry = courseGroupHistory[cgKeys[i]];
+    if (ithEntry['courseGroupId'] === data['courseGroupId']) {
+      // console.log('repeat course group');
+      return { courseHistory, courseDict, courseGroupHistory };
     }
   }
   courseGroupHistory.push(json);
@@ -85,8 +78,10 @@ function treeTraverse(json) {
 function What_if() {
   const [html, setHTML] = useState({ __html: {} });
   const [d, setData] = useState('HCOMPSCICO');
+  const [inuse, setInuse] = useState(false);
   const url = 'http://localhost:8080/api/degree?';
   const handleClick = async () => {
+    setInuse(true);
     try {
       const response = await (await fetch(url + new URLSearchParams({
         degreeName: d
@@ -96,8 +91,9 @@ function What_if() {
           Authorization: `Basic ${btoa(`user:${password}`)}`
         }
       })).json();
-      console.log(response);
       setHTML(response);
+      console.log(JSON.stringify(response));
+      setInuse(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -117,7 +113,9 @@ function What_if() {
       <div className="input-container">
         <input name="degreeName" onChange={(e) => setData(e.target.value)} className="submission-fld" />
         {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
-        <button onClick={() => handleClick()} className="submission-btn">submit</button>
+        {!inuse
+          // eslint-disable-next-line react/button-has-type
+          && <button onClick={() => handleClick()} className="submission-btn">submit</button>}
       </div>
       <div className="display-container">
         <p className="degree-name">{html['name']}</p>

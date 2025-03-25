@@ -15,12 +15,17 @@ public class CourseGroup {
     private List<CourseNode> courseGroup;
     private int courseGroupId;
     private int numReq;
+    private int minUnit;
     private boolean isSummer;
     private String name;
 
     public void SetSummer(){
         this.isSummer = true;
     }
+
+    public void setMinUnit(int minUnit){this.minUnit = minUnit;}
+
+    public int getMinUnit(){return this.minUnit;}
 
     public boolean isSummerCourse(){
         return this.isSummer;
@@ -29,6 +34,8 @@ public class CourseGroup {
     public void setName(String name){
         this.name = name;
     }
+
+    public String getName(){ return this.name;}
 
     public List<Integer> GetYears(){
         List<Integer> years = new ArrayList<>();

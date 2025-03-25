@@ -13,6 +13,10 @@ public class CourseNode {
     private List<List<String>> prereqs;
     private List<String> antireqs;
     private String desc;
+    private int unit;
+
+    public int getUnit(){return this.unit;}
+    public void setUnit(int unit){this.unit = unit;}
 
     public long getId(){
         return this.course.getId();

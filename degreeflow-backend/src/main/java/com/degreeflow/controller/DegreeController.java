@@ -59,9 +59,9 @@ public class DegreeController {
         System.out.println("param");
         System.out.println(degreeName);
         if (degreeName.length()>0){
-            return pathwayService.parseDegreePlan(degreeName);
+            return pathwayService.parseDegreePlan(degreeName,false);
         }else {
-            return pathwayService.parseDegreePlan("HCOMPSCICO");
+            return pathwayService.parseDegreePlan("HCOMPSCICO",false);
         }
     }
 }
