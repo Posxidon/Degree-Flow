@@ -1,0 +1,138 @@
+/* HomePage.css */
+
+.homepage {
+    font-family: 'Poppins', sans-serif;
+    background-color: #7a003c;
+    color: white;
+    text-align: center;
+    min-height: 100vh;
+    padding-bottom: 50px;
+    overflow-x: hidden;
+    padding: 0; /* ✅ remove bottom padding */
+}
+
+.hero {
+    padding: 80px 20px 60px;
+    width: 100vw;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero .subtext {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.hero button {
+    background-color: white;
+    color: #7a003c;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hero button:hover {
+    background-color: #f2f2f2;
+}
+
+.features-section {
+    background-color: white;
+    color: #2c2c2c;
+    padding: 60px 20px;
+    border-radius: 40px 40px 0 0;
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+.features-section h2 {
+    color: #7a003c;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.features-section p {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature-box {
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: left;
+}
+
+.feature-box h3 {
+    color: #7a003c;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.feature-box p {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.call-to-action {
+    background-color: #7a003c;
+    color: white;
+    padding: 60px 20px 0; /* Removed extra bottom padding */
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.call-to-action h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.call-to-action button {
+    background-color: white;
+    color: #7a003c;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.call-to-action button:hover {
+    background-color: #f2f2f2;
+}
+.disclaimer-note {
+    max-width: 800px;
+    margin: 40px auto 0;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.disclaimer-note a {
+    color: #7a003c;
+    font-weight: 500;
+    text-decoration: underline;
+}
+

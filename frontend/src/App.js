@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
-// Header has the single logo + 3 menu buttons + seat alert
 import Header from './Header';
+import MinimalHeader from './MinimalHeader';
+import Footer from './Footer';
 
-// Page components
+import HomePage from './HomePage';
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
@@ -13,59 +14,54 @@ import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 
-// Separate Footer component
-import Footer from './Footer';
+function MainRoutes() {
+  const location = useLocation();
+  const isLanding = location.pathname === '/';
+
+  return (
+    <>
+      {isLanding ? <MinimalHeader /> : <Header />}
+
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/dashboard"
+            element={(
+              <>
+                <div className="left-content">
+                  <UnitTrackerSection />
+                </div>
+                <div className="center-panel">
+                  <YearlySchedule />
+                </div>
+              </>
+                        )}
+          />
+          <Route
+            path="/FilterSelection"
+            element={(
+              <>
+                <FilterPageButtons />
+                <FilterSelection />
+                <FilterOptions />
+              </>
+                        )}
+          />
+          <Route path="/seat-alert" element={<SeatAlertPage />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </>
+  );
+}
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-
-        {/* All routes within the main-content wrapper */}
-        <main className="main-content">
-          <Routes>
-            {/* Home / Main page */}
-            <Route
-              path="/"
-              element={(
-                <>
-                  <div className="left-content">
-                    {/* <ButtonSection /> // remove if not needed */}
-                    <UnitTrackerSection />
-                  </div>
-                  <div className="center-panel">
-                    <YearlySchedule />
-                  </div>
-                </>
-                            )}
-            />
-
-            {/* Filter Selection page */}
-            <Route
-              path="/FilterSelection"
-              element={(
-                <>
-                  <FilterPageButtons />
-                  <FilterSelection />
-                  <FilterOptions />
-                </>
-                            )}
-            />
-
-            {/* Seat Alert page */}
-            <Route
-              path="/seat-alert"
-              element={<SeatAlertPage />}
-            />
-
-            {/* Add more routes as needed */}
-          </Routes>
-        </main>
-
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <MainRoutes />
+    </div>
   );
 }
 
