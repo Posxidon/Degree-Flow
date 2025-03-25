@@ -12,9 +12,6 @@
     cursor: pointer;               /* Show pointer cursor on hover */
     min-width: 15px;
     min-height: 15px;
-
-
-
 }
 .checkbox-checkmark {
     color: green;
@@ -38,8 +35,6 @@ label {
     margin-left: 10px;
 }
 
-
-
 .filter-title{
     font-family: sans-serif;
     display: flex;         
@@ -59,9 +54,6 @@ label {
     font-size:  26px;                /* Size of the + or − icon */
     color: black;                   /* Color of the icon */
 }
-
-
-
 
 .filter-selection {
     width: 700px;
@@ -101,10 +93,9 @@ label {
     height: 60px;
 }
 
-
 .filter {   
-    margin-top: 10%;
-    margin-left: 5%;
+    margin-top: 4%;
+    margin-left: 1%;
     font-size:  20px;   
     font-family: sans-serif;
     width: 725px;                   /* Set the width of the container */
@@ -118,7 +109,6 @@ label {
     max-height: 700px; /* Limits the height of the options container */
     overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
     scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
-    
 }
 
 .filter h2 {
