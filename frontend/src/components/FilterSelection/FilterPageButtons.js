@@ -1,6 +1,6 @@
 import React from 'react';
-import './FilterButtonSection.css'; // '../buttonSection/ButtonSection.css';
-import { useNavigate } from 'react-router-dom';// this is to use routing function
+import './FilterButtonSection.css';
+import { useNavigate } from 'react-router-dom';
 
 function ActionButton({ children, onClick }) {
   return (
@@ -15,14 +15,18 @@ function ActionButton({ children, onClick }) {
 }
 
 function ButtonSection() {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
   const handleBackClick = () => {
     console.log('Back button clicked');
-    navigate('/'); // Navigate to Filter Page
+    navigate('/');
   };
 
   const handleApplyClick = () => {
-    console.log('Generate button clicked');
+    console.log('Apply Filters button clicked');
+    // Dispatch event to trigger course search
+    const applyFiltersEvent = new CustomEvent('applyFilters');
+    document.dispatchEvent(applyFiltersEvent);
   };
 
   return (

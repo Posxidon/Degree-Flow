@@ -12,9 +12,6 @@
     cursor: pointer;               /* Show pointer cursor on hover */
     min-width: 15px;
     min-height: 15px;
-
-
-
 }
 .checkbox-checkmark {
     color: green;
@@ -38,8 +35,6 @@ label {
     margin-left: 10px;
 }
 
-
-
 .filter-title{
     font-family: sans-serif;
     display: flex;         
@@ -59,9 +54,6 @@ label {
     font-size:  26px;                /* Size of the + or − icon */
     color: black;                   /* Color of the icon */
 }
-
-
-
 
 .filter-selection {
     width: 100%;                    /* Let it scale with screen size */
@@ -106,28 +98,24 @@ label {
     height: 60px;
 }
 
-
-.filter {
-    margin-top: 10%;
-    margin-left: 3%;
-    font-size: 20px;
+.filter {   
+    margin-top: 4%;
+    margin-left: 1%;
+    font-size:  20px;   
     font-family: sans-serif;
-  
-    width: 100%;
-    max-width: 725px;      /* Don't get wider than 725px */
-    min-width: 300px;      /* Don't get narrower than 300px */
-  
-    padding: 20px;
-    border-radius: 15px;
-    background-color: rgb(225, 228, 230);
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ccc;
-  
-    max-height: 700px;
-    overflow-y: auto;
-    scrollbar-width: auto;
-  }
-  
+    width: 725px;                   /* Set the width of the container */
+    padding:  20px;                  /* Add padding inside the rectangle */
+    border-radius: 15px;            /* Rounds the edges of the rectangle */
+    background-color: rgb(225, 228, 230);      /* Light gray background color */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+    border: 1px solid #ccc;         /* Optional: Adds a subtle border */
+    
+    max-width: 725px;
+    max-height: 700px; /* Limits the height of the options container */
+    overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
+    scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
+}
+
 .filter h2 {
     margin: 0; /* Remove default margin around the h2 title */
 }
