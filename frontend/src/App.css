@@ -5,12 +5,14 @@ html, body {
  margin: 0;
  padding: 0;
  height: 100%; /* Takes full browser height */
+ overflow-x: hidden;
 }
 
 .App {
  display: flex;
  flex-direction: column;
  min-height: 100vh; /* Stretches the container to full window height */
+ padding: 0;
 }
 
 
@@ -48,10 +50,11 @@ html, body {
  flex: 1;
  justify-content: space-between;
  align-items: flex-start;
- padding: 20px;
+
  gap: 20px;
  /* grows to fill vertical space, pushing the footer down */
  padding-bottom: 80px;
+ padding: 0;
 }
 
 .left-content {
