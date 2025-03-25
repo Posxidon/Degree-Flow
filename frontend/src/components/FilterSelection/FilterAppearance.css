@@ -56,13 +56,18 @@ label {
 }
 
 .filter-selection {
-    width: 700px;
+    width: 100%;                    /* Let it scale with screen size */
+    max-width: 700px;               /* Prevent it from getting too wide */
+    min-width: 300px;               /* Prevent it from shrinking too much */
+    
     padding: 10px;
     background-color: rgb(225, 228, 230);
     display: flex;
     flex-direction: column;
     gap: 1px;
-}
+  
+    box-sizing: border-box;         /* Ensure padding doesn’t cause overflow */
+  }
 
 .filter-subtitles {
     display: grid;             /* Enables flexbox flex; */
