@@ -1,147 +1,142 @@
-import React from 'react';
-import './FilterAppearance.css'; // Import the CSS for styling
+import React, { useState } from 'react';
+import './FilterAppearance.css';
+import CourseApiService from '../../services/CourseApiService';
 
 function Filter() {
-  const expandFilter = (filterid, icon) => {
-    const filterDiv = document.getElementById(filterid);
-    let options = [];
-    const iconChange = icon.querySelector('.icon-change');
+  const [expandedSections, setExpandedSections] = useState({
+    department: false,
+    'course-level': false
+  });
 
-    if (filterid === 'department') {
-      options = ['Anthropology',
-        'Biochemistry and Biomedical Sciences',
-        'Biology',
-        'Chemical Engineering',
-        'Chemistry & Chemical Biology',
-        'Civil Engineering',
-        'Classics',
-        'Communication Studies and Media Arts',
-        'Computing and Software',
-        'Economics',
-        'Electrical and Computer Engineering',
-        'Engineering Physics',
-        'English and Cultural Studies',
-        'French',
-        'Geography and Environmental Studies',
-        'Health, Aging and Society',
-        'History',
-        'Indigenous Studies',
-        'Kinesiology',
-        'Labour Studies',
-        'Linguistics and Languages',
-        'Materials Science and Engineering',
-        'Mathematics & Statistics',
-        'Mechanical Engineering',
-        'Music',
-        'Philosophy',
-        'Physics & Astronomy',
-        'Political Science',
-        'Psychology, Neuroscience & Behaviour',
-        'Religious Studies',
-        'Social Psychology',
-        'Social Work',
-        'Sociology',
-        'Theatre and Film Studies',
-        'Visual Arts'];
-    } else if (filterid === 'terms') {
-      options = ['Fall',
-        'Winter',
-        'Spring',
-        'Summer'];
-    } else if (filterid === 'difficulty') {
-      options = ['Easy',
-        'Medium',
-        'Hard'];
-    } else if (filterid === 'rating') {
-      options = ['★',
-        '★★',
-        '★★★',
-        '★★★★',
-        '★★★★★'];
-    } else if (filterid === 'course-level') {
-      options = ['Level 1',
-        'Level 2',
-        'Level 3',
-        'Level 4'];
+  // Get subject codes and course levels directly from the service
+  const subjectCodes = CourseApiService.getSubjectCodes();
+  const courseLevels = CourseApiService.getCourseLevels().map((level) => ({
+    display: `Level ${level}`,
+    value: level
+  }));
+
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState(null);
+
+  // Toggles a filter section open/closed
+  const toggleSection = (sectionId) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
+  };
+
+  // Handle checkbox selection for a filter option
+  const handleCheckboxSelect = (filterId, value) => {
+    let updatedValue = null;
+    let filterType = '';
+
+    if (filterId === 'department') {
+      // If the same subject is clicked again, deselect it
+      updatedValue = selectedSubject === value ? null : value;
+      setSelectedSubject(updatedValue);
+      filterType = 'subjectCode';
+    } else if (filterId === 'course-level') {
+      // If the same level is clicked again, deselect it
+      updatedValue = selectedLevel === value ? null : value;
+      setSelectedLevel(updatedValue);
+      filterType = 'level';
     }
 
-    if (filterDiv.style.display === 'none') {
-      filterDiv.style.display = 'grid'; // if display is hidden, set to block which will display
-      iconChange.textContent = '−';
-      if (!filterDiv.innerHTML) {
-        options.forEach((option) => { // loops through all the options and creates new div element
-          const optionDiv = document.createElement('div');
-
-          const checkbox = document.createElement('span'); // span: used for check box
-          checkbox.className = 'custom-checkbox';
-          checkbox.id = option;
-          checkbox.textContent = '';
-          console.log('Checkbox created for:', option);
-
-          checkbox.addEventListener('click', () => {
-            if (checkbox.textContent === '✔') {
-              checkbox.textContent = '✖';
-              checkbox.classList.remove('checkbox-checkmark'); // Remove green style
-              checkbox.classList.add('checkbox-x'); // Add red style
-            } else if (checkbox.textContent === '') {
-              checkbox.textContent = '✔';
-              checkbox.classList.remove('checkbox-x');
-              checkbox.classList.add('checkbox-checkmark');
-            } else {
-              checkbox.textContent = '';
-            }
-          });
-
-          const optionlabel = document.createElement('label');
-          optionlabel.textContent = option;
-          optionlabel.style.marginLeft = '10px';
-          optionDiv.appendChild(checkbox);
-          optionDiv.appendChild(optionlabel);
-          filterDiv.appendChild(optionDiv);
-        });
+    // Dispatch an event to notify other components
+    const filterChangeEvent = new CustomEvent('filterChange', {
+      detail: {
+        type: filterType,
+        value: updatedValue
       }
-    } else {
-      filterDiv.style.display = 'none';
-      iconChange.textContent = '+';
+    });
+    document.dispatchEvent(filterChangeEvent);
+  };
+
+  // Render the filter options for a specific filter
+  const renderFilterOptions = (filterId) => {
+    if (!expandedSections[filterId]) {
+      return null;
     }
+
+    let options = [];
+    let selectedValue = null;
+
+    if (filterId === 'department') {
+      options = subjectCodes;
+      selectedValue = selectedSubject;
+    } else if (filterId === 'course-level') {
+      options = courseLevels;
+      selectedValue = selectedLevel;
+    }
+
+    return (
+      <div className="filter-subtitles">
+        {options.map((option) => {
+          const optionValue = typeof option === 'object' ? option.value : option;
+          const displayText = typeof option === 'object' ? option.display : option;
+          const isSelected = selectedValue === optionValue;
+
+          // Create a unique key that doesn't rely on index because of the eslint thing
+          const uniqueKey = `${filterId}-${optionValue}`;
+
+          return (
+            <div key={uniqueKey} className="option-div">
+              <div className="checkbox-wrapper">
+                <span
+                  className={`custom-checkbox ${isSelected ? 'checkbox-checkmark' : ''}`}
+                  onClick={() => handleCheckboxSelect(filterId, optionValue)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleCheckboxSelect(filterId, optionValue);
+                    }
+                  }}
+                  role="checkbox"
+                  aria-checked={isSelected}
+                  tabIndex={0}
+                >
+                  {isSelected ? '✔' : ''}
+                </span>
+                <div>{displayText}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
     <div id="filters" className="filter">
       <h2>Filters</h2>
       <div className="filter-selection">
-        <button type="button" className="filter-title" onClick={(e) => expandFilter('department', e.currentTarget)}>
-          DEPARTMENT
-          <span className="icon-change">+</span>
+        <button
+          type="button"
+          className="filter-title"
+          onClick={() => toggleSection('department')}
+        >
+          SUBJECT CODE
+          <span className="icon-change">
+            {expandedSections.department ? '−' : '+'}
+          </span>
         </button>
-        <div id="department" className="filter-subtitles" style={{ display: 'none' }} />
+        {renderFilterOptions('department')}
 
-        <button type="button" className="filter-title" onClick={(e) => expandFilter('terms', e.currentTarget)}>
-          TERMS
-          <span className="icon-change">+</span>
-        </button>
-        <div id="terms" className="filter-subtitles" style={{ display: 'none' }} />
-
-        <button type="button" className="filter-title" onClick={(e) => expandFilter('difficulty', e.currentTarget)}>
-          DIFFICULTY
-          <span className="icon-change">+</span>
-        </button>
-        <div id="difficulty" className="filter-subtitles" style={{ display: 'none' }} />
-
-        <button type="button" className="filter-title" onClick={(e) => expandFilter('rating', e.currentTarget)}>
-          RATING
-          <span className="icon-change">+</span>
-        </button>
-        <div id="rating" className="filter-subtitles" style={{ display: 'none' }} />
-
-        <button type="button" className="filter-title" onClick={(e) => expandFilter('course-level', e.currentTarget)}>
+        <button
+          type="button"
+          className="filter-title"
+          onClick={() => toggleSection('course-level')}
+        >
           COURSE LEVEL
-          <span className="icon-change">+</span>
+          <span className="icon-change">
+            {expandedSections['course-level'] ? '−' : '+'}
+          </span>
         </button>
-        <div id="course-level" className="filter-subtitles" style={{ display: 'none' }} />
-
+        {renderFilterOptions('course-level')}
       </div>
     </div>
   );
 }
+
 export default Filter;
