@@ -22,8 +22,8 @@ function GenerateSchedule() {
         room: 'KTH 104'
       },
       {
-        code: 'COMPSCI 1MD3',
-        name: 'Introduction to Programming',
+        code: 'COMPSCI 1AD3',
+        name: 'Intro to Programming',
         instructor: 'N/A',
         room: 'TSH 127'
       },
@@ -66,8 +66,8 @@ function GenerateSchedule() {
         room: 'BSB 108'
       },
       {
-        code: 'COMPSCI 2AC3',
-        name: 'Automata and Computability',
+        code: 'COMPSCI 2BC3',
+        name: 'Computer Science Fundamentals',
         instructor: 'N/A',
         room: 'KTH 104'
       }
