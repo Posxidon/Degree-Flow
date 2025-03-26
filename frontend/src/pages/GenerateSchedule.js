@@ -23,7 +23,7 @@ function GenerateSchedule() {
       },
       {
         code: 'COMPSCI 1AD3',
-        name: '',
+        name: 'Intro to Programming',
         instructor: 'N/A',
         room: 'TSH 127'
       },
@@ -107,7 +107,7 @@ function GenerateSchedule() {
     'Winter 2026': [
       {
         code: 'COMPSCI 2ME3',
-        name: 'Intro to software development',
+        name: 'Intro to Software Development',
         instructor: 'N/A',
         room: 'BSB 108'
       },
