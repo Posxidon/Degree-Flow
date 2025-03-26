@@ -61,7 +61,13 @@ function Header() {
         >
           Seat Alert
         </button>
-
+        <button
+          type="button"
+          className={currentPath === '/what-if' ? 'active' : ''}
+          onClick={() => navigate('/what-if')}
+        >
+          What If Scenario
+        </button>
       </div>
     </div>
   );

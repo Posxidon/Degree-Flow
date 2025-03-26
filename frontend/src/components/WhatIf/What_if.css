@@ -22,9 +22,8 @@
     overflow-x: scroll;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
-    float: right;
+    width: 100vw;
+    float: left;
 }
 .component-container{
     background-color: #f1f0f0;

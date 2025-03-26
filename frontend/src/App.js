@@ -13,6 +13,7 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
+import WhatIf from './components/WhatIf/WhatIf';
 
 function MainRoutes() {
   const location = useLocation();
@@ -49,6 +50,7 @@ function MainRoutes() {
                         )}
           />
           <Route path="/seat-alert" element={<SeatAlertPage />} />
+          <Route path="/what-if" element={<WhatIf />} />
         </Routes>
       </main>
 
