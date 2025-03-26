@@ -38,7 +38,6 @@ function Header() {
         >
           Upload Transcript
         </button>
-
         {/* Existing menu buttons */}
         <button
           type="button"
@@ -49,10 +48,10 @@ function Header() {
         </button>
         <button
           type="button"
-          className={currentPath === '/' ? 'active' : ''}
-          onClick={() => navigate('/')}
+          className={currentPath === '/generate-schedule' ? 'active' : ''}
+          onClick={() => navigate('/generate-schedule')}
         >
-          Generate New Schedules
+          Generate Schedule
         </button>
         <button
           type="button"
@@ -61,7 +60,6 @@ function Header() {
         >
           Seat Alert
         </button>
-
       </div>
     </div>
   );

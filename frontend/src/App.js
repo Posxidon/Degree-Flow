@@ -13,6 +13,7 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
+import GenerateSchedule from './pages/GenerateSchedule'; // New page
 
 function MainRoutes() {
   const location = useLocation();
@@ -36,7 +37,7 @@ function MainRoutes() {
                   <YearlySchedule />
                 </div>
               </>
-                        )}
+            )}
           />
           <Route
             path="/FilterSelection"
@@ -46,9 +47,10 @@ function MainRoutes() {
                 <FilterSelection />
                 <FilterOptions />
               </>
-                        )}
+            )}
           />
           <Route path="/seat-alert" element={<SeatAlertPage />} />
+          <Route path="/generate-schedule" element={<GenerateSchedule />} />
         </Routes>
       </main>
 
