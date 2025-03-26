@@ -107,7 +107,7 @@ function GenerateSchedule() {
     'Winter 2026': [
       {
         code: 'COMPSCI 2ME3',
-        name: 'Intro to software development',
+        name: 'Intro to Software Development',
         instructor: 'N/A',
         room: 'BSB 108'
       },
