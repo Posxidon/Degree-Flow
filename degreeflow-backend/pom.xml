@@ -85,7 +85,12 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
-
+        <!-- Azure Identity SDK for obtaining tokens -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>1.5.4</version> <!-- use the latest version -->
+        </dependency>
         <!-- Security (AES, SHA Encryption) -->
         <dependency>
             <groupId>org.bouncycastle</groupId>

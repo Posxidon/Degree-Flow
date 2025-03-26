@@ -1,42 +1,28 @@
 package com.degreeflow.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class UserEntity {
 
     @Id
     private String username;
+
     private String password;
-    private List<String> roles; // Or use an enum or another strategy for roles
 
-    // Getters and setters
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
+    // Many-to-many relationship with Role entity
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles", // join table between users and roles
+            joinColumns = @JoinColumn(name = "username"), // user reference
+            inverseJoinColumns = @JoinColumn(name = "role_id") // role reference
+    )
+    private Set<Role> roles; // This will hold the roles associated with the user
 }

@@ -3,6 +3,7 @@ package com.degreeflow.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -10,61 +11,61 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import javax.crypto.SecretKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "your_secret_key";
+    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
-    // Method to extract the username (subject) from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Method to extract the expiration date from the token
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Generic method to extract any claim from the token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    // Parse the JWT token to extract all claims
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
+        logger.debug("Extracting claims from token...");
+        return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    // Check if the token has expired
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // Generate a new JWT token based on user details
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        logger.debug("Generating token for user: {}", userDetails.getUsername());
         return createToken(claims, userDetails.getUsername());
     }
 
-    // Helper method to create a new JWT token
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 hours
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 hours expiration
+                .signWith(SECRET_KEY)
                 .compact();
     }
 
-    // Validate the JWT token by checking username and expiration
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
+        logger.debug("Validating token for username: {}", username);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
