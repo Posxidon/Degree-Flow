@@ -1,12 +1,14 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Routes, Route, useLocation
+} from 'react-router-dom';
 import './App.css';
 
 import Header from './Header';
 import MinimalHeader from './MinimalHeader';
 import Footer from './Footer';
 
-import HomePage from './HomePage';
+import HomePage from './HomePage'; // the landing page
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
@@ -21,11 +23,13 @@ function MainRoutes() {
 
   return (
     <>
+      {/* Header based on route */}
       {isLanding ? <MinimalHeader /> : <Header />}
 
       <main className="main-content">
         <Routes>
           <Route path="/" element={<HomePage />} />
+
           <Route
             path="/dashboard"
             element={(
@@ -39,6 +43,7 @@ function MainRoutes() {
               </>
             )}
           />
+
           <Route
             path="/FilterSelection"
             element={(
@@ -49,11 +54,13 @@ function MainRoutes() {
               </>
             )}
           />
+
           <Route path="/seat-alert" element={<SeatAlertPage />} />
           <Route path="/generate-schedule" element={<GenerateSchedule />} />
         </Routes>
       </main>
 
+      {/* Footer is always shown */}
       <Footer />
     </>
   );
@@ -61,9 +68,11 @@ function MainRoutes() {
 
 function App() {
   return (
-    <div className="App">
-      <MainRoutes />
-    </div>
+    <Router>
+      <div className="App">
+        <MainRoutes />
+      </div>
+    </Router>
   );
 }
 
