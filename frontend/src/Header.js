@@ -51,9 +51,12 @@ function Header() {
         {/* Generate New Schedules also points to /dashboard */}
         <button
           type="button"
-          onClick={() => navigate('/dashboard')}
+
+          className={currentPath === '/generate-schedule' ? 'active' : ''}
+          onClick={() => navigate('/generate-schedule')}
+
         >
-          Generate New Schedules
+          Generate Schedule
         </button>
 
         <button
