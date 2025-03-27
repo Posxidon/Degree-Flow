@@ -19,7 +19,7 @@ public class PathwayService {
      * @param url - given api url to call
      * @return a json object as response
      */
-    public JSONObject makeMosaicApiCall(String url){
+    public JSONObject makeMosaicApiCall(String url, boolean toPrint){
 
         String httpResponse;
         try {
@@ -31,7 +31,9 @@ public class PathwayService {
             System.out.println("http failed");
             return null;
         }
-        System.out.println(httpResponse);
+        if (toPrint) {
+            System.out.println(httpResponse);
+        }
         return new JSONObject(httpResponse);
     }
     // currently unfunctional prereq parser
@@ -118,7 +120,7 @@ public class PathwayService {
      * @return a list of course(s) at the given url. NOTE the reason why it is a list and not a CourseNode is due to the potential that multiple courses could exist under one course code (multiyear course)
      */
     public List<CourseNode> parseCourse(String url){
-        JSONObject cJson = makeMosaicApiCall(url);
+        JSONObject cJson = makeMosaicApiCall(url,false);
         List<CourseNode> cns = new ArrayList<>();
         //for every course in the catalogue, if it has information for a subject code, catalogue number, title and a description, parse it
         for (int i = 0; i<cJson.getJSONArray("courses").length(); i++) {
@@ -154,7 +156,7 @@ public class PathwayService {
      */
     public List<CourseNode> parseCourseList(String url){
         List<CourseNode> courses = new ArrayList<>();
-        JSONArray courseList = makeMosaicApiCall(url).getJSONArray("courseListItems");
+        JSONArray courseList = makeMosaicApiCall(url,false).getJSONArray("courseListItems");
         for (int i=0;i<courseList.length();i++){
             String courseUrl = courseList.getJSONObject(i).getString("courseCatalogSearch");
             if (!courseUrl.contains("wildcard-search")){
@@ -322,7 +324,7 @@ public class PathwayService {
     public Degree parseDegree(String degreeName, boolean includeTechElec){
         String baseuUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
-        JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName));
+        JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName),false);
         JSONObject req = (JSONObject) degreeResp.getJSONArray("requirementGroups").get(0);
         JSONArray reqs = req.getJSONArray("requirements");
         //iterate through the requirement section of requirementGroups property
@@ -359,8 +361,18 @@ public class PathwayService {
      * @return a degree object that represents the requirements of the degree
      */
     public Degree parseDegreePlan(String degreeName,boolean includeTechElec){
+//        printCodes();
+//        makeMosaicApiCall( "https://api.mcmaster.ca/academic-calendar/v2/plans/CHEMMN",true);
         System.out.println("fetched");
         return parseDegree(degreeName, includeTechElec);
+    }
+
+    public void printCodes(){
+        JSONObject main = makeMosaicApiCall("https://api.mcmaster.ca/academic-calendar/v2/plans",false);
+        JSONArray plans = main.getJSONArray("plans");
+        for (int i=0;i<plans.length();i++){
+            System.out.println(plans.getJSONObject(i));
+        }
     }
 
     //unfunctional get coop
