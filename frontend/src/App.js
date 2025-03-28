@@ -68,11 +68,9 @@ function MainRoutes() {
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <MainRoutes />
-      </div>
-    </Router>
+    <div className="App">
+      <MainRoutes />
+    </div>
   );
 }
 
