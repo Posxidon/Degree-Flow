@@ -5,12 +5,16 @@ import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
+<<<<<<< HEAD:frontend/src/components/WhatIf/What_if.js
 <<<<<<< HEAD:frontend/src/components/WhatIf/WhatIf.js
 const password = '132be6ff-c823-4666-a34d-a39ad2a02b1c';
 =======
 const password = 'ed34ba8c-cea8-4028-b203-26a75faa886c';
 
 >>>>>>> parent of c9c130a (updated from main):frontend/src/components/WhatIf/What_if.js
+=======
+const password = 'd968c7a3-371e-4f03-8d4b-ca33a41a86ca';
+>>>>>>> parent of a04d118 (merge issues):frontend/src/components/WhatIf/WhatIf.js
 function courseGroupParse(json, data) {
   let i;
   let cData = data;
