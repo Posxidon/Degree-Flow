@@ -11,10 +11,7 @@ function HomePage() {
       <div className="hero">
         <h1>
           <Typewriter
-            words={[
-              'Personalized Course Guidance',
-              'Academic Advising at Your Fingertips'
-            ]}
+            words={['Personalized Course Guidance', 'Academic Advising at Your Fingertips']}
             loop
             cursor
             typeSpeed={80}
@@ -32,75 +29,52 @@ function HomePage() {
       <div className="features-section">
         <h2>What is DegreeFlow?</h2>
         <p>
-          DegreeFlow is your intelligent academic co-pilot, purpose-built for McMaster students.
-          Whether you are planning a minor, cross-checking electives, or racing toward graduation,
+          DegreeFlow is a smart academic planner built for students at McMaster University.
           {/* eslint-disable-next-line max-len */}
-          DegreeFlow gives you a complete, personalized overview of your degree journey — all in one place.
+          Whether you are pursuing a minor, planning electives, or double-checking graduation eligibility, DegreeFlow helps you visualize your entire academic journey in one place.
         </p>
 
         <div className="features-grid">
           <div className="feature-box">
-            <h3>Visual Progress Tracker</h3>
+            <h3> Visual Progress Tracker</h3>
             <p>
-              Instantly view completed units across core, technical, and electives.
-              Say goodbye to spreadsheet headaches — know exactly where you stand.
+              {/* eslint-disable-next-line max-len */}
+              Instantly see how many units you have completed across core, technical, and elective courses.
+              Stay on top of what’s left to graduate — no guesswork required.
             </p>
           </div>
 
           <div className="feature-box">
-            <h3>Transcript Upload</h3>
+            <h3> Upload Your Transcript</h3>
             <p>
-              Upload your Mosaic transcript and let DegreeFlow auto-map your courses.
-              No manual typing, no stress. Just insights.
+              {/* eslint-disable-next-line max-len */}
+              Just upload your Mosaic transcript and we’ll auto-generate a timeline of your completed courses.
+              No manual entry — it&#39;s quick and simple.
             </p>
           </div>
 
           <div className="feature-box">
-            <h3>Smart Schedule Builder</h3>
+            <h3> Conflict-Free Schedule Builder</h3>
             <p>
-              Plan your term with live seat availability and conflict-free course selection.
-              Visualize your semester before it starts.
+              Plan your upcoming semester with real-time seat alerts and auto-conflict detection.
+              No more switching tabs or second-guessing your timetable.
             </p>
           </div>
 
           <div className="feature-box">
-            <h3>Seat Alerts</h3>
+            <h3> Seat Alerts</h3>
             <p>
-              Get notified the moment a seat opens in your desired course.
-              Act fast, stay ahead, and never miss your chance again.
+              Don’t miss out on full courses. Set alerts and get notified when a seat opens up.
+              You’ll be the first to know — and the first to register.
             </p>
           </div>
         </div>
+      </div>
 
-        <div className="extra-info">
-          <h2>Why Choose DegreeFlow?</h2>
-          <p>
-            {/* eslint-disable-next-line max-len */}
-            Traditional tools are clunky, outdated, and often overwhelming. DegreeFlow was built with students in mind — clean, modern, and intuitive. We believe that every student should have the tools they need to succeed, right at their fingertips.
-
-            {/* eslint-disable-next-line max-len */}
-            Whether you are in your first year trying to understand your requirements or nearing graduation double-checking your remaining credits, DegreeFlow supports your journey at every step.
-          </p>
-          <br />
-          <p className="disclaimer-note">
-            {/* eslint-disable-next-line max-len */}
-            <strong>Note:</strong>
-            {' '}
-            {/* eslint-disable-next-line max-len */}
-            DegreeFlow is a supplementary tool for academic planning. It does not replace official academic advising.
-            {/* eslint-disable-next-line max-len */}
-            For personalized academic advice, please consult your faculty’s academic advising office:&nbsp;
-            <a
-              href="https://www.eng.mcmaster.ca/current-students/undergraduate-academic-advising/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Academic Advising – McMaster Engineering
-            </a>
-            .
-          </p>
-
-        </div>
+      <div className="call-to-action">
+        <h2>Ready to take control of your degree?</h2>
+        {/* eslint-disable-next-line react/button-has-type */}
+        <button onClick={() => navigate('/dashboard')}>Get Started Now</button>
       </div>
     </div>
   );
