@@ -65,6 +65,10 @@ function Header() {
         >
           Seat Alert
         </button>
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of c9c130a (updated from main)
       </div>
     </div>
   );

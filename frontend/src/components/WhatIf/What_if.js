@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './What_if.css';
 import Node from './Node';
 import CourseGroupNode from './CourseGroupNode';
 
 /* eslint-disable dot-notation */
 /* eslint-disable no-use-before-define */
+<<<<<<< HEAD:frontend/src/components/WhatIf/WhatIf.js
 const password = '132be6ff-c823-4666-a34d-a39ad2a02b1c';
+=======
+const password = 'ed34ba8c-cea8-4028-b203-26a75faa886c';
+
+>>>>>>> parent of c9c130a (updated from main):frontend/src/components/WhatIf/What_if.js
 function courseGroupParse(json, data) {
   let i;
   let cData = data;
@@ -74,7 +79,7 @@ function treeTraverse(json) {
 }
 
 // eslint-disable-next-line camelcase
-function WhatIf() {
+function What_if() {
   const [html, setHTML] = useState({ __html: {} });
   const [d, setData] = useState('HCOMPSCICO');
   const [inuse, setInuse] = useState(false);
@@ -142,4 +147,5 @@ function WhatIf() {
   );
 }
 
-export default WhatIf;
+// eslint-disable-next-line camelcase
+export default What_if;

@@ -15,7 +15,10 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
+<<<<<<< HEAD
 import GenerateSchedule from './pages/GenerateSchedule'; // New page
+=======
+>>>>>>> parent of c9c130a (updated from main)
 
 function MainRoutes() {
   const location = useLocation();
@@ -56,7 +59,10 @@ function MainRoutes() {
           />
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />
+<<<<<<< HEAD
           <Route path="/generate-schedule" element={<GenerateSchedule />} />
+=======
+>>>>>>> parent of c9c130a (updated from main)
         </Routes>
       </main>
 
