@@ -48,27 +48,12 @@ function Header() {
           Search Filtered Courses
         </button>
 
-        {/* Generate New Schedules also points to /dashboard */}
-        <button
-          type="button"
-
-          className={currentPath === '/generate-schedule' ? 'active' : ''}
-          onClick={() => navigate('/generate-schedule')}
-
-        >
-          Generate Schedule
-        </button>
-
         <button
           type="button"
           onClick={() => navigate('/seat-alert')}
         >
           Seat Alert
         </button>
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of c9c130a (updated from main)
       </div>
     </div>
   );

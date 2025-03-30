@@ -15,10 +15,9 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
-<<<<<<< HEAD
-import GenerateSchedule from './pages/GenerateSchedule'; // New page
-=======
->>>>>>> parent of c9c130a (updated from main)
+import GenerateSchedule from './pages/GenerateSchedule';
+// eslint-disable-next-line camelcase,import/no-named-as-default,import/no-named-as-default-member
+import WhatIf from './components/WhatIf/WhatIf';
 
 function MainRoutes() {
   const location = useLocation();
@@ -59,10 +58,8 @@ function MainRoutes() {
           />
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />
-<<<<<<< HEAD
           <Route path="/generate-schedule" element={<GenerateSchedule />} />
-=======
->>>>>>> parent of c9c130a (updated from main)
+          <Route path="/what-if" element={<WhatIf />} />
         </Routes>
       </main>
 
@@ -74,11 +71,9 @@ function MainRoutes() {
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <MainRoutes />
-      </div>
-    </Router>
+    <div className="App">
+      <MainRoutes />
+    </div>
   );
 }
 

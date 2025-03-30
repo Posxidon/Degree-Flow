@@ -14,3 +14,11 @@
     border-radius: 5px;
     font-weight: 400;
 }
+.info-btn{
+    border: none;
+    background-color: white;
+}
+.info-icon{
+    width: 10px;
+    height: 10px;
+}
