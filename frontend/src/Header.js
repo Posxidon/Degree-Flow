@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import mesLogo from './Logo_Name_White.png';
 
 function Header() {
   const navigate = useNavigate();
+  const currentPath = useLocation().pathname;
 
   return (
     <div className="custom-header">
@@ -51,9 +52,11 @@ function Header() {
         {/* Generate New Schedules also points to /dashboard */}
         <button
           type="button"
-          onClick={() => navigate('/dashboard')}
+          className={currentPath === '/generate-schedule' ? 'active' : ''}
+          onClick={() => navigate('/generate-schedule')}
+
         >
-          Generate New Schedules
+          Generate Schedule
         </button>
 
         <button
