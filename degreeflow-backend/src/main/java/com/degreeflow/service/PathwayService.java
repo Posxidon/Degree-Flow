@@ -34,6 +34,7 @@ public class PathwayService {
         if (toPrint) {
             System.out.println("json text");
             System.out.println(httpResponse);
+            System.out.println(httpResponse.charAt(0));
         }
         return new JSONObject(httpResponse);
     }
@@ -297,6 +298,10 @@ public class PathwayService {
         return parseDegree(degreeName, includeTechElec);
     }
 
+    /**
+     * calls mosaic api to get list of degree names and plans
+     * @return a list of all viable undergrad engineering degree codes and names (in order)
+     */
     public List<List<String>> printCodes(){
         JSONObject main = makeMosaicApiCall("https://api.mcmaster.ca/academic-calendar/v2/plans",false);
         JSONArray plans = main.getJSONArray("plans");

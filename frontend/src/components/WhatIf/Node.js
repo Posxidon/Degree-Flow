@@ -9,6 +9,7 @@ import icon from './info.png';
 function Node({ courseNode, sendParentData, years }) {
   const [isShown, setIsShown] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  // when user chooses a year, notifies parent
   function returnData(year) {
     sendParentData(year, courseNode);
   }
@@ -26,30 +27,31 @@ function Node({ courseNode, sendParentData, years }) {
       {courseNode['courseCode']}
       <div>
 
-        <button onClick={
+        <button
+          onClick={
           function () {
             setShowDropdown(!showDropdown);
           }
         }
+          className="add-year"
         >
-          Add to schedule
+          Add to year
         </button>
         {showDropdown && (
-          <div>
+          <div className="year-options">
             {years.map((yearK) => (
               parseInt(courseNode['years'], 10) <= parseInt(yearK, 10)
               && (
-              <button onClick={
+              <button
+                onClick={
                 function () {
                   setShowDropdown(!showDropdown);
                   returnData(yearK);
                 }
               }
+                className="year-option"
               >
-                <p>
-                  year :
-                  {yearK}
-                </p>
+                {yearK}
               </button>
               )
             ))}

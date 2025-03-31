@@ -6,6 +6,7 @@ import Node from './Node';
 function CourseGroupNode({ courseNodes, returnData, years }) {
   const [numReq, setNumReq] = useState(courseNodes['numReq']);
   const [courseNodeHis, setCourseNodeHis] = useState(courseNodes['courses']);
+  // updates self based on child actions and passes params along to parent
   function handleChildData(year, course) {
     // eslint-disable-next-line prefer-destructuring
     const courseCode = course['courseCode'];

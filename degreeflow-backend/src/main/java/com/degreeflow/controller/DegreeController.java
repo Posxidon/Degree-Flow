@@ -53,7 +53,7 @@ public class DegreeController {
 
     @Autowired
     private PathwayService pathwayService;
-
+    // for getting degree requirement
     @GetMapping("/requirement")
     public Degree gerRequirement(@RequestParam("degreeName") String degreeName) {
         System.out.println("param");
@@ -64,6 +64,7 @@ public class DegreeController {
             return pathwayService.parseDegreePlan("HCOMPSCICO",false);
         }
     }
+    // for getting list of all degree code and names
     @GetMapping("/degreeName")
     public List<List<String>> getAllDegree() {
         return pathwayService.printCodes();

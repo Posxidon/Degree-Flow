@@ -54,6 +54,13 @@ function Header() {
         >
           Seat Alert
         </button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/what-if')}
+        >
+          What if scenario
+        </button>
       </div>
     </div>
   );

@@ -22,3 +22,18 @@
     width: 10px;
     height: 10px;
 }
+.year-option{
+    padding: 5px;
+    border: 1px solid black;
+    background: white;
+}
+.year-option:hover{
+    background-color: lightgray;
+}
+.add-year{
+    border: 1px solid black;
+    background: white;
+}
+.add-year:hover{
+    background-color: lightgray;
+}
