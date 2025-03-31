@@ -32,86 +32,10 @@ public class PathwayService {
             return null;
         }
         if (toPrint) {
+            System.out.println("json text");
             System.out.println(httpResponse);
         }
         return new JSONObject(httpResponse);
-    }
-    // currently unfunctional prereq parser
-    public List<List<List<String>>> parseReq(String desc){
-        System.out.println("desc");
-        System.out.println(desc);
-        List<String> desc_lst = List.of(desc.replaceAll("\n"," ").replaceAll("[^A-Za-z0-9 ]", "").split("\\s+"));
-        List<List<String>> preReqList = new ArrayList<>();
-        List<String> antiReqList = new ArrayList<>();
-        List<String> currentPrereq = new ArrayList<>();
-        boolean isPreReq = false;
-        boolean isAntiReq = false;
-        boolean isOr = false;
-        String program = "";
-        for (int i=0; i<desc_lst.size(); i++){
-            String wrd = desc_lst.get(i);
-            if (wrd.toLowerCase().contains("prerequisite")){
-                isPreReq = true;
-                isAntiReq = false;
-            }else if (wrd.toLowerCase().contains("antirequisite")){
-                isAntiReq = true;
-                isPreReq = false;
-                if (currentPrereq.size() > 0){
-                    preReqList.add(currentPrereq);
-                }
-                program = "";
-            }else if (isPreReq) {
-                if (Objects.equals(wrd.toLowerCase(),"or")){
-                    isOr = true;
-                    String next_wrd = desc_lst.get(i+1);
-                    if(next_wrd.length() == 4 && Character.isDigit(next_wrd.charAt(0))){
-                        currentPrereq.add(program.concat(next_wrd));
-                    }else if(!(Objects.equals(next_wrd, next_wrd.toUpperCase()) && next_wrd.replaceAll("[0-9]","").length() >= 4)){
-                        isOr = false;
-                    }
-                } else if (Objects.equals(wrd, wrd.toUpperCase()) && wrd.replaceAll("[0-9]","").length() >= 4) {
-                    if (!isOr && currentPrereq.size()>0){
-                        preReqList.add(new ArrayList<>(currentPrereq));
-                        currentPrereq = new ArrayList<>();
-                    }
-                    program = wrd;
-                    int cnt = 1;
-                    boolean added = true;
-                    while (desc_lst.size() - i > cnt && added) {
-                        added = false;
-                        String next_wrd = desc_lst.get(i + cnt);
-                        if (next_wrd.length() == 4 && Character.isDigit(next_wrd.charAt(0))) {
-                            currentPrereq.add(program.concat(next_wrd));
-                            added = true;
-                        }
-                        cnt ++;
-                    }
-                    i += cnt-1;
-                }
-            }else if(isAntiReq){
-                if (Objects.equals(wrd, wrd.toUpperCase()) && wrd.replaceAll("[0-9]","").length() >= 4) {
-                    program = wrd;
-                    int cnt = 1;
-                    boolean added = true;
-                    while (desc_lst.size() - i > cnt && added) {
-                        added = false;
-                        String next_wrd = desc_lst.get(i + cnt);
-                        if (next_wrd.length() == 4 && Character.isDigit(next_wrd.charAt(0))) {
-                            antiReqList.add(program.concat(next_wrd));
-                            added = true;
-                        }
-                        cnt ++;
-                    }
-                    i+= cnt-1;
-                }
-            }
-        }
-        List<List<List<String>>> ret = new ArrayList<>();
-        List<List<String>> anti = new ArrayList<>();
-        anti.add(antiReqList);
-        ret.add(preReqList);
-        ret.add(anti);
-        return ret;
     }
 
     /**
@@ -140,8 +64,6 @@ public class PathwayService {
                 } else if (Character.getNumericValue(catN.charAt(0)) >= 4) {
                     year = 4;
                 }
-//                List<List<List<String>>> reqs = parseReq(course.getString("longDescription"));
-//                cns.add(new CourseNode(c, year, reqs.get(0),reqs.get(1).get(0)));
                 CourseNode cn = new CourseNode(c, year, new ArrayList<>(),new ArrayList<>());
                 cn.setUnit((int) course.getDouble("minimumUnits"));
                 cns.add(cn);
@@ -181,6 +103,7 @@ public class PathwayService {
                     // grabs all the courses in the item detail and implement the logic stated in the list include mode
                     List<CourseNode> cl = parseCourseList(itemDetail.getString("courseList"));
                     if (itemDetail.keySet().contains("listIncludeMode")){
+                        //performs intersection between two course lists
                         if(itemDetail.getString("listIncludeMode").toLowerCase().contains("intersection")){
                             List<CourseNode> newcl = new ArrayList<>();
                             for (CourseNode cn : courseList){
@@ -192,6 +115,7 @@ public class PathwayService {
                                 }
                             }
                             courseList = newcl;
+                        // performs union between two course lists
                         }else if (itemDetail.getString("listIncludeMode").toLowerCase().contains("union")){
                             for (CourseNode cn2 : cl){
                                 boolean isIn = false;
@@ -205,6 +129,7 @@ public class PathwayService {
                                     courseList.add(cn2);
                                 }
                             }
+                        //subtracts the current course list from the previously obtained course list
                         }else if (itemDetail.getString("listIncludeMode").toLowerCase().contains("subtract")){
                             int l = courseList.size();
                             for (int v=0;v<l;v++){
@@ -218,6 +143,7 @@ public class PathwayService {
                                 }
                             }
                         }
+                    //if there are no operations then add it all
                     } else {
                         courseList.addAll(cl);
                     }
@@ -247,7 +173,7 @@ public class PathwayService {
                 if (isCourseReq && !isTCM && ! isL1R) {
                     int amtReq = 0;
                     // calculate amount of courses required
-                    // NOTE TODO this is only a temporary placeholder and does NOT accurately depict the amount of courses required
+                    // NOTE TODO this is only an estimate and does NOT accurately depict the amount of courses required
                     // To accurately depict the amount required, you must go through all items in the course list and try to see how much credits each course
                     // in order to accurately obtain the amount required
                     int minUnit = 0;
@@ -258,7 +184,7 @@ public class PathwayService {
                         amtReq = reqItem.getInt("minimumCourses");
                     }
                     // if it has the word elective in the description, then we do not parse it and instead replace it with a placeholder course
-                    // i do this for performance options as electives are like all the courses offered in McMaster
+                    // i do this for performance as electives are like all the courses offered in McMaster
                     if (reqItem.getString("shortDescription").toLowerCase().contains("elective") && (!includeTechElec || !(reqItem.getString("shortDescription").toLowerCase().contains("science") || reqItem.getString("shortDescription").toLowerCase().contains("technical")))){
                         List<CourseNode> electives = new ArrayList<>();
                         for (int v=0;v<amtReq;v++){
@@ -273,24 +199,29 @@ public class PathwayService {
                         List<Boolean> reqs = new ArrayList<>();
                         reqs.add(true);
                         lg.addReqGrp(new RequirementGroup(es,reqs));
-                    // if the requirement item has an and connector, then the items are not optional and should be added as a required course group
-                    // else if it is an or, then they are optional and should be added as a non required group
+                    // if the requirement item has an 'and' connector, then the items are not optional and should be added as a required course group
+                    // else if it is an 'or', then they are optional and should be added as a non required group
                     }else if (reqItem.keySet().contains("connector")) {
+                        List<CourseNode> courseL = parseItemDetail(reqItem.getJSONArray("itemDetails"));
+                        if (amtReq > courseL.size()){
+                            amtReq = courseL.size();
+                        }
+                        CourseGroup cg = new CourseGroup(courseL,amtReq);
+                        cg.setName(reqItem.getString("shortDescription"));
+                        cg.setMinUnit(minUnit);
                         if (Objects.equals(reqItem.getString("connector").toLowerCase(), "and")) {
-                            CourseGroup cg = new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq);
-                            cg.setName(reqItem.getString("shortDescription"));
-                            cg.setMinUnit(minUnit);
                             lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(cg,true);
                         } else if (Objects.equals(reqItem.getString("connector").toLowerCase(), "or")){
-                            CourseGroup cg = new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq);
-                            cg.setName(reqItem.getString("shortDescription"));
-                            cg.setMinUnit(minUnit);
                             lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(cg,false);
                         }
                     //if it has no connectors and is not an elective, then we add it as a normal requirement group
                     } else {
                         lg.addReqGrp(new RequirementGroup(new ArrayList<>(),null));
-                        lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(new CourseGroup(parseItemDetail(reqItem.getJSONArray("itemDetails")),amtReq),true);
+                        List<CourseNode> courseL = parseItemDetail(reqItem.getJSONArray("itemDetails"));
+                        if (amtReq > courseL.size()){
+                            amtReq = courseL.size();
+                        }
+                        lg.getReqGrp().get(lg.getReqGrp().size()-1).addCourseGroup(new CourseGroup(courseL,amtReq),true);
                     }
                 }
             }
@@ -318,13 +249,13 @@ public class PathwayService {
 /**
  * parse a given degree and returns the requirements for each year
  * @param degreeName - name of degree to parse
- * @param includeTechElec - option to include list of tech electives instead of generalizing
+ * @param includeTechElec - option to include list of tech electives instead of treating it as a regular elective
  * @return a list of level group object representing each year of the degree
  */
     public Degree parseDegree(String degreeName, boolean includeTechElec){
         String baseuUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
-        JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName),false);
+        JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName),true);
         JSONObject req = (JSONObject) degreeResp.getJSONArray("requirementGroups").get(0);
         JSONArray reqs = req.getJSONArray("requirements");
         //iterate through the requirement section of requirementGroups property
@@ -361,39 +292,32 @@ public class PathwayService {
      * @return a degree object that represents the requirements of the degree
      */
     public Degree parseDegreePlan(String degreeName,boolean includeTechElec){
-//        printCodes();
-//        makeMosaicApiCall( "https://api.mcmaster.ca/academic-calendar/v2/plans/CHEMMN",true);
         System.out.println("fetched");
+        printCodes();
         return parseDegree(degreeName, includeTechElec);
     }
 
-    public void printCodes(){
+    public List<List<String>> printCodes(){
         JSONObject main = makeMosaicApiCall("https://api.mcmaster.ca/academic-calendar/v2/plans",false);
         JSONArray plans = main.getJSONArray("plans");
+        List<String> codes = new ArrayList<>();
+        List<String> names = new ArrayList<>();
         for (int i=0;i<plans.length();i++){
-            System.out.println(plans.getJSONObject(i));
+            JSONObject c = plans.getJSONObject(i);
+            if (c.keySet().contains("program")) {
+                JSONObject program = c.getJSONObject("program");
+                JSONObject career = program.getJSONObject("career");
+                JSONObject faculty = program.getJSONObject("faculty");
+                String desc = c.getString("description");
+                if (Objects.equals(career.getString("code").toLowerCase(), "ugrd") && Objects.equals(faculty.getString("shortDescription").toLowerCase(), "eng")) {
+                    codes.add(c.getString("code"));
+                    names.add(desc);
+                }
+            }
         }
-    }
-
-    //unfunctional get coop
-    public Degree getCoop(){
-        List<CourseGroup> coop = new ArrayList<>();
-        List<CourseNode> coop1 = new ArrayList<>();
-        List<CourseNode> coop2 = new ArrayList<>();
-        Course c1 = new Course("coop","coop1","");
-        Course c2 = new Course("coop","coop2","");
-        coop1.add(new CourseNode(c1,1,new ArrayList<>(), new ArrayList<>()));
-        coop2.add(new CourseNode(c2,2,new ArrayList<>(), new ArrayList<>()));
-        coop.add(new CourseGroup(coop1,1));
-        coop.add(new CourseGroup(coop2,1));
-        List<RequirementGroup> c = new ArrayList<>();
-        List<Boolean> reqs = new ArrayList<>();
-        reqs.add(true);
-        reqs.add(true);
-        c.add(new RequirementGroup(coop,reqs));
-        LevelGroup lg = new LevelGroup(c);
-        List<LevelGroup> lgs = new ArrayList<>();
-        lgs.add(lg);
-        return new Degree("coops",lgs);
+        List<List<String>> r = new ArrayList<>();
+        r.add(codes);
+        r.add(names);
+        return r;
     }
 }

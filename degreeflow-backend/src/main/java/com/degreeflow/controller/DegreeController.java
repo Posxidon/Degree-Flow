@@ -20,7 +20,7 @@ import java.util.List;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/degree")
 public class DegreeController {
 
@@ -40,7 +40,7 @@ public class DegreeController {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
         configuration.setAllowCredentials(true);
@@ -54,8 +54,8 @@ public class DegreeController {
     @Autowired
     private PathwayService pathwayService;
 
-    @GetMapping
-    public Degree test(@RequestParam("degreeName") String degreeName) {
+    @GetMapping("/requirement")
+    public Degree gerRequirement(@RequestParam("degreeName") String degreeName) {
         System.out.println("param");
         System.out.println(degreeName);
         if (degreeName.length()>0){
@@ -63,5 +63,9 @@ public class DegreeController {
         }else {
             return pathwayService.parseDegreePlan("HCOMPSCICO",false);
         }
+    }
+    @GetMapping("/degreeName")
+    public List<List<String>> getAllDegree() {
+        return pathwayService.printCodes();
     }
 }
