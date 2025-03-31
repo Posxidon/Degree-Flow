@@ -4,7 +4,6 @@ import icon from './info.png';
 
 /* eslint-disable dot-notation */
 /* eslint-disable max-len */
-/* eslint-disable spaced-comment */
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions,react/button-has-type */
 function Node({ courseNode, sendParentData, years }) {
   const [isShown, setIsShown] = useState(false);
@@ -17,6 +16,7 @@ function Node({ courseNode, sendParentData, years }) {
     <div
       className="courseNode"
     >
+      {/* toggles course description */}
       {/* eslint-disable-next-line jsx-a11y/control-has-associated-label,react/button-has-type */}
       <button
         className="info-btn"
@@ -26,7 +26,7 @@ function Node({ courseNode, sendParentData, years }) {
       </button>
       {courseNode['courseCode']}
       <div>
-
+        {/* toggles dropdown */}
         <button
           onClick={
           function () {
@@ -37,8 +37,11 @@ function Node({ courseNode, sendParentData, years }) {
         >
           Add to year
         </button>
+        {/* dropdown menu that shows which year you can move the course to */}
         {showDropdown && (
           <div className="year-options">
+            {/* only show years that are greater than the year this course is offered in */}
+            {/* aka only move this course to upper years */}
             {years.map((yearK) => (
               parseInt(courseNode['years'], 10) <= parseInt(yearK, 10)
               && (
@@ -58,6 +61,7 @@ function Node({ courseNode, sendParentData, years }) {
           </div>
         )}
       </div>
+      {/* shows course description */}
       {isShown && (
         <div className="desc-window">
           {courseNode['desc']}

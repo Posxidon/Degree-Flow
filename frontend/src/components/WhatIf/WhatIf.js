@@ -143,9 +143,7 @@ function WhatIf() {
   const [fetched, setFetched] = useState(true);
   const [fetching, setFetching] = useState(true);
   const [maxYear, setMaxYear] = useState(4);
-  const [yearData, setYearData] = useState({
-    1: [], 2: [], 3: [], 4: []
-  });
+  const [yearData, setYearData] = useState({});
   const [data, setData] = useState({ courseHistory: [], courseDict: {}, courseGroupHistory: [] });
   const [error, setError] = useState('');
   const url = 'http://localhost:8080/api/degree/requirement?';
@@ -269,21 +267,26 @@ function WhatIf() {
   }, [error]);
   return (
     <div className="container">
+      {/* error message */}
       {error.length > 0
         && (
         <div className="error-msg">
           {error}
         </div>
         )}
+      {/* on toggle dropdown table that selects degree */}
       <div className="input-container">
+        {/* calls api and toggles dropdown */}
         <button name="degreeName" onClick={() => handleClickDegree()} className="submission-fld">
           {Object.keys(degreeTable).includes(degree)
             ? degreeTable[degree]
             : 'Select Degree' }
           <img src={dropdown} alt="select courses" className="icon" />
         </button>
+        {/* if dropdown is toggled then show list of all degrees */}
         {showDegree && (
           <div className="dropdown">
+            {/* maps all degree table code to button and set display name as the name */}
             {fetching
               ? (<p>loading</p>)
               : (Object.keys(degreeTable).map((k) => (
@@ -302,15 +305,24 @@ function WhatIf() {
               )))}
           </div>
         )}
+        {/* submission button */}
+        {/* calls mosaic api to get degree */}
         {!inuse
           ? <button onClick={() => handleClick()} className="submission-btn">submit</button>
           : <img src={loading} alt="loading" className="loading" />}
       </div>
+      {/* container for course groups and schedule */}
       <div className="display-container">
-        <p className="degree-name">{html['name']}</p>
+        {/* title / program name */}
+        {!inuse
+          ? (<p className="degree-name">{html['name']}</p>)
+          : <p className="degree-name"> Loading </p> }
+        {/* course group component */}
+        {/* hides if degree is loading */}
         {!inuse
         && (
         <div className="component-container">
+          {/* generate all unqiue course group */}
           {data['courseGroupHistory'].map((courseGroup) => (
             <CourseGroupNode
               courseNodes={courseGroup}
@@ -320,66 +332,75 @@ function WhatIf() {
           ))}
         </div>
         )}
-        <div className="component-container">
-          <button onClick={
-            function () {
-              const newYearData = {};
-              for (let i = 0; i < Object.keys(yearData).length; i += 1) {
-                newYearData[Object.keys(yearData)[i]] = yearData[Object.keys(yearData)[i]];
-              }
-              newYearData[Object.keys(yearData).length + 1] = [];
-              setYearData(newYearData);
-            }
-          }
-          >
-            add year
-          </button>
-          {Object.keys(yearData).length > 0 && Object.keys(yearData).map((years) => (
-            <div key={years} className="years">
-              {parseInt(years, 10) > maxYear
-              && (
-                <button onClick={
-                  function () {
-                    const newYearData = {};
-                    for (let i = 0; i < Object.keys(yearData).length; i += 1) {
-                      const y = Object.keys(yearData)[i];
-                      if (parseInt(years, 10) > parseInt(y, 10)) {
-                        newYearData[y] = yearData[y];
-                      } else if (parseInt(years, 10) === parseInt(y, 10)) {
-                        const prevY = Object.keys(yearData)[i - 1];
-                        newYearData[prevY] = yearData[prevY].concat(yearData[y]);
-                      } else {
-                        const prevY = Object.keys(yearData)[i - 1];
-                        newYearData[prevY] = yearData[y];
-                      }
-                    }
-                    console.log('new year data');
-                    console.log(newYearData);
-                    setYearData(newYearData);
-                  }
+        {/* schedule component */}
+        {/* hides if it is loading degree or there are no yearly schedule info */}
+        {!(inuse || Object.keys(yearData).length === 0)
+          && (
+          <div className="component-container">
+            {/* add a new year to year data */}
+            <button onClick={
+              function () {
+                const newYearData = {};
+                for (let i = 0; i < Object.keys(yearData).length; i += 1) {
+                  newYearData[Object.keys(yearData)[i]] = yearData[Object.keys(yearData)[i]];
                 }
-                >
-                  delete year
-                </button>
-              )}
-              <p>
-                year :&nbsp;
-                {years}
-              </p>
-              <p>
-                courseload :&nbsp;
-                {Object.keys(yearData[years]).length}
-              </p>
-              {(yearData[years]).map((course) => (
-                course['courseCode'].includes('elective')
-                  ? <Node key={course['id']} courseNode={course} sendParentData={handleChildData} years={Object.keys(yearData)} />
-                  : <Node key={course['id']} courseNode={course} sendParentData={handleChildData} years={Object.keys(yearData)} />
-              ))}
-            </div>
-          ))}
-        </div>
+                newYearData[Object.keys(yearData).length + 1] = [];
+                setYearData(newYearData);
+              }
+            }
+            >
+              add year
+            </button>
+            {/* generate year schedule */}
+            {Object.keys(yearData).length > 0 && Object.keys(yearData).map((years) => (
+              <div key={years} className="years">
+                {/* add delete year button only if the year is after the minimum year required */}
+                {parseInt(years, 10) > maxYear
+                && (
+                  <button onClick={
+                    // delete year function
+                    // moves all courses from deleted year to previous year
+                    // shift all courses after deleted year one down
+                    function () {
+                      const newYearData = {};
+                      for (let i = 0; i < Object.keys(yearData).length; i += 1) {
+                        const y = Object.keys(yearData)[i];
+                        if (parseInt(years, 10) > parseInt(y, 10)) {
+                          newYearData[y] = yearData[y];
+                        } else if (parseInt(years, 10) === parseInt(y, 10)) {
+                          const prevY = Object.keys(yearData)[i - 1];
+                          newYearData[prevY] = yearData[prevY].concat(yearData[y]);
+                        } else {
+                          const prevY = Object.keys(yearData)[i - 1];
+                          newYearData[prevY] = yearData[y];
+                        }
+                      }
+                      console.log('new year data');
+                      console.log(newYearData);
+                      setYearData(newYearData);
+                    }
+                  }
+                  >
+                    delete year
+                  </button>
+                )}
+                <p>
+                  year :&nbsp;
+                  {years}
+                </p>
+                <p>
+                  courseload :&nbsp;
+                  {Object.keys(yearData[years]).length}
+                </p>
+                {/* generate all courses in schedule based on year data */}
+                {(yearData[years]).map((course) => (
+                  <Node key={course['id']} courseNode={course} sendParentData={handleChildData} years={Object.keys(yearData)} />
+                ))}
+              </div>
+            ))}
+          </div>
+          )}
       </div>
-
     </div>
   );
 }
