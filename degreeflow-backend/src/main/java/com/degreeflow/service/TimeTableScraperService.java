@@ -27,12 +27,9 @@ public class TimeTableScraperService {
     // McMaster wildcard endpoint
     private static final String WILDCARD_API_URL = "https://api.mcmaster.ca/academic-calendar/v2/courses/wildcard-search";
 
-    // Possibly older approach for academic calendars
-    private static final String ACADEMIC_CALENDAR_API = "https://academiccalendars.romcmaster.ca/";
-
     // Subscription keys
-    private static final String PRIMARY_KEY = System.getenv("WILDCARD_PRIMARY_KEY");
-    private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY");
+    private static final String PRIMARY_KEY = "3da32390cf04415e91ed4feac51c9f00";
+    private static final String SECONDARY_KEY = "f86eee675259432cb3e367128453e9b6";
 
     // Caches the most recently fetched session ID
     // "volatile" so multiple threads see up-to-date value
