@@ -31,8 +31,8 @@ public class SeatAlertService {
         this.mailSender = mailSender;
     }
 
-    // New method: Returns true if the course is recognized for that term
-    // i.e., the scraper returned a key for courseCode
+
+    //  Scraper returned a key for courseCode
     public boolean courseExistsInTerm(String courseCode, String term) {
         List<String> courses = List.of(courseCode.toUpperCase());
         try {
@@ -47,7 +47,7 @@ public class SeatAlertService {
             System.out.println(" Error fetching seat data: " + e.getMessage());
             e.printStackTrace();
         }
-        return false; // If an exception or no data => not recognized
+        return false;
     }
 
     // Student subscribes for seat alerts
