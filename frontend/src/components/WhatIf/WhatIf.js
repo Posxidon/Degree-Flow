@@ -9,7 +9,7 @@ import CourseGroupNode from './CourseGroupNode';
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/control-has-associated-label,react/button-has-type */
-const password = 'e509c377-3231-4e35-a50f-67723ab45566';
+const password = '1148626e-f576-48fa-add3-a9d9403815aa';
 
 /**
  * parses course group and all its given courses

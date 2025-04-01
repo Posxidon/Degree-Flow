@@ -10,7 +10,7 @@ public class JsonSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 10000)
+    @Column(columnDefinition="TEXT")
     private String json;
     private String userId;
 }
