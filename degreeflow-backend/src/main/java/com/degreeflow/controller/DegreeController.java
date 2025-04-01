@@ -2,9 +2,13 @@ package com.degreeflow.controller;
 
 import com.degreeflow.model.Degree;
 import com.degreeflow.service.PathwayService;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -68,5 +72,18 @@ public class DegreeController {
     @GetMapping("/degreeName")
     public List<List<String>> getAllDegree() {
         return pathwayService.printCodes();
+    }
+
+    @PostMapping("/addSchedule")
+    public ResponseEntity<?> addSchedule(@RequestBody String schedule) {
+        System.out.println("schedule");
+        System.out.println(schedule);
+        String id = "1";
+        if (pathwayService.addToDB(schedule,id)) {
+            return ResponseEntity.ok("success");
+        }
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("failed db");
     }
 }

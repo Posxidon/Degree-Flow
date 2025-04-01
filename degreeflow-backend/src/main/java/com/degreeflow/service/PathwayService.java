@@ -1,8 +1,10 @@
 package com.degreeflow.service;
 
 import com.degreeflow.model.*;
+import com.degreeflow.repository.DegreeRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -14,6 +16,12 @@ import java.util.*;
 
 @Service
 public class PathwayService {
+    private final DegreeRepository degreeRepository;
+
+    @Autowired
+    public PathwayService(DegreeRepository degreeRepository) {
+        this.degreeRepository = degreeRepository;
+    }
     /**
      * calls mosaic api
      * @param url - given api url to call
@@ -324,5 +332,19 @@ public class PathwayService {
         r.add(codes);
         r.add(names);
         return r;
+    }
+    public boolean addToDB(String json, String userId){
+        JsonSchedule schedule = new JsonSchedule();
+        schedule.setJson(json);
+        schedule.setUserId(userId);
+        List<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
+        System.out.println(prevRecords);
+        if (prevRecords.size()>0) {
+            degreeRepository.deleteAll(prevRecords);
+        }
+        System.out.println("body");
+        System.out.println(schedule.getJson());
+        degreeRepository.save(schedule);
+        return true;
     }
 }

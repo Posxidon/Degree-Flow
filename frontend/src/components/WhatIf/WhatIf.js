@@ -9,7 +9,7 @@ import CourseGroupNode from './CourseGroupNode';
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/control-has-associated-label,react/button-has-type */
-const password = '62771f68-7f97-43e6-9e11-81f019b6b522';
+const password = 'e509c377-3231-4e35-a50f-67723ab45566';
 
 /**
  * parses course group and all its given courses
@@ -146,6 +146,7 @@ function WhatIf() {
   const [yearData, setYearData] = useState({});
   const [data, setData] = useState({ courseHistory: [], courseDict: {}, courseGroupHistory: [] });
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const url = 'http://localhost:8080/api/degree/requirement?';
   const degreeUrl = 'http://localhost:8080/api/degree/degreeName?';
   // for updating self using data from node objects
@@ -264,7 +265,28 @@ function WhatIf() {
   useEffect(() => {
     setInuse(false);
     setFetched(true);
+    setSubmitting(false);
   }, [error]);
+  const handleSubmit = async () => {
+    console.log('posting');
+    console.log(JSON.stringify(yearData));
+    setSubmitting(true);
+    try {
+      const resp = await fetch('http://localhost:8080/api/degree/addSchedule', {
+        method: 'POST',
+        Authorization: `Basic ${btoa(`user:${password}`)}`,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(yearData)
+      });
+      if (!resp.ok) {
+        throw new Error('Course not offered in this term.');
+      }
+      console.log('posted');
+      setSubmitting(false);
+    } catch (err) {
+      setError('failed to submit please try again');
+    }
+  };
   return (
     <div className="container">
       {/* error message */}
@@ -287,7 +309,7 @@ function WhatIf() {
         {showDegree && (
           <div className="dropdown">
             {/* maps all degree table code to button and set display name as the name */}
-            {fetching
+            {(fetching || Object.keys(degreeTable).length === 0)
               ? (<p>loading</p>)
               : (Object.keys(degreeTable).map((k) => (
                 <button
@@ -398,6 +420,12 @@ function WhatIf() {
                 ))}
               </div>
             ))}
+            {!submitting
+              && (
+              <button onClick={() => handleSubmit()}>
+                submit schedule
+              </button>
+              )}
           </div>
           )}
       </div>

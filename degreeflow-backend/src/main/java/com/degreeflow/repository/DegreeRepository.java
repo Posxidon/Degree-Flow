@@ -1,4 +1,13 @@
 package com.degreeflow.repository;
 
-public class DegreeRepository {
+import com.degreeflow.model.JsonSchedule;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface DegreeRepository extends JpaRepository<JsonSchedule, Long> {
+    List<JsonSchedule> findByUserId(String userId);
 }

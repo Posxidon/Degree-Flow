@@ -25,24 +25,27 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="a2381512-2671-4f0c-9696-5d890732abf7">
-        <schema name="df_schema" object-types="table, view, sequence, function" />
-        <schema name="pg_catalog" object-types="table, view, sequence, function, constraint, index, column, dataset trigger" />
-        <schema name="pg_toast" object-types="table, view, sequence, function" />
+      <connection connection-id="30f339a9-7fa1-4705-8419-ddb0951cc835">
         <schema name="public" object-types="table, view, sequence, function, constraint, index, column, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="a2381512-2671-4f0c-9696-5d890732abf7">
-      <console name="Connection" type="STANDARD" schema="df_schema" session="Main" />
+    <connection id="30f339a9-7fa1-4705-8419-ddb0951cc835">
+      <console name="Connection 1" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="a2381512-2671-4f0c-9696-5d890732abf7" />
+    <connection id="30f339a9-7fa1-4705-8419-ddb0951cc835" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="30f339a9-7fa1-4705-8419-ddb0951cc835" dataset="public.json_schedule" active-filter-id="" />
+    <filter-actions connection-id="30f339a9-7fa1-4705-8419-ddb0951cc835" dataset="public.schedule_json" active-filter-id="22e848b2-3a7b-4862-b67d-a5ec3327baeb">
+      <filter id="22e848b2-3a7b-4862-b67d-a5ec3327baeb" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -70,10 +73,10 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="a2381512-2671-4f0c-9696-5d890732abf7" active="true">
+      <connection id="30f339a9-7fa1-4705-8419-ddb0951cc835" active="true">
         <database>
-          <name value="Connection" />
-          <description value="" />
+          <name value="Connection 1" />
+          <description value="db test" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
           <database-version value="17.4" />
