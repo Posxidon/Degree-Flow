@@ -1,0 +1,131 @@
+/* Ensure the main container is centered */
+.transcript-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Center the table */
+.table-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Fix Table Styles */
+table {
+    width: 80%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #ddd;
+    background-color: white;
+}
+
+table, th, td {
+    border: 2px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #5e002d;
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+/* Center buttons and ensure alignment */
+.file-upload-section {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Aligns input and button */
+    width: 100%;
+    gap: 10px; /* Ensures spacing */
+    margin-top: 30px;
+}
+
+/* Style the file input */
+input[type="file"] {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    width: 220px; /* Matches button width */
+}
+
+/* Style buttons */
+button {
+    width: 220px;
+    height: 42px; /* Ensures uniform height */
+    background-color: #5e002d; /* McMaster Maroon */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3c001f; /* Darker maroon on hover */
+}
+
+/* Legal Pop-up Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content h2 {
+    color: #5e002d; /* McMaster Maroon */
+    margin-bottom: 10px;
+}
+
+.popup-content p {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.popup-content button {
+    background-color: #5e002d; /* McMaster Maroon */
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+.popup-content button:hover {
+    background-color: #3c001f; /* Darker maroon */
+}

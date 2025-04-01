@@ -2,37 +2,67 @@ package com.degreeflow.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
+import com.degreeflow.util.EncryptionUtil;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "transcript_data")
 public class TranscriptData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String studentId;
+
+    @Column(nullable = false)
     private String program;
-    private String plan;
 
     @Column(nullable = false)
-    private double gpa;
+    private String term;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String coursesTaken;
 
     @Column(nullable = false)
-    private double totalPoints;
+    private String grades;
 
     @Column(nullable = false)
-    private double gpaUnits;
-
-    private String termEnrollment;
+    private String gpa;
 
     @Column(nullable = false)
-    private boolean isRecent; // True if within 2 months
+    private String totalGpa;
 
-    @OneToMany(mappedBy = "transcript", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CourseRecord> courses;
+    @Column(nullable = false)
+    private String units;
+
+    @Column(nullable = false)
+    private String coOp;
+
+    public void encryptData() {
+        this.program = EncryptionUtil.encrypt(program);
+        this.term = EncryptionUtil.encrypt(term);
+        this.coursesTaken = EncryptionUtil.encrypt(coursesTaken);
+        this.grades = EncryptionUtil.encrypt(grades);
+        this.gpa = EncryptionUtil.encrypt(gpa);
+        this.totalGpa = EncryptionUtil.encrypt(totalGpa);
+        this.units = EncryptionUtil.encrypt(units);
+        this.coOp = EncryptionUtil.encrypt(coOp);
+    }
+
+    public void decryptData() {
+        this.program = EncryptionUtil.decrypt(program);
+        this.term = EncryptionUtil.decrypt(term);
+        this.coursesTaken = EncryptionUtil.decrypt(coursesTaken);
+        this.grades = EncryptionUtil.decrypt(grades);
+        this.gpa = EncryptionUtil.decrypt(gpa);
+        this.totalGpa = EncryptionUtil.decrypt(totalGpa);
+        this.units = EncryptionUtil.decrypt(units);
+        this.coOp = EncryptionUtil.decrypt(coOp);
+    }
 }

@@ -27,6 +27,6 @@ public class CourseRecord {
     private String grade;
 
     @ManyToOne
-    @JoinColumn(name = "transcript_id")
+    @JoinColumn(name = "transcript_id", referencedColumnName = "id", nullable = false)
     private TranscriptData transcript;
 }

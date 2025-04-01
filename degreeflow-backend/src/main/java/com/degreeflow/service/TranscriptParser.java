@@ -1,123 +1,86 @@
 package com.degreeflow.service;
 
-import com.degreeflow.model.CourseRecord;
 import com.degreeflow.model.TranscriptData;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@Service
 public class TranscriptParser {
 
-    // Method to parse the uploaded PDF transcript
-    public TranscriptData parseTranscript(MultipartFile file) throws IOException {
-        // Load the PDF from the MultipartFile
-        PDDocument document = PDDocument.load(file.getInputStream());  // Using input stream for MultipartFile
-        PDFTextStripper pdfStripper = new PDFTextStripper();
-        String text = pdfStripper.getText(document);  // Extract text from the PDF
-        document.close();  // Close the document after extracting text
+    // Returns the latest term block based on occurrence
+    public static String getLatestTermBlock(String pdfText) {
+        Pattern termHeaderPattern = Pattern.compile("---\\s*(\\d{4}\\s+\\w+)\\s*---", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = termHeaderPattern.matcher(pdfText);
+        List<Integer> blockIndices = new ArrayList<>();
+        while (matcher.find()) {
+            blockIndices.add(matcher.start());
+        }
+        if (blockIndices.isEmpty()) {
+            return pdfText;
+        }
+        int latestIndex = blockIndices.getLast();
+        return pdfText.substring(latestIndex);
+    }
 
-        // Create a TranscriptData object and populate it with the extracted data
+    // Uses regex patterns to extract fields from the term block
+    public static TranscriptData parseTranscript(String pdfText, String studentId) {
+        String termBlock = getLatestTermBlock(pdfText);
         TranscriptData transcript = new TranscriptData();
-        transcript.setProgram(extractProgram(text));  // Extract program from the PDF text
-        transcript.setPlan(extractPlan(text));        // Extract plan from the PDF text
-        transcript.setGpa(parseGPA(extractGPA(text)));          // Convert GPA string to double
-        transcript.setTotalPoints(parseDouble(extractTotalPoints(text)));  // Convert total points string to double
-        transcript.setGpaUnits(parseDouble(extractGPAUnits(text))); // Convert GPA units string to double
-        transcript.setTermEnrollment(extractTerm(text));  // Extract term enrollment
-        transcript.setCourses(extractCourses(text, transcript));  // Extract courses
-        transcript.setRecent(validatePrintDate(text));  // Validate print date
+        transcript.setStudentId(studentId);
 
-        return transcript;  // Return the populated TranscriptData object
-    }
+        transcript.setProgram(extractField(termBlock, "Program:\\s*(.+)"));
+        // Use "Plan:" if needed or combine with program:
+        // transcript.setProgram(transcript.getProgram() + " | " + extractField(termBlock, "Plan:\\s*(.+)"));
 
-    // Helper method to extract program information from the transcript text
-    private String extractProgram(String text) {
-        return extractTextByKeyword(text, "Program:");
-    }
-
-    // Helper method to extract plan information from the transcript text
-    private String extractPlan(String text) {
-        return extractTextByKeyword(text, "Plan:");
-    }
-
-    // Helper method to extract GPA from the transcript text and convert to double
-    private String extractGPA(String text) {
-        return extractTextByKeyword(text, "GPA:");
-    }
-
-    // Helper method to extract total points from the transcript text and convert to double
-    private String extractTotalPoints(String text) {
-        return extractTextByKeyword(text, "Total Points:");
-    }
-
-    // Helper method to extract GPA units from the transcript text and convert to double
-    private String extractGPAUnits(String text) {
-        return extractTextByKeyword(text, "GPA Units:");
-    }
-
-    // Helper method to extract term enrollment information from the transcript text
-    private String extractTerm(String text) {
-        return extractTextByKeyword(text, "Term Enrollment:");
-    }
-
-    // Helper method to extract courses from the transcript text
-    private List<CourseRecord> extractCourses(String text, TranscriptData transcript) {
-        List<CourseRecord> courses = new ArrayList<>();
-        // Parse the courses and create CourseRecord objects (example, you should adapt based on the actual format)
-        String coursesText = extractTextByKeyword(text, "Courses:");
-        if (!coursesText.isEmpty()) {
-            // Assuming the courses are listed in a predictable format, like "Course Code - Course Name"
-            String[] courseLines = coursesText.split("\n");
-            for (String line : courseLines) {
-                if (!line.trim().isEmpty()) {
-                    String[] courseDetails = line.split("-");
-                    if (courseDetails.length == 2) {
-                        CourseRecord course = new CourseRecord();
-                        course.setCourseCode(courseDetails[0].trim());  // Set course code
-                        course.setTitle(courseDetails[1].trim());  // Set course title (instead of courseName)
-                        course.setTranscript(transcript);  // Set the transcript reference
-                        courses.add(course);
-                    }
-                }
+        // For term, try to extract a line following "Term Enrolment" or from the term header
+        String termExtract = extractField(termBlock, "Term Enrolment\\s*(.+)");
+        if (termExtract.isEmpty()) {
+            // Fallback: extract the header from the term block itself.
+            Pattern headerPattern = Pattern.compile("---\\s*(\\d{4}\\s+\\w+)\\s*---", Pattern.CASE_INSENSITIVE);
+            Matcher headerMatcher = headerPattern.matcher(termBlock);
+            if (headerMatcher.find()) {
+                termExtract = headerMatcher.group(1).trim();
             }
         }
-        return courses;
+        transcript.setTerm(termExtract);
+
+        // Extract courses: get the block between "Course" and "Totals"
+        transcript.setCoursesTaken(extractCourses(termBlock));
+
+        // Extract GPA from a pattern like: "GPA:\\s*(\\S+)"
+        transcript.setGpa(extractField(termBlock, "GPA:\\s*(\\S+)"));
+        // Extract Total Points as TotalGpa (adjust pattern as needed)
+        transcript.setTotalGpa(extractField(termBlock, "Total Points:\\s*(\\S+)"));
+        // Extract GPA Units as Units
+        transcript.setUnits(extractField(termBlock, "GPA Units:\\s*(\\S+)"));
+
+        // Determine if Co-op is indicated anywhere in the block
+        transcript.setCoOp(termBlock.toLowerCase().contains("co-op") ? "Yes" : "No");
+
+        // For Grades, you might want to parse from coursesTaken block;
+        // Here we provide a placeholder since courses/grades extraction can be complex.
+        transcript.setGrades(extractField(termBlock, "Grade\\s*(\\S+)"));
+
+        return transcript;
     }
 
-    // Helper method to validate the print date on the transcript
-    private boolean validatePrintDate(String text) {
-        return text.contains("Print Date:");  // Simple example, refine as needed
-    }
-
-    // General helper method to extract text by keyword from the transcript
-    private String extractTextByKeyword(String text, String keyword) {
-        int startIndex = text.indexOf(keyword);
-        if (startIndex != -1) {
-            int endIndex = text.indexOf("\n", startIndex);  // Find the end of the line
-            if (endIndex != -1) {
-                return text.substring(startIndex + keyword.length(), endIndex).trim();  // Extract text between keyword and newline
-            }
+    private static String extractField(String text, String regex) {
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return m.group(1).trim();
         }
-        return "";  // Return empty string if keyword not found
+        return "";
     }
 
-    // Helper method to parse GPA or total points to double
-    private double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return 0.0;  // Return 0.0 if parsing fails (you can improve this as needed)
+    private static String extractCourses(String text) {
+        Pattern p = Pattern.compile("Course\\s*(.+?)Totals", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+            return m.group(1).trim();
         }
-    }
-
-    // Helper method to parse GPA specifically (if it needs specific validation)
-    private double parseGPA(String gpa) {
-        return parseDouble(gpa);
+        return "";
     }
 }

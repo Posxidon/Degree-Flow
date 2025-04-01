@@ -13,6 +13,7 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 
 function MainRoutes() {
   const location = useLocation();
@@ -49,6 +50,9 @@ function MainRoutes() {
                         )}
           />
           <Route path="/seat-alert" element={<SeatAlertPage />} />
+          <Route path="/upload-transcript" element={<UploadTranscript />} />
+          {' '}
+          {/* Add the new route */}
         </Routes>
       </main>
 
