@@ -41,7 +41,7 @@ function MainRoutes() {
                   <YearlySchedule />
                 </div>
               </>
-            )}
+                        )}
           />
 
           <Route
@@ -52,7 +52,7 @@ function MainRoutes() {
                 <FilterSelection />
                 <FilterOptions />
               </>
-            )}
+                        )}
           />
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />
@@ -69,7 +69,9 @@ function MainRoutes() {
 function App() {
   return (
     <div className="App">
-      <MainRoutes />
+      <Router>
+        <MainRoutes />
+      </Router>
     </div>
   );
 }
