@@ -38,7 +38,6 @@ public class SeatAlertController {
         }
 
         // 2) If the course is recognized (even if seats=0), proceed with subscription
-        // Because the user wants to be alerted if a seat opens up later
         SeatAlertSubscription saved = seatAlertService.subscribeToSeatAlert(subscription);
 
         // Return 200 => "Ok subscribed"
