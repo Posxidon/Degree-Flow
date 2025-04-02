@@ -13,7 +13,7 @@ describe('SeatAlertPage UI (Selenium)', () => {
   // eslint-disable-next-line no-undef
   beforeAll(async () => {
     const options = new chrome.Options();
-    options.addArguments('--headless'); // comment this out to see the browser
+    options.addArguments('--headless'); 
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
 
