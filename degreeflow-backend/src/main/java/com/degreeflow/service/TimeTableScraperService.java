@@ -80,7 +80,7 @@ public class TimeTableScraperService {
     /**
      * Convert a human-readable term (e.g. "Fall-2024") to the numeric code used by Timetable.
      */
-    private String formatTerm(String term) {
+    String formatTerm(String term) {
         switch (term) {
             case "Fall-2024":
                 return "3202430";
