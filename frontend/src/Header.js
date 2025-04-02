@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import mesLogo from './Logo_Name_White.png';
 
 function Header() {
   const navigate = useNavigate();
+  const currentPath = useLocation().pathname;
 
   return (
     <div className="custom-header">
@@ -50,7 +51,8 @@ function Header() {
 
         <button
           type="button"
-          onClick={() => navigate('/seat-alert')}
+          className={currentPath === '/generate-schedule' ? 'active' : ''}
+          onClick={() => navigate('/generate-schedule')}
         >
           Seat Alert
         </button>
