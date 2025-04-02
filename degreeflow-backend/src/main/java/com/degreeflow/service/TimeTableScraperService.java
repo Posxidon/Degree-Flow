@@ -29,7 +29,7 @@ public class TimeTableScraperService {
 
     // Subscription keys
     private static final String PRIMARY_KEY = System.getenv("WILDCARD_PRIMARY_KEY");
-    private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY")";
+    private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY");
 
     // Caches the most recently fetched session ID
     // "volatile" so multiple threads see up-to-date value
