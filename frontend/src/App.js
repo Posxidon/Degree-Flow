@@ -8,7 +8,6 @@ import Footer from './Footer';
 
 import HomePage from './HomePage';
 import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
@@ -45,12 +44,15 @@ function MainRoutes() {
           <Route
             path="/FilterSelection"
             element={(
-              <>
-                <FilterPageButtons />
-                <FilterSelection />
-                <FilterOptions />
-              </>
-                        )}
+              <div className="filter-course-container">
+                <div className="filter-box-wrapper">
+                  <FilterSelection />
+                </div>
+                <div className="course-list-wrapper">
+                  <FilterOptions />
+                </div>
+              </div>
+            )}
           />
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />

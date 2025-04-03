@@ -55,24 +55,6 @@ public class RatingController {
     }
 
     /**
-     * Get all ratings for a specific course
-     */
-    @GetMapping("/course/{courseCode}")
-    public ResponseEntity<List<Rating>> getRatingsByCourse(@PathVariable String courseCode) {
-        List<Rating> ratings = ratingService.getRatingsByCourse(courseCode);
-        return ResponseEntity.ok(ratings);
-    }
-
-    /**
-     * Get all ratings submitted by a specific student
-     */
-    @GetMapping("/student/{email}")
-    public ResponseEntity<List<Rating>> getRatingsByStudent(@PathVariable String email) {
-        List<Rating> ratings = ratingService.getRatingsByStudent(email);
-        return ResponseEntity.ok(ratings);
-    }
-
-    /**
      * Get a specific rating by student and course
      */
     @GetMapping("/student/{email}/course/{courseCode}")
@@ -82,19 +64,5 @@ public class RatingController {
         Optional<Rating> rating = ratingService.getRatingByStudentAndCourse(email, courseCode);
         return rating.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    /**
-     * Delete a rating
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRating(@PathVariable Long id) {
-        try {
-            ratingService.deleteRating(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while deleting the rating: " + e.getMessage());
-        }
     }
 }

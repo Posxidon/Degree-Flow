@@ -64,32 +64,6 @@ const RatingApiService = {
       console.error('Failed to fetch student rating:', error);
       return null;
     }
-  },
-
-  async getCourseRatings(courseCode) {
-    try {
-      const response = await fetch(`${this.baseUrl}/course/${courseCode}`);
-      if (!response.ok) {
-        throw new Error(`Error fetching course ratings: ${response.statusText}`);
-      }
-      return response.json();
-    } catch (error) {
-      console.error('Failed to fetch course ratings:', error);
-      return [];
-    }
-  },
-
-  async getStudentRatings(email) {
-    try {
-      const response = await fetch(`${this.baseUrl}/student/${email}`);
-      if (!response.ok) {
-        throw new Error(`Error fetching student ratings: ${response.statusText}`);
-      }
-      return response.json();
-    } catch (error) {
-      console.error('Failed to fetch student ratings:', error);
-      return [];
-    }
   }
 };
 

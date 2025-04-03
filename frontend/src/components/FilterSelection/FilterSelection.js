@@ -53,6 +53,13 @@ function Filter() {
     document.dispatchEvent(filterChangeEvent);
   };
 
+  // Handle apply filters button click
+  const handleApplyFilters = () => {
+    // Dispatch event to trigger course search
+    const applyFiltersEvent = new CustomEvent('applyFilters');
+    document.dispatchEvent(applyFiltersEvent);
+  };
+
   // Render the filter options for a specific filter
   const renderFilterOptions = (filterId) => {
     if (!expandedSections[filterId]) {
@@ -77,7 +84,7 @@ function Filter() {
           const displayText = typeof option === 'object' ? option.display : option;
           const isSelected = selectedValue === optionValue;
 
-          // Create a unique key that doesn't rely on index because of the eslint thing
+          // Create a unique key that doesn't rely on index
           const uniqueKey = `${filterId}-${optionValue}`;
 
           return (
@@ -109,31 +116,42 @@ function Filter() {
 
   return (
     <div id="filters" className="filter">
-      <h2>Filters</h2>
-      <div className="filter-selection">
-        <button
-          type="button"
-          className="filter-title"
-          onClick={() => toggleSection('department')}
-        >
-          SUBJECT CODE
-          <span className="icon-change">
-            {expandedSections.department ? '−' : '+'}
-          </span>
-        </button>
-        {renderFilterOptions('department')}
+      <div className="filter-wrapper">
+        <h2 id="filterH2">Filters</h2>
+        <div className="filter-selection">
+          <button
+            type="button"
+            className="filter-title"
+            onClick={() => toggleSection('department')}
+          >
+            SUBJECT CODE
+            <span className="icon-change">
+              {expandedSections.department ? '−' : '+'}
+            </span>
+          </button>
+          {renderFilterOptions('department')}
 
+          <button
+            type="button"
+            className="filter-title"
+            onClick={() => toggleSection('course-level')}
+          >
+            COURSE LEVEL
+            <span className="icon-change">
+              {expandedSections['course-level'] ? '−' : '+'}
+            </span>
+          </button>
+          {renderFilterOptions('course-level')}
+        </div>
+
+        {/* Apply Filters button directly in the component */}
         <button
           type="button"
-          className="filter-title"
-          onClick={() => toggleSection('course-level')}
+          className="apply-filters-btn"
+          onClick={handleApplyFilters}
         >
-          COURSE LEVEL
-          <span className="icon-change">
-            {expandedSections['course-level'] ? '−' : '+'}
-          </span>
+          Apply Filters
         </button>
-        {renderFilterOptions('course-level')}
       </div>
     </div>
   );
