@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,32 +24,29 @@ public class TranscriptController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadTranscript(@RequestParam("transcript") MultipartFile file,
                                                    @RequestParam("studentId") String studentId) {
-        try {
-            System.out.println("==> Received file: " + file.getOriginalFilename());
-
-            PDDocument document = PDDocument.load(file.getInputStream());
+        String pdfText;
+        try (PDDocument document = PDDocument.load(file.getInputStream())) {
             PDFTextStripper pdfStripper = new PDFTextStripper();
-            String pdfText = pdfStripper.getText(document);
-            System.out.println("==> Extracted text: " + pdfText.substring(0, Math.min(300, pdfText.length())));
-            document.close();
-
-            TranscriptData transcriptData = TranscriptParser.parseTranscript(pdfText, studentId);
-            System.out.println("==> Parsed data: " + transcriptData);
-
-            transcriptService.saveOrUpdateTranscript(transcriptData);
-            return ResponseEntity.ok("Transcript uploaded successfully!");
-
-        } catch (Exception e) {
-            e.printStackTrace(); // ← this is the important part
-            return ResponseEntity.status(500).body("Error uploading transcript: " + e.getMessage());
+            pdfText = pdfStripper.getText(document);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error parsing PDF: " + e.getMessage());
         }
+
+        // 🔁 Parse all terms from the full transcript
+        List<TranscriptData> transcriptList = TranscriptParser.parseTranscript(pdfText, studentId);
+        for (TranscriptData data : transcriptList) {
+            transcriptService.saveOrUpdateTranscript(data);
+        }
+
+        return ResponseEntity.ok("Transcript uploaded successfully with " + transcriptList.size() + " term(s).");
     }
 
-
     @GetMapping("/{studentId}")
-    public ResponseEntity<TranscriptData> getTranscript(@PathVariable String studentId) {
-        Optional<TranscriptData> transcript = transcriptService.getTranscript(studentId);
-        return transcript.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<TranscriptData>> getTranscript(@PathVariable String studentId) {
+        List<TranscriptData> transcriptList = transcriptService.getAllTranscripts(studentId);
+        if (transcriptList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(transcriptList);
     }
 }

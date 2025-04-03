@@ -17,7 +17,7 @@ public class TranscriptData {
     @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String studentId;
 
     @Column(nullable = false, length = 1024)
@@ -44,25 +44,9 @@ public class TranscriptData {
     @Column(nullable = false, length = 512)
     private String coOp;
 
-    public void encryptData() {
-        this.program = EncryptionUtil.encrypt(program);
-        this.term = EncryptionUtil.encrypt(term);
-        this.coursesTaken = EncryptionUtil.encrypt(coursesTaken);
-        this.grades = EncryptionUtil.encrypt(grades);
-        this.gpa = EncryptionUtil.encrypt(gpa);
-        this.totalGpa = EncryptionUtil.encrypt(totalGpa);
-        this.units = EncryptionUtil.encrypt(units);
-        this.coOp = EncryptionUtil.encrypt(coOp);
-    }
+    @Column(name = "transcript_id", nullable = false)
+    private String transcriptId;
 
-    public void decryptData() {
-        this.program = EncryptionUtil.decrypt(program);
-        this.term = EncryptionUtil.decrypt(term);
-        this.coursesTaken = EncryptionUtil.decrypt(coursesTaken);
-        this.grades = EncryptionUtil.decrypt(grades);
-        this.gpa = EncryptionUtil.decrypt(gpa);
-        this.totalGpa = EncryptionUtil.decrypt(totalGpa);
-        this.units = EncryptionUtil.decrypt(units);
-        this.coOp = EncryptionUtil.decrypt(coOp);
-    }
+
+
 }
