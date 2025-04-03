@@ -27,9 +27,6 @@ public class TimeTableScraperService {
     // McMaster wildcard endpoint
     private static final String WILDCARD_API_URL = "https://api.mcmaster.ca/academic-calendar/v2/courses/wildcard-search";
 
-    // Possibly older approach for academic calendars
-    private static final String ACADEMIC_CALENDAR_API = "https://academiccalendars.romcmaster.ca/";
-
     // Subscription keys
     private static final String PRIMARY_KEY = System.getenv("WILDCARD_PRIMARY_KEY");
     private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY");
@@ -83,7 +80,7 @@ public class TimeTableScraperService {
     /**
      * Convert a human-readable term (e.g. "Fall-2024") to the numeric code used by Timetable.
      */
-    private String formatTerm(String term) {
+    String formatTerm(String term) {
         switch (term) {
             case "Fall-2024":
                 return "3202430";

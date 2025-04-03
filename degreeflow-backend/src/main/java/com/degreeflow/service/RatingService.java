@@ -46,21 +46,8 @@ public class RatingService {
         return new RatingSummary(courseCode, averageRating, totalRatings);
     }
 
-    public List<Rating> getRatingsByCourse(String courseCode) {
-        return ratingRepository.findByCourseCode(courseCode);
-    }
-
-    public List<Rating> getRatingsByStudent(String email) {
-        return ratingRepository.findByEmail(email);
-    }
-
     public Optional<Rating> getRatingByStudentAndCourse(String email, String courseCode) {
         return ratingRepository.findByEmailAndCourseCode(email, courseCode);
-    }
-
-    @Transactional
-    public void deleteRating(Long ratingId) {
-        ratingRepository.deleteById(ratingId);
     }
 
     private void validateRatingInput(Integer stars) {

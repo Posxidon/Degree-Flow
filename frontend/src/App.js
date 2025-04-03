@@ -1,22 +1,18 @@
 import React from 'react';
-import {
-  BrowserRouter as Router, Routes, Route, useLocation
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
 import Header from './Header';
 import MinimalHeader from './MinimalHeader';
 import Footer from './Footer';
 
-import HomePage from './HomePage'; // the landing page
+import HomePage from './HomePage';
 import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
-// eslint-disable-next-line camelcase,import/no-named-as-default,import/no-named-as-default-member
 import WhatIf from './components/WhatIf/WhatIf';
 
 function MainRoutes() {
@@ -25,7 +21,7 @@ function MainRoutes() {
 
   return (
     <>
-      {/* Header based on route */}
+      {/* Show different header on landing page */}
       {isLanding ? <MinimalHeader /> : <Header />}
 
       <main className="main-content">
@@ -43,17 +39,20 @@ function MainRoutes() {
                   <YearlySchedule />
                 </div>
               </>
-            )}
+                        )}
           />
 
           <Route
             path="/FilterSelection"
             element={(
-              <>
-                <FilterPageButtons />
-                <FilterSelection />
-                <FilterOptions />
-              </>
+              <div className="filter-course-container">
+                <div className="filter-box-wrapper">
+                  <FilterSelection />
+                </div>
+                <div className="course-list-wrapper">
+                  <FilterOptions />
+                </div>
+              </div>
             )}
           />
 
@@ -63,7 +62,6 @@ function MainRoutes() {
         </Routes>
       </main>
 
-      {/* Footer is always shown */}
       <Footer />
     </>
   );
