@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -57,23 +58,41 @@ public class DegreeController {
 
     @Autowired
     private PathwayService pathwayService;
-    // for getting degree requirement
+
+    /**
+     * api endpoint for get request to get requirement of certain degree
+     * @param degreeName - the degree code of the degree to be fetched
+     * @param showTech - whether to list technical electives or not
+     * @return - degree object representing the requirements of the degree
+     */
     @GetMapping("/requirement")
-    public Degree gerRequirement(@RequestParam("degreeName") String degreeName) {
+    public Degree gerRequirement(@RequestParam("degreeName") String degreeName, @RequestParam("showTech") String showTech) {
         System.out.println("param");
         System.out.println(degreeName);
+        System.out.println("showTech");
+        System.out.println(showTech);
+        boolean showParam = Objects.equals(showTech, "true");
         if (degreeName.length()>0){
-            return pathwayService.parseDegreePlan(degreeName,false);
+            return pathwayService.parseDegreePlan(degreeName,showParam);
         }else {
-            return pathwayService.parseDegreePlan("HCOMPSCICO",false);
+            return pathwayService.parseDegreePlan("HCOMPSCICO",showParam);
         }
     }
-    // for getting list of all degree code and names
+
+    /**
+     * api endpoint for get list of all degree names and codes
+     * @return an ordered list of all degree names and codes
+     */
     @GetMapping("/degreeName")
     public List<List<String>> getAllDegree() {
         return pathwayService.printCodes();
     }
 
+    /**
+     * post user schedule to db
+     * @param schedule - schedule json to be posted
+     * @return - http response indicating success status
+     */
     @PostMapping("/addSchedule")
     public ResponseEntity<?> addSchedule(@RequestBody String schedule) {
         System.out.println("schedule");

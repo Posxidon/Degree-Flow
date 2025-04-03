@@ -9,7 +9,7 @@ import CourseGroupNode from './CourseGroupNode';
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/control-has-associated-label,react/button-has-type */
-const password = '1148626e-f576-48fa-add3-a9d9403815aa';
+const password = 'a0823384-0e31-4820-8ce2-183b2eb7dcb1';
 
 /**
  * parses course group and all its given courses
@@ -177,7 +177,8 @@ function WhatIf() {
     setInuse(true);
     try {
       const response = await (await fetch(url + new URLSearchParams({
-        degreeName: degree
+        degreeName: degree,
+        showTech: false
       }), {
         method: 'GET',
         headers: {
