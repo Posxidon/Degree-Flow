@@ -7,7 +7,6 @@ function Header() {
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
-  let currentPath;
   return (
     <div className="custom-header">
       <div className="secondary-bar">
