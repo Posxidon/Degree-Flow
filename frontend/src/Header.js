@@ -7,6 +7,7 @@ function Header() {
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
+  let currentPath;
   return (
     <div className="custom-header">
       <div className="secondary-bar">
@@ -55,6 +56,15 @@ function Header() {
           onClick={() => navigate('/generate-schedule')}
         >
           Seat Alert
+        </button>
+
+        <button
+          type="button"
+          className={currentPath === '/generate-schedule' ? 'active' : ''}
+          onClick={() => navigate('/generate-schedule')}
+
+        >
+          Generate Schedule
         </button>
 
         <button
