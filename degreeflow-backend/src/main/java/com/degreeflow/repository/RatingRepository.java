@@ -10,13 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
-
-    // Find all ratings for a specific course
-    List<Rating> findByCourseCode(String courseCode);
-
-    // Find all ratings submitted by a specific student
-    List<Rating> findByEmail(String email);
-
     // Find a specific rating by student and course
     Optional<Rating> findByEmailAndCourseCode(String email, String courseCode);
 

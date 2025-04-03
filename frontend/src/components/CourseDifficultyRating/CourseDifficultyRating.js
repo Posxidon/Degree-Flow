@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import RatingApiService from '../../services/RatingApiService';
+import LoginPromptModal from './LoginModal/LoginPromptModal';
 import './CourseDifficultyRating.css';
 
 function CourseDifficultyRating({ courseId, email }) {
@@ -9,16 +10,21 @@ function CourseDifficultyRating({ courseId, email }) {
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [loginPromptOpen, setLoginPromptOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Refs for focus trapping
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
 
-  // Default email if not provided
-  const currentEmail = email || 'current-user';
+  // Check if user is logged in (has valid email)
+  useEffect(() => {
+    // If email exists, consider user logged in
+    setIsLoggedIn(email);
+  }, [email]);
 
   // Load course ratings on component mount
   useEffect(() => {
@@ -32,9 +38,11 @@ function CourseDifficultyRating({ courseId, email }) {
         setDifficultyCategory(summary.difficultyCategory);
 
         // Check if the current student has already rated this course
-        const existingRating = await RatingApiService.getStudentRating(currentEmail, courseId);
-        if (existingRating) {
-          setUserRating(existingRating.stars);
+        if (isLoggedIn) {
+          const existingRating = await RatingApiService.getStudentRating(email, courseId);
+          if (existingRating) {
+            setUserRating(existingRating.stars);
+          }
         }
 
         setIsLoading(false);
@@ -45,7 +53,7 @@ function CourseDifficultyRating({ courseId, email }) {
     };
 
     fetchRatings();
-  }, [courseId, currentEmail]);
+  }, [courseId, email, isLoggedIn]);
 
   // Handle opening/closing the modal
   useEffect(() => {
@@ -93,7 +101,7 @@ function CourseDifficultyRating({ courseId, email }) {
 
     try {
       // Submit the rating to the backend
-      await RatingApiService.submitRating(currentEmail, courseId, userRating);
+      await RatingApiService.submitRating(email, courseId, userRating);
 
       // Refresh the rating summary
       const summary = await RatingApiService.getRatingSummary(courseId);
@@ -118,6 +126,20 @@ function CourseDifficultyRating({ courseId, email }) {
   const handleCloseModal = () => {
     setModalOpen(false);
     setSubmitted(false); // Reset submit state for next time
+  };
+
+  const handleRatingButtonClick = () => {
+    // Check if user is logged in before showing rating modal
+    if (isLoggedIn) {
+      setModalOpen(true);
+    } else {
+      // Show login prompt if user is not logged in
+      setLoginPromptOpen(true);
+    }
+  };
+
+  const closeLoginPrompt = () => {
+    setLoginPromptOpen(false);
   };
 
   // Helper function to get difficulty label
@@ -150,13 +172,19 @@ function CourseDifficultyRating({ courseId, email }) {
         <button
           type="button"
           className="rating-button"
-          onClick={() => setModalOpen(true)}
+          id="rating-btn"
+          onClick={handleRatingButtonClick}
         >
           Rating
         </button>
       </div>
 
-      {/* Accessible Modal */}
+      {/* Login Prompt Modal */}
+      {loginPromptOpen && (
+        <LoginPromptModal onClose={closeLoginPrompt} />
+      )}
+
+      {/* Rating Modal */}
       {modalOpen && (
         <div
           className="rating-modal-backdrop"
@@ -206,7 +234,7 @@ function CourseDifficultyRating({ courseId, email }) {
                 <p className="rating-hint">1 star = easiest, 5 stars = hardest</p>
                 <button
                   type="button"
-                  className="submit-btn"
+                  className="submit-rating-btn"
                   disabled={userRating === 0}
                   onClick={handleSubmit}
                 >
