@@ -32,7 +32,9 @@ public class PathwayService {
         String httpResponse;
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Ocp-Apim-Subscription-Key", "3da32390cf04415e91ed4feac51c9f00").header("secondary-key", "3da32390cf04415e91ed4feac51c9f00").build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                    .header("Ocp-Apim-Subscription-Key", "3da32390cf04415e91ed4feac51c9f00")
+                    .header("secondary-key", "3da32390cf04415e91ed4feac51c9f00").build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             httpResponse = response.body();
         } catch (Exception e) {
@@ -58,12 +60,17 @@ public class PathwayService {
         //for every course in the catalogue, if it has information for a subject code, catalogue number, title and a description, parse it
         for (int i = 0; i<cJson.getJSONArray("courses").length(); i++) {
             JSONObject course = cJson.getJSONArray("courses").getJSONObject(i);
-            if(course.keySet().contains("subjectCode") &&course.keySet().contains("catalogNumber")&&course.keySet().contains("title")&&course.keySet().contains("longDescription")) {
+            if(course.keySet().contains("subjectCode")
+                    &&course.keySet().contains("catalogNumber")
+                    &&course.keySet().contains("title")
+                    &&course.keySet().contains("longDescription")) {
                 String catN = course.getString("catalogNumber");
                 //parse year based on catalogue number
                 //NOTE this year value will most likely be overwritten in parseDegree via the changeCourseYear function so this is just in case the function somehow misses it
                 int year = 0;
-                Course c = new Course(course.getString("subjectCode").concat(catN), course.getString("title"), course.getString("longDescription"));
+                Course c = new Course(course.getString("subjectCode").concat(catN),
+                        course.getString("title"),
+                        course.getString("longDescription"));
                 if (Objects.equals(catN.charAt(0), '1')) {
                     year = 1;
                 } else if (Objects.equals(catN.charAt(0), '2')) {
@@ -333,10 +340,18 @@ public class PathwayService {
         r.add(names);
         return r;
     }
+
+    /**
+     * add json object to db
+     * @param json - json string to be added to db
+     * @param userId - user id of the matching json / schedule
+     * @return - boolean indicating success status
+     */
     public boolean addToDB(String json, String userId){
         JsonSchedule schedule = new JsonSchedule();
         schedule.setJson(json);
         schedule.setUserId(userId);
+        // get list of all previous records and remove them
         List<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
         System.out.println(prevRecords);
         if (prevRecords.size()>0) {
@@ -344,6 +359,7 @@ public class PathwayService {
         }
         System.out.println("body");
         System.out.println(schedule.getJson());
+        // add to db
         degreeRepository.save(schedule);
         return true;
     }
