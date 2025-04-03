@@ -41,7 +41,7 @@ function UploadTranscript() {
     formData.append('studentId', 'student123');
 
     try {
-      const response = await axios.post('/api/transcripts/upload', formData, {
+      const response = await axios.post('http://localhost:8080/api/transcripts/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       // Optionally, fetch the transcript data back from backend.

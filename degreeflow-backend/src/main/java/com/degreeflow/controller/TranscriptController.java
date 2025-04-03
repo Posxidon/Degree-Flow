@@ -23,19 +23,27 @@ public class TranscriptController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadTranscript(@RequestParam("transcript") MultipartFile file,
                                                    @RequestParam("studentId") String studentId) {
-        String pdfText;
-        try (PDDocument document = PDDocument.load(file.getInputStream())) {
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            pdfText = pdfStripper.getText(document);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error parsing PDF: " + e.getMessage());
-        }
+        try {
+            System.out.println("==> Received file: " + file.getOriginalFilename());
 
-        // Use the robust TranscriptParser to extract fields.
-        TranscriptData transcriptData = TranscriptParser.parseTranscript(pdfText, studentId);
-        transcriptService.saveOrUpdateTranscript(transcriptData);
-        return ResponseEntity.ok("Transcript uploaded successfully!");
+            PDDocument document = PDDocument.load(file.getInputStream());
+            PDFTextStripper pdfStripper = new PDFTextStripper();
+            String pdfText = pdfStripper.getText(document);
+            System.out.println("==> Extracted text: " + pdfText.substring(0, Math.min(300, pdfText.length())));
+            document.close();
+
+            TranscriptData transcriptData = TranscriptParser.parseTranscript(pdfText, studentId);
+            System.out.println("==> Parsed data: " + transcriptData);
+
+            transcriptService.saveOrUpdateTranscript(transcriptData);
+            return ResponseEntity.ok("Transcript uploaded successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace(); // ← this is the important part
+            return ResponseEntity.status(500).body("Error uploading transcript: " + e.getMessage());
+        }
     }
+
 
     @GetMapping("/{studentId}")
     public ResponseEntity<TranscriptData> getTranscript(@PathVariable String studentId) {

@@ -20,28 +20,28 @@ public class TranscriptData {
     @Column(nullable = false, unique = true)
     private String studentId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1024)
     private String program;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String term;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String coursesTaken;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String grades;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String gpa;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String totalGpa;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String units;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 512)
     private String coOp;
 
     public void encryptData() {
