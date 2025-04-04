@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,22 +14,32 @@ public class TranscriptService {
 
     private final TranscriptRepository transcriptRepository;
 
+    /**
+     * Saves or updates a full transcript consisting of multiple course rows.
+     * Each row (course) is uniquely identified by transcriptId + courseCode + term.
+     */
     @Transactional
-    public void saveOrUpdateTranscript(TranscriptData newTranscript) {
-        // Check if a record already exists for this student and term
-        Optional<TranscriptData> existingTranscript =
-                transcriptRepository.findByStudentIdAndTerm(newTranscript.getStudentId(), newTranscript.getTerm());
-
-        if (existingTranscript.isPresent()) {
-            newTranscript.setId(existingTranscript.get().getId());
-            transcriptRepository.save(newTranscript);
-        } else {
-            transcriptRepository.save(newTranscript);
+    public void saveOrUpdateTranscript(List<TranscriptData> courseRows) {
+        if (courseRows == null || courseRows.isEmpty()) {
+            System.out.println(" No courses to save.");
+            return;
         }
+
+        String studentId = courseRows.get(0).getStudentId();
+        String transcriptId = courseRows.get(0).getTranscriptId();
+
+
+        // Optional: delete previous transcript data for this transcriptId if updating same one
+        transcriptRepository.deleteAllByTranscriptId(transcriptId);
+
+        // Save all new rows (courses) for this transcript
+        transcriptRepository.saveAll(courseRows);
+
+        System.out.println(" Transcript saved.");
     }
 
-    public Optional<TranscriptData> getTranscript(String studentId) {
-        return transcriptRepository.findByStudentId(studentId);
+    public List<TranscriptData> getTranscript(String studentId) {
+        return transcriptRepository.findAllByStudentId(studentId);
     }
 
     public List<TranscriptData> getAllTranscripts(String studentId) {

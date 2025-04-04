@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/transcripts")
@@ -32,13 +31,13 @@ public class TranscriptController {
             return ResponseEntity.status(500).body("Error parsing PDF: " + e.getMessage());
         }
 
-        // 🔁 Parse all terms from the full transcript
+        //  Parse all terms from the full transcript
         List<TranscriptData> transcriptList = TranscriptParser.parseTranscript(pdfText, studentId);
-        for (TranscriptData data : transcriptList) {
-            transcriptService.saveOrUpdateTranscript(data);
-        }
 
-        return ResponseEntity.ok("Transcript uploaded successfully with " + transcriptList.size() + " term(s).");
+        //  Save all parsed rows in one batch call
+        transcriptService.saveOrUpdateTranscript(transcriptList);
+
+        return ResponseEntity.ok("Transcript uploaded successfully with " + transcriptList.size() + " row(s).");
     }
 
     @GetMapping("/{studentId}")

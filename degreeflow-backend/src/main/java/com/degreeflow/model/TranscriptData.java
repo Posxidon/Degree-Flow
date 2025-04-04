@@ -2,7 +2,6 @@ package com.degreeflow.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.degreeflow.util.EncryptionUtil;
 
 @Entity
 @Getter
@@ -12,25 +11,30 @@ import com.degreeflow.util.EncryptionUtil;
 @Table(name = "transcript_data")
 public class TranscriptData {
 
+    // === Primary Key ===
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
+    // === Student + Transcript Metadata ===
     @Column(nullable = false)
     private String studentId;
 
-    @Column(nullable = false, length = 1024)
-    private String program;
+    @Column(name = "transcript_id", nullable = false, length = 100)
+    private String transcriptId;
 
     @Column(nullable = false, length = 100)
     private String term;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String coursesTaken;
+    @Column(nullable = false, length = 1024)
+    private String program;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String grades;
+    @Column(nullable = false)
+    private String coOp;
+
+    // === Term-level GPA Info ===
+    @Column(nullable = false, length = 10)
+    private String units;
 
     @Column(nullable = false, length = 10)
     private String gpa;
@@ -38,15 +42,24 @@ public class TranscriptData {
     @Column(nullable = false, length = 10)
     private String totalGpa;
 
-    @Column(nullable = false, length = 50)
-    private String units;
+    // === Per-Course Fields (if applicable) ===
+    @Column(length = 100)
+    private String courseCode;
 
-    @Column(nullable = false, length = 512)
-    private String coOp;
+    @Column(length = 1024)
+    private String courseTitle;
 
-    @Column(name = "transcript_id", nullable = false)
-    private String transcriptId;
+    @Column(length = 10)
+    private String grade;
 
+    // === Raw Extraction Backups (Optional) ===
+    @Column(columnDefinition = "TEXT")
+    private String coursesTaken;
 
+    @Column(columnDefinition = "TEXT")
+    private String grades;
 
+    // === Admin / Manual Review Support ===
+    @Column(nullable = false)
+    private boolean checkValue = false;
 }
