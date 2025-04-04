@@ -13,15 +13,15 @@ public class RequirementGroup {
     @Column(name = "course_group_id")
     private Integer courseGroupId;
 
-    @Column(name = "transcript_id") 
-    private Long transcriptId;
+    @Column(name = "transcript_id")
+    private String transcriptId;
 
     @Column(name = "num_required")
     private Integer numRequired;
 
     @Column(name = "num_completed")
     private Integer numCompleted = 0;
-    
+
     private String type;
 
     @ElementCollection
@@ -29,13 +29,33 @@ public class RequirementGroup {
     @Column(name = "course_code")
     private List<String> courses;
 
+    // No-argument constructor
     public RequirementGroup() {}
 
-    public RequirementGroup(Integer courseGroupId, Integer numRequired, String type, List<String> courses) {
+    // Constructor with parameters
+    public RequirementGroup(Integer courseGroupId, Integer numRequired, String transcriptId, String type, List<String> courses) {
         this.courseGroupId = courseGroupId;
         this.numRequired = numRequired;
         this.numCompleted = 0;
+        this.transcriptId = transcriptId;
         this.type = type;
         this.courses = courses;
     }
+
+    public List<String> getCourses() {
+        return courses;
+    }
+    
+    public Integer getNumCompleted() {
+        return numCompleted;
+    }
+    
+    public void setNumCompleted(Integer numCompleted) {
+        this.numCompleted = numCompleted;
+    }
+    public Integer getNumRequired() {
+        return numRequired;
+    }
+    
+
 }
