@@ -56,6 +56,9 @@ public class PathwayService {
      */
     public List<CourseNode> parseCourse(String url){
         JSONObject cJson = makeMosaicApiCall(url,false);
+        if (cJson == null){
+            return null;
+        }
         List<CourseNode> cns = new ArrayList<>();
         //for every course in the catalogue, if it has information for a subject code, catalogue number, title and a description, parse it
         for (int i = 0; i<cJson.getJSONArray("courses").length(); i++) {
@@ -94,22 +97,127 @@ public class PathwayService {
      */
     public List<CourseNode> parseCourseList(String url){
         List<CourseNode> courses = new ArrayList<>();
-        JSONArray courseList = makeMosaicApiCall(url,false).getJSONArray("courseListItems");
+         JSONObject json= makeMosaicApiCall(url,false);
+        if (json == null){
+            return new ArrayList<>();
+        }
+        JSONArray courseList = json.getJSONArray("courseListItems");
         for (int i=0;i<courseList.length();i++){
             String courseUrl = courseList.getJSONObject(i).getString("courseCatalogSearch");
             if (!courseUrl.contains("wildcard-search")){
                 List<CourseNode> cns = parseCourse(courseUrl);
-                courses.addAll(cns);
+                if (cns != null) {
+                    courses.addAll(cns);
+                }
             }
         }
         return courses;
     }
+
+    /**
+     * calculates the intersection between two course lists
+     * @param cl1 - course list 1
+     * @param cl2 - course list to be intersected with course list 1
+     * @return - intersected course list between cl1 and cl2
+     */
+    public List<CourseNode> courseIntersection(List<CourseNode> cl1, List<CourseNode> cl2){
+        if (cl1 == null){
+            return new ArrayList<>();
+        }
+        if (cl2 == null){
+            return new ArrayList<>();
+        }
+        if (cl1.size() == 0 || cl2.size() == 0){
+            return new ArrayList<>();
+        }
+        List<CourseNode> newcl = new ArrayList<>();
+        for (CourseNode cn : cl1){
+            for (CourseNode cn2 : cl2){
+                if (Objects.equals(cn.getName(),cn2.getName())){
+                    newcl.add(cn);
+                    break;
+                }
+            }
+        }
+        return newcl;
+    }
+
+    /**
+     * unions two course lists
+     * order of input does not matter
+     * @param cl1 - course list 1
+     * @param cl2 - course list to be unionised with course list 1
+     * @return - unionised list of two course lists
+     */
+    public List<CourseNode> courseUnion(List<CourseNode> cl1, List<CourseNode> cl2){
+        if (cl1 == null){
+            return new ArrayList<>();
+        }
+        if (cl2 == null){
+            return new ArrayList<>();
+        }
+        if (cl1.size() == 0 ){
+            return cl2;
+        }
+        if (cl2.size() == 0 ){
+            return cl1;
+        }
+        for (CourseNode cn2 : cl2){
+            boolean isIn = false;
+            for (CourseNode cn : cl1){
+                if (Objects.equals(cn.getName(),cn2.getName())){
+                    isIn = true;
+                    break;
+                }
+            }
+            if (!isIn){
+                cl1.add(cn2);
+            }
+        }
+        return cl1;
+    }
+
+    /**
+     * subtract course list 2 from course list 1
+     * Order DOES matter
+     * @param cl1 - course list 1
+     * @param cl2 - course list 2 which will be subtracted from course list 1
+     * @return - result of course list 1 - course list 2
+     */
+    public List<CourseNode> courseSubtract(List<CourseNode> cl1, List<CourseNode> cl2){
+        if (cl1 == null){
+            return new ArrayList<>();
+        }
+        if (cl2 == null){
+            return new ArrayList<>();
+        }
+        if (cl1.size() == 0 ){
+            return new ArrayList<>();
+        }
+        if (cl2.size() == 0){
+            return cl1;
+        }
+        int l = cl1.size();
+        for (int v=0;v<l;v++){
+            for (CourseNode cn2 : cl2){
+                CourseNode cn = cl1.get(v);
+                if (Objects.equals(cn.getName(),cn2.getName())){
+                    cl1.remove(cn);
+                    v--;
+                    l--;
+                }
+            }
+        }
+        return cl1;
+    }
     /**
      * parses all the item details of a requirement item and maps the relationship
+     * order of input does not matter
      * @param itemDetails - list of item details of a given requirement item
      * @return a list of course nodes that represents the combination of the item details
      */
     public List<CourseNode> parseItemDetail(JSONArray itemDetails){
+        System.out.println(itemDetails);
         List<CourseNode> courseList = new ArrayList<>();
         // iterate through all item details with a item detail type of 'course list'
         for (int i=0;i<itemDetails.length();i++){
@@ -121,43 +229,13 @@ public class PathwayService {
                     if (itemDetail.keySet().contains("listIncludeMode")){
                         //performs intersection between two course lists
                         if(itemDetail.getString("listIncludeMode").toLowerCase().contains("intersection")){
-                            List<CourseNode> newcl = new ArrayList<>();
-                            for (CourseNode cn : courseList){
-                                for (CourseNode cn2 : cl){
-                                    if (Objects.equals(cn.getName(),cn2.getName())){
-                                        newcl.add(cn);
-                                        break;
-                                    }
-                                }
-                            }
-                            courseList = newcl;
+                            courseList = courseIntersection(courseList,cl);
                         // performs union between two course lists
                         }else if (itemDetail.getString("listIncludeMode").toLowerCase().contains("union")){
-                            for (CourseNode cn2 : cl){
-                                boolean isIn = false;
-                                for (CourseNode cn : courseList){
-                                    if (Objects.equals(cn.getName(),cn2.getName())){
-                                        isIn = true;
-                                        break;
-                                    }
-                                }
-                                if (!isIn){
-                                    courseList.add(cn2);
-                                }
-                            }
+                            courseList = courseUnion(courseList, cl);
                         //subtracts the current course list from the previously obtained course list
                         }else if (itemDetail.getString("listIncludeMode").toLowerCase().contains("subtract")){
-                            int l = courseList.size();
-                            for (int v=0;v<l;v++){
-                                for (CourseNode cn2 : cl){
-                                    CourseNode cn = courseList.get(v);
-                                    if (Objects.equals(cn.getName(),cn2.getName())){
-                                        courseList.remove(cn);
-                                        v--;
-                                        l--;
-                                    }
-                                }
-                            }
+                            courseList = courseSubtract(courseList,cl);
                         }
                     //if there are no operations then add it all
                     } else {
@@ -175,6 +253,7 @@ public class PathwayService {
      * @return a level group which represents a combination of all the requirement items aka represents the requirement
      */
     public LevelGroup parseReqItems(JSONArray reqItems, boolean includeTechElec){
+        System.out.println(reqItems);
         int reqL = reqItems.length();
         // for id purposes on front end
         int electiveCnt = 0;
@@ -269,9 +348,16 @@ public class PathwayService {
  * @return a list of level group object representing each year of the degree
  */
     public Degree parseDegree(String degreeName, boolean includeTechElec){
-        String baseuUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
+        String baseUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
-        JSONObject degreeResp = makeMosaicApiCall(String.format(baseuUrl,degreeName),true);
+        JSONObject degreeResp = makeMosaicApiCall(String.format(baseUrl,degreeName),false);
+        System.out.println(degreeResp);
+        if (degreeResp == null){
+            return null;
+        }
+        if (!degreeResp.keySet().contains("requirementGroups")){
+            return null;
+        }
         JSONObject req = (JSONObject) degreeResp.getJSONArray("requirementGroups").get(0);
         JSONArray reqs = req.getJSONArray("requirements");
         //iterate through the requirement section of requirementGroups property
@@ -319,6 +405,9 @@ public class PathwayService {
      */
     public List<List<String>> printCodes(){
         JSONObject main = makeMosaicApiCall("https://api.mcmaster.ca/academic-calendar/v2/plans",false);
+        if (main == null){
+            return null;
+        }
         JSONArray plans = main.getJSONArray("plans");
         List<String> codes = new ArrayList<>();
         List<String> names = new ArrayList<>();
@@ -348,19 +437,21 @@ public class PathwayService {
      * @return - boolean indicating success status
      */
     public boolean addToDB(String json, String userId){
-        JsonSchedule schedule = new JsonSchedule();
-        schedule.setJson(json);
-        schedule.setUserId(userId);
         // get list of all previous records and remove them
-        List<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
+        Optional<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
         System.out.println(prevRecords);
-        if (prevRecords.size()>0) {
-            degreeRepository.deleteAll(prevRecords);
-        }
         System.out.println("body");
-        System.out.println(schedule.getJson());
-        // add to db
-        degreeRepository.save(schedule);
+        System.out.println(json);
+        if (prevRecords.isPresent()) {
+            JsonSchedule schedule = prevRecords.get();
+            schedule.setJson(json);
+            degreeRepository.save(schedule);
+        }else {
+            JsonSchedule schedule = new JsonSchedule();
+            schedule.setJson(json);
+            schedule.setUserId(userId);
+            degreeRepository.save(schedule);
+        }
         return true;
     }
 }

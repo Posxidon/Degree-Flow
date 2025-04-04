@@ -9,7 +9,7 @@ import CourseGroupNode from './CourseGroupNode';
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/control-has-associated-label,react/button-has-type */
-const password = 'f58d9660-0011-4633-8525-bdb3b2632494';
+const password = 'ea060edc-1aab-44ca-b10f-df9099626986';
 
 /**
  * parses course group and all its given courses
@@ -272,8 +272,11 @@ function WhatIf() {
     console.log('posting');
     console.log(JSON.stringify(yearData));
     setSubmitting(true);
+    const pstUrl = 'http://localhost:8080/api/degree/addSchedule?';
     try {
-      const resp = await fetch('http://localhost:8080/api/degree/addSchedule', {
+      const resp = await fetch(pstUrl + new URLSearchParams({
+        userid: '1'
+      }), {
         method: 'POST',
         Authorization: `Basic ${btoa(`user:${password}`)}`,
         headers: { 'Content-Type': 'application/json' },

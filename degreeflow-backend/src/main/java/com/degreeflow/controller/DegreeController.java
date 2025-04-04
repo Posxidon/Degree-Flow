@@ -66,16 +66,17 @@ public class DegreeController {
      * @return - degree object representing the requirements of the degree
      */
     @GetMapping("/requirement")
-    public Degree gerRequirement(@RequestParam("degreeName") String degreeName, @RequestParam("showTech") String showTech) {
+    public ResponseEntity<Degree> getRequirement(@RequestParam("degreeName") String degreeName, @RequestParam("showTech") String showTech) {
         System.out.println("param");
         System.out.println(degreeName);
         System.out.println("showTech");
         System.out.println(showTech);
         boolean showParam = Objects.equals(showTech, "true");
-        if (degreeName.length()>0){
-            return pathwayService.parseDegreePlan(degreeName,showParam);
+        Degree resp = pathwayService.parseDegreePlan(degreeName,showParam);
+        if (resp != null){
+            return ResponseEntity.ok(resp);
         }else {
-            return pathwayService.parseDegreePlan("HCOMPSCICO",showParam);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -84,8 +85,13 @@ public class DegreeController {
      * @return an ordered list of all degree names and codes
      */
     @GetMapping("/degreeName")
-    public List<List<String>> getAllDegree() {
-        return pathwayService.printCodes();
+    public ResponseEntity<List<List<String>>> getAllDegree() {
+        List<List<String>> output = pathwayService.printCodes();
+        if (output == null){
+            return ResponseEntity.notFound().build();
+        }else {
+            return ResponseEntity.ok(output);
+        }
     }
 
     /**
@@ -94,11 +100,10 @@ public class DegreeController {
      * @return - http response indicating success status
      */
     @PostMapping("/addSchedule")
-    public ResponseEntity<?> addSchedule(@RequestBody String schedule) {
+    public ResponseEntity<?> addSchedule(@RequestBody String schedule, @RequestParam("userid") String userid) {
         System.out.println("schedule");
         System.out.println(schedule);
-        String id = "1";
-        if (pathwayService.addToDB(schedule,id)) {
+        if (pathwayService.addToDB(schedule,userid)) {
             return ResponseEntity.ok("success");
         }
         return ResponseEntity
