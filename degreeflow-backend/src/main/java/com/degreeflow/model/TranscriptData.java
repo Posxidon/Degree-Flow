@@ -26,7 +26,7 @@ public class TranscriptData {
     @Column(nullable = false, length = 100)
     private String term;
 
-    @Column(nullable = false, length = 1024)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String program;
 
     @Column(nullable = false)
@@ -46,7 +46,7 @@ public class TranscriptData {
     @Column(length = 100)
     private String courseCode;
 
-    @Column(length = 1024)
+    @Column(columnDefinition = "TEXT")
     private String courseTitle;
 
     @Column(length = 10)

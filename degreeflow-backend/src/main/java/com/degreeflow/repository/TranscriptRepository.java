@@ -10,4 +10,6 @@ public interface TranscriptRepository extends JpaRepository<TranscriptData, Long
     Optional<TranscriptData> findByStudentId(String studentId);
     Optional<TranscriptData> findByStudentIdAndTerm(String studentId, String term);
     List<TranscriptData> findAllByStudentId(String studentId);
+    void deleteAllByTranscriptId(String transcriptId);
+
 }

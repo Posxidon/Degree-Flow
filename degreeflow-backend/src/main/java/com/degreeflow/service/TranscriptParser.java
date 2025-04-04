@@ -75,7 +75,7 @@ public class TranscriptParser {
                 boolean isGradeValid = ALLOWED_GRADES.contains(extractedGrade);
 
                 if (!isGradeValid && !isUnitsValid) {
-                   continue;
+                    continue;
                 }
 
                 // Don't skip if grade is valid even if units = 0

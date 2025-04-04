@@ -1,41 +1,31 @@
 import React from 'react';
-import './UploadTranscript.css';
+import './TranscriptTable.css';
 
 function TranscriptTable({ data }) {
-  if (!data || data.length === 0) {
-    return <p>No transcript data available.</p>;
-  }
-
   return (
-    <div className="table-container">
-      <h2>Parsed Transcript</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>Term</th>
-            <th>Grade</th>
-            <th>GPA</th>
+    <table className="transcript-table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Term</th>
+          <th>Grade</th>
+          <th>GPA (Term Wise)</th>
+          <th>Cumulative GPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <tr key={index}>
+            <td>{row.courseCode}</td>
+            <td>{row.term}</td>
+            <td>{row.grade}</td>
+            <td>{row.gpa}</td>
+            <td>{row.totalGpa}</td>
           </tr>
-        </thead>
-        <tbody>
-          {data.map((record) => {
-            const {
-              course = '', term = '', grade = '', gpa = ''
-            } = record;
-            const key = `${course}-${term}-${grade}`;
-            return (
-              <tr key={key}>
-                <td>{course}</td>
-                <td>{term}</td>
-                <td>{grade}</td>
-                <td>{gpa}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

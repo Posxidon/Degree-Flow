@@ -6,6 +6,7 @@ import com.degreeflow.service.TranscriptService;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,23 +22,23 @@ public class TranscriptController {
     private final TranscriptService transcriptService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadTranscript(@RequestParam("transcript") MultipartFile file,
-                                                   @RequestParam("studentId") String studentId) {
-        String pdfText;
-        try (PDDocument document = PDDocument.load(file.getInputStream())) {
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            pdfText = pdfStripper.getText(document);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error parsing PDF: " + e.getMessage());
+    public ResponseEntity<List<TranscriptData>> uploadTranscript(@RequestParam("transcript") MultipartFile file,
+                                                                 @RequestParam("studentId") String studentId) {
+        try {
+            // Extract raw text from PDF
+            String pdfText = extractTextFromPdf(file);
+
+            // Parse the text into TranscriptData
+            List<TranscriptData> parsedData = TranscriptParser.parseTranscript(pdfText, studentId);
+
+            // Save using service layer
+            transcriptService.saveOrUpdateTranscript(parsedData);
+
+            // Return parsed rows to frontend
+            return ResponseEntity.ok(parsedData);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        //  Parse all terms from the full transcript
-        List<TranscriptData> transcriptList = TranscriptParser.parseTranscript(pdfText, studentId);
-
-        //  Save all parsed rows in one batch call
-        transcriptService.saveOrUpdateTranscript(transcriptList);
-
-        return ResponseEntity.ok("Transcript uploaded successfully with " + transcriptList.size() + " row(s).");
     }
 
     @GetMapping("/{studentId}")
@@ -47,5 +48,13 @@ public class TranscriptController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(transcriptList);
+    }
+
+    // Helper method to extract text from PDF file
+    private String extractTextFromPdf(MultipartFile file) throws IOException {
+        try (PDDocument document = PDDocument.load(file.getInputStream())) {
+            PDFTextStripper stripper = new PDFTextStripper();
+            return stripper.getText(document);
+        }
     }
 }

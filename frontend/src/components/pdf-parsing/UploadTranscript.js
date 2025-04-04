@@ -37,19 +37,15 @@ function UploadTranscript() {
     setIsLoading(true);
     const formData = new FormData();
     formData.append('transcript', file);
-    // For demonstration, we include a fixed studentId.
-    formData.append('studentId', 'student123');
+    formData.append('studentId', 'student123'); // can make dynamic later
 
     try {
       const response = await axios.post('http://localhost:8080/api/transcripts/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      // Optionally, fetch the transcript data back from backend.
-      // For now, we simply display the success message.
-      setTranscriptData([{
-        course: 'Dummy Course', term: 'Dummy Term', grade: 'A', gpa: '4.0'
-      }]);
-      // In your real implementation, you might fetch the parsed transcript details.
+
+      //  Update this to store real parsed transcript rows
+      setTranscriptData(response.data);
     } catch (error) {
       console.error('Error uploading transcript:', error);
       setErrorMessage('Error uploading transcript. Please try again.');

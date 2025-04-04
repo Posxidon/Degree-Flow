@@ -7,9 +7,11 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="degreeflowPersistenceUnit" value="0d7c61d5-a1cf-4001-b84c-51b5f2adb671" />
-          <factory-entry name="entityManagerFactory" value="6597ff78-2c20-42d3-b73b-c19c43e40cce" />
+          <factory-entry name="entityManagerFactory" value="c48d2af1-78eb-4496-aee5-eb42864ca6e1" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="entityManagerFactory" />
+        </naming-strategy-map>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
