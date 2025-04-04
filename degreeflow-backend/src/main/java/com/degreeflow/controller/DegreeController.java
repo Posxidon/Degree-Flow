@@ -26,7 +26,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/degree")
+@RequestMapping("/api/public/degree")
 public class DegreeController {
 
     @Bean

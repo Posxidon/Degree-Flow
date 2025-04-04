@@ -148,7 +148,7 @@ function WhatIf() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const url = 'http://localhost:8080/api/degree/requirement?';
-  const degreeUrl = 'http://localhost:8080/api/degree/degreeName?';
+  const degreeUrl = 'http://localhost:8080/api/public/degree/degreeName?';
   // for updating self using data from node objects
   function handleChildData(yearNum, course) {
     const newYearData = {};
@@ -230,10 +230,10 @@ function WhatIf() {
     setError('');
     try {
       const response = await (await fetch(degreeUrl, {
-        method: 'GET',
-        headers: {
-          Authorization: `Basic ${btoa(`user:${password}`)}`
-        }
+        method: 'GET'
+        // headers: {
+        //   Authorization: `Basic ${btoa(`user:${password}`)}`
+        // }
       })).json();
       setDegrees(response);
       console.log('success');
