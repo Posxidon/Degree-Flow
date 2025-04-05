@@ -11,6 +11,7 @@ import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 
@@ -57,6 +58,7 @@ function MainRoutes() {
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />
           <Route path="/generate-schedule" element={<GenerateSchedule />} />
+          <Route path="/upload-transcript" element={<UploadTranscript />} />
         </Routes>
       </main>
 
