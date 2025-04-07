@@ -289,7 +289,7 @@ function WhatIf() {
         scope: 'read:data write:data'
       });
       const resp = await fetch(pstUrl + new URLSearchParams({
-        userid: '1'
+        userid: token
       }), {
         method: 'POST',
         headers: {

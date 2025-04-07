@@ -12,5 +12,6 @@ public class JsonSchedule {
     private Long id;
     @Column(columnDefinition="TEXT")
     private String json;
+    @Column(length = 60000)
     private String userId;
 }
