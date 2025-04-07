@@ -11,6 +11,7 @@ import Footer from './Footer';
 import HomePage from './HomePage';
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterOptions from './components/FilterSelection/FilterOptions';
+import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
