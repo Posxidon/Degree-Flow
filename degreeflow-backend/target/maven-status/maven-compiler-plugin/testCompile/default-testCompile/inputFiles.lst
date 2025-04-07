@@ -1,5 +1,6 @@
 /mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/service/CourseServiceTest.java
 /mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/controller/CourseControllerTest.java
+/mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/service/ExtraReqGroupTest.java
 /mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/repository/CourseRepositoryTest.java
 /mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/service/RequirementGroupServiceTest.java
 /mnt/c/Users/srnee/Desktop/Degree-Flow/degreeflow-backend/src/test/java/com/degreeflow/DegreeFlowApplicationTests.java

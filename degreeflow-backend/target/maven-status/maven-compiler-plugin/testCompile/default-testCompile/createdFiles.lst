@@ -1,6 +1,8 @@
 com/degreeflow/DegreeFlowApplicationTests.class
 com/degreeflow/repository/CourseRepositoryTest.class
 com/degreeflow/service/CourseServiceTest.class
+com/degreeflow/service/ExtraReqGroupTest.class
+com/degreeflow/service/ProgressTrackerTest.class
 com/degreeflow/controller/CourseControllerTest.class
 com/degreeflow/service/RequirementGroupServiceTest.class
-com/degreeflow/service/ProgressTrackerTest.class
+com/degreeflow/service/ExtraReqGroupTest$1.class
