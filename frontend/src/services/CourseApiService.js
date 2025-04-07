@@ -2,11 +2,19 @@ const CourseApiService = {
   // Base URL now points to your backend proxy
   baseUrl: 'http://localhost:8080/api/courses',
 
-  async getCoursesBySubjectAndLevel(subjectCode, level) {
+  async getCoursesBySubjectAndLevel(subjectCode, level, getAccessTokenSilently) {
     try {
       const url = `${this.baseUrl}/by-subject-level?subjectCode=${subjectCode}&level=${level}`;
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
 
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);

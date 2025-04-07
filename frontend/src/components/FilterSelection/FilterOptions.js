@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FilterOptions.css';
+import { useAuth0 } from '@auth0/auth0-react';
 import CourseDifficultyRating from '../CourseDifficultyRating/CourseDifficultyRating';
 import CourseApiService from '../../services/CourseApiService';
 
@@ -12,6 +13,28 @@ function Options() {
     subjectCode: null,
     level: null
   });
+
+  const {
+    getAccessTokenSilently,
+    isAuthenticated,
+    isLoading: authLoading,
+    user
+  } = useAuth0();
+
+  const [userEmail, setUserEmail] = useState('');
+
+  // Check authentication status and set user email
+  useEffect(() => {
+    if (!authLoading) {
+      if (isAuthenticated && user) {
+        // User is logged in, set email from user object
+        setUserEmail(user.email || '');
+      } else {
+        // User is not logged in
+        setUserEmail('');
+      }
+    }
+  }, [authLoading, isAuthenticated, user]);
 
   // Helper function to extract prerequisites from description
   const extractPrerequisites = (description) => {
@@ -56,7 +79,11 @@ function Options() {
       setCourses([]);
 
       try {
-        const coursesData = await CourseApiService.getCoursesBySubjectAndLevel(subjectCode, level);
+        const coursesData = await CourseApiService.getCoursesBySubjectAndLevel(
+          subjectCode,
+          level,
+          getAccessTokenSilently
+        );
 
         // Transform API data to our format and filter out courses without titles
         const transformedCourses = coursesData
@@ -176,7 +203,7 @@ function Options() {
                   <strong>Antirequisite: </strong>
                   {course.Antirequisite.join(', ')}
                 </p>
-                <CourseDifficultyRating courseId={course.id} />
+                <CourseDifficultyRating courseId={course.id} email={userEmail} />
               </div>
             )}
           </div>

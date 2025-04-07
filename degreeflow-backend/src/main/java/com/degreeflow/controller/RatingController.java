@@ -62,7 +62,11 @@ public class RatingController {
             @PathVariable String email,
             @PathVariable String courseCode) {
         Optional<Rating> rating = ratingService.getRatingByStudentAndCourse(email, courseCode);
-        return rating.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        if (rating.isPresent()) {
+            return ResponseEntity.ok(rating.get());
+        } else {
+            // Return 200 OK with an empty object instead of 404
+            return ResponseEntity.ok(Map.of("found", false));
+        }
     }
 }
