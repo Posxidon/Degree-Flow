@@ -1,2 +1,5 @@
 # Ignore sensitive Spring Boot config
 src/main/resources/application.properties
+
+# Ignore Maven/Java build files
+target/
