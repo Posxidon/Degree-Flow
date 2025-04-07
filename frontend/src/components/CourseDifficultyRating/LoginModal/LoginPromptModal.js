@@ -44,7 +44,13 @@ function LoginPromptModal({ onClose }) {
     <div
       className="rating-login-prompt-backdrop"
       onClick={handleOverlayClick}
-      aria-hidden="true"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          onClose();
+        }
+      }}
+      role="presentation"
+      tabIndex={-1}
     >
       <div
         className="rating-login-prompt-content"
