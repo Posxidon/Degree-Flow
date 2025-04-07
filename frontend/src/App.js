@@ -1,95 +1,75 @@
 import React from 'react';
-import {
-  Routes, Route, useLocation, Navigate
-} from 'react-router-dom'; // No need to import Router here
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-
 import Header from './Header';
-import MinimalHeader from './MinimalHeader';
 import Footer from './Footer';
-
 import HomePage from './HomePage';
-import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterOptions from './components/FilterSelection/FilterOptions';
-import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
-import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
-import YearlySchedule from './components/YearlySchedule/YearlySchedule';
+import UnitTracker from './components/UnitTracker/UnitTracker';
+import ProtectedData from './components/ProtectedData';
+import ProtectedRoute from './components/ProtectedRoute';
 import SeatAlertPage from './pages/SeatAlertPage';
-import GenerateSchedule from './pages/GenerateSchedule'; // New page
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute
+import WhatIf from './components/WhatIf/WhatIf';
 
 function App() {
-  const location = useLocation();
-  const isLanding = location.pathname === '/';
-
   return (
-    <div className="App">
-      {/* Header based on route */}
-      {isLanding ? <MinimalHeader /> : <Header />}
-
+    <>
+      <Header />
       <main className="main-content">
         <Routes>
-          {/* Landing Page is Open to All */}
+          {/* Public Route */}
           <Route path="/" element={<HomePage />} />
-
-          {/* Protected Routes (only accessible with valid roles) */}
+          {/* Protected Routes */}
           <Route
             path="/dashboard"
             element={(
               <ProtectedRoute
-                component={(
-                  <>
-                    <div className="left-content">
-                      <UnitTrackerSection />
-                    </div>
-                    <div className="center-panel">
-                      <YearlySchedule />
-                    </div>
-                  </>
-                                )}
+                component={UnitTracker}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
-            path="/FilterSelection"
+            path="/protected-data"
             element={(
               <ProtectedRoute
-                component={(
-                  <>
-                    <FilterPageButtons />
-                    <FilterSelection />
-                    <FilterOptions />
-                  </>
-                                )}
+                component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/seat-alert"
-            element={
-              <ProtectedRoute component={<SeatAlertPage />} requiredRoles={['users', 'admin']} />
-                        }
+            element={(
+              <ProtectedRoute
+                component={SeatAlertPage}
+                requiredRoles={['users', 'admin']}
+              />
+            )}
           />
-
           <Route
-            path="/generate-schedule"
-            element={
-              <ProtectedRoute component={<GenerateSchedule />} requiredRoles={['users', 'admin']} />
-                        }
+            path="/what-if"
+            element={(
+              <ProtectedRoute
+                component={WhatIf}
+                requiredRoles={['users', 'admin']}
+              />
+            )}
           />
-
-          {/* Catch-all route for unknown paths */}
+          {/* <Route */}
+          {/*  path="/course-ratings" */}
+          {/*  element={( */}
+          {/*    <ProtectedRoute */}
+          {/*      component={CourseRatingsPage} */}
+          {/*      requiredRoles={['users', 'admin']} */}
+          {/*    /> */}
+          {/*                )} */}
+          {/* /> */}
+          {/* Fallback Route */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
-
       <Footer />
-    </div>
+    </>
   );
 }
-
 export default App;

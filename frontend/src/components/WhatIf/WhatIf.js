@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './What_if.css';
+import { useAuth0 } from '@auth0/auth0-react';
 import Node from './Node';
 import dropdown from './dropdown.png';
 import loading from './loading.gif';
@@ -134,6 +135,7 @@ function yearDataGen(years) {
 }
 
 function WhatIf() {
+  const { getAccessTokenSilently } = useAuth0();
   const [html, setHTML] = useState({ __html: {} });
   const [degrees, setDegrees] = useState([]);
   const [degreeTable, setDegreeTable] = useState({});
@@ -148,7 +150,7 @@ function WhatIf() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const url = 'http://localhost:8080/api/degree/requirement?';
-  const degreeUrl = 'http://localhost:8080/api/public/degree/degreeName?';
+  const degreeUrl = 'http://localhost:8080/api/degree/degreeName?';
   // for updating self using data from node objects
   function handleChildData(yearNum, course) {
     const newYearData = {};
@@ -176,13 +178,17 @@ function WhatIf() {
     console.log('requesting');
     setInuse(true);
     try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
       const response = await (await fetch(url + new URLSearchParams({
         degreeName: degree,
         showTech: false
       }), {
         method: 'GET',
         headers: {
-          Authorization: `Basic ${btoa(`user:${password}`)}`
+          Authorization: `Bearer ${token}`
         }
       })).json();
       setHTML(response);
@@ -229,11 +235,15 @@ function WhatIf() {
     console.log('requesting Degree');
     setError('');
     try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
       const response = await (await fetch(degreeUrl, {
-        method: 'GET'
-        // headers: {
-        //   Authorization: `Basic ${btoa(`user:${password}`)}`
-        // }
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       })).json();
       setDegrees(response);
       console.log('success');
@@ -274,12 +284,18 @@ function WhatIf() {
     setSubmitting(true);
     const pstUrl = 'http://localhost:8080/api/degree/addSchedule?';
     try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
       const resp = await fetch(pstUrl + new URLSearchParams({
         userid: '1'
       }), {
         method: 'POST',
-        Authorization: `Basic ${btoa(`user:${password}`)}`,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify(yearData)
       });
       if (!resp.ok) {

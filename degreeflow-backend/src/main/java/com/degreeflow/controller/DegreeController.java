@@ -26,35 +26,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/public/degree")
+@RequestMapping("/api/degree")
 public class DegreeController {
-
-    @Bean
-    SecurityFilterChain web(HttpSecurity http) throws Exception {
-        http
-                .cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated())
-                .httpBasic(withDefaults());
-
-        return http.build();
-    }
-    //and cors configuration
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
 
     @Autowired
     private PathwayService pathwayService;
