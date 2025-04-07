@@ -1,10 +1,42 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import Typewriter from 'react-simple-typewriter';
 import './HomePage.css';
 
 function HomePage() {
-  const navigate = useNavigate();
+  const {
+    loginWithRedirect, isAuthenticated, isLoading, getAccessTokenSilently
+  } = useAuth0();
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (isAuthenticated) {
+        try {
+          const token = await getAccessTokenSilently({
+            audience: 'https://degreeflow-backend/api',
+            scope: 'read:data write:data'
+          });
+
+          const response = await fetch('http://localhost:8080/api/protected', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('User data:', data);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    checkUserRole();
+  }, [isAuthenticated, getAccessTokenSilently]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="homepage">
@@ -25,8 +57,18 @@ function HomePage() {
         <p className="subtext">
           Plan, track, and optimize your degree path with confidence.
         </p>
-        {/* eslint-disable-next-line react/button-has-type */}
-        <button onClick={() => navigate('/dashboard')}>Launch DegreeFlow</button>
+        {!isAuthenticated && (
+        // eslint-disable-next-line react/button-has-type
+          <button
+            onClick={() => loginWithRedirect({
+              redirectUri: `${window.location.origin}/dashboard`, // Redirect to dashboard after login
+              audience: 'https://degreeflow-backend/api',
+              scope: 'read:data write:data'
+            })}
+          >
+            Launch DegreeFlow
+          </button>
+        )}
       </div>
 
       <div className="features-section">
@@ -77,15 +119,12 @@ function HomePage() {
           <p>
             {/* eslint-disable-next-line max-len */}
             Traditional tools are clunky, outdated, and often overwhelming. DegreeFlow was built with students in mind — clean, modern, and intuitive. We believe that every student should have the tools they need to succeed, right at their fingertips.
-
             {/* eslint-disable-next-line max-len */}
             Whether you are in your first year trying to understand your requirements or nearing graduation double-checking your remaining credits, DegreeFlow supports your journey at every step.
           </p>
           <br />
           <p className="disclaimer-note">
-            {/* eslint-disable-next-line max-len */}
             <strong>Note:</strong>
-            {' '}
             {/* eslint-disable-next-line max-len */}
             DegreeFlow is a supplementary tool for academic planning. It does not replace official academic advising.
             {/* eslint-disable-next-line max-len */}
@@ -99,7 +138,6 @@ function HomePage() {
             </a>
             .
           </p>
-
         </div>
       </div>
     </div>
