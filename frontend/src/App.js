@@ -1,5 +1,7 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, Navigate
+} from 'react-router-dom'; // No need to import Router here
 import './App.css';
 
 import Header from './Header';
@@ -12,65 +14,79 @@ import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
-import GenerateSchedule from './pages/GenerateSchedule';
-import WhatIf from './components/WhatIf/WhatIf';
+import GenerateSchedule from './pages/GenerateSchedule'; // New page
+import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute
 
-function MainRoutes() {
+function App() {
   const location = useLocation();
   const isLanding = location.pathname === '/';
 
   return (
-    <>
-      {/* Show different header on landing page */}
+    <div className="App">
+      {/* Header based on route */}
       {isLanding ? <MinimalHeader /> : <Header />}
 
       <main className="main-content">
         <Routes>
+          {/* Landing Page is Open to All */}
           <Route path="/" element={<HomePage />} />
 
+          {/* Protected Routes (only accessible with valid roles) */}
           <Route
             path="/dashboard"
             element={(
-              <>
-                <div className="left-content">
-                  <UnitTrackerSection />
-                </div>
-                <div className="center-panel">
-                  <YearlySchedule />
-                </div>
-              </>
+              <ProtectedRoute
+                component={(
+                  <>
+                    <div className="left-content">
+                      <UnitTrackerSection />
+                    </div>
+                    <div className="center-panel">
+                      <YearlySchedule />
+                    </div>
+                  </>
+                                )}
+                requiredRoles={['users', 'admin']}
+              />
                         )}
           />
 
           <Route
             path="/FilterSelection"
             element={(
-              <div className="filter-course-container">
-                <div className="filter-box-wrapper">
-                  <FilterSelection />
-                </div>
-                <div className="course-list-wrapper">
-                  <FilterOptions />
-                </div>
-              </div>
-            )}
+              <ProtectedRoute
+                component={(
+                  <>
+                    <FilterPageButtons />
+                    <FilterSelection />
+                    <FilterOptions />
+                  </>
+                                )}
+                requiredRoles={['users', 'admin']}
+              />
+                        )}
           />
 
-          <Route path="/seat-alert" element={<SeatAlertPage />} />
-          <Route path="/generate-schedule" element={<GenerateSchedule />} />
-          <Route path="/what-if" element={<WhatIf />} />
+          <Route
+            path="/seat-alert"
+            element={
+              <ProtectedRoute component={<SeatAlertPage />} requiredRoles={['users', 'admin']} />
+                        }
+          />
+
+          <Route
+            path="/generate-schedule"
+            element={
+              <ProtectedRoute component={<GenerateSchedule />} requiredRoles={['users', 'admin']} />
+                        }
+          />
+
+          {/* Catch-all route for unknown paths */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
 
       <Footer />
-    </>
-  );
-}
-
-function App() {
-  return (
-    <div className="App">
-      <MainRoutes />
     </div>
   );
 }

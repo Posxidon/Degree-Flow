@@ -23,16 +23,11 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/public").permitAll()
-                        .requestMatchers("/api/protected").authenticated()
-                        .requestMatchers("/api/protected-data").authenticated()
+                        .requestMatchers("/api/protected", "/api/protected-data").hasAuthority("SCOPE_read:data")
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(withDefaults())
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
