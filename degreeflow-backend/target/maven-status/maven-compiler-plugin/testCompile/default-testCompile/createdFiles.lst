@@ -1,8 +1,15 @@
+com/degreeflow/controller/RatingControllerTest.class
+com/degreeflow/controller/SeatAlertControllerTest.class
 com/degreeflow/DegreeFlowApplicationTests.class
 com/degreeflow/repository/CourseRepositoryTest.class
-com/degreeflow/service/CourseServiceTest.class
 com/degreeflow/service/ExtraReqGroupTest.class
-com/degreeflow/service/ProgressTrackerTest.class
 com/degreeflow/controller/CourseControllerTest.class
 com/degreeflow/service/RequirementGroupServiceTest.class
+com/degreeflow/controller/CourseFilterControllerTest.class
+com/degreeflow/service/TranscriptServiceTest.class
+com/degreeflow/service/CourseServiceTest.class
+com/degreeflow/controller/TranscriptControllerTest.class
+com/degreeflow/service/ProgressTrackerTest.class
+com/degreeflow/service/RatingServiceTest.class
+com/degreeflow/service/SeatAlertServiceTest.class
 com/degreeflow/service/ExtraReqGroupTest$1.class

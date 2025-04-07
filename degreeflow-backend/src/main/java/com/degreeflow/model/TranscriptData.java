@@ -11,12 +11,10 @@ import lombok.*;
 @Table(name = "transcript_data")
 public class TranscriptData {
 
-    // === Primary Key ===
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // === Student + Transcript Metadata ===
     @Column(nullable = false)
     private String studentId;
 
@@ -26,13 +24,12 @@ public class TranscriptData {
     @Column(nullable = false, length = 100)
     private String term;
 
-    @Column(nullable = false, length = 1024)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String program;
 
     @Column(nullable = false)
     private String coOp;
 
-    // === Term-level GPA Info ===
     @Column(nullable = false, length = 10)
     private String units;
 
@@ -42,24 +39,21 @@ public class TranscriptData {
     @Column(nullable = false, length = 10)
     private String totalGpa;
 
-    // === Per-Course Fields (if applicable) ===
     @Column(length = 100)
     private String courseCode;
 
-    @Column(length = 1024)
+    @Column(columnDefinition = "TEXT")
     private String courseTitle;
 
     @Column(length = 10)
     private String grade;
 
-    // === Raw Extraction Backups (Optional) ===
     @Column(columnDefinition = "TEXT")
     private String coursesTaken;
 
     @Column(columnDefinition = "TEXT")
     private String grades;
 
-    // === Admin / Manual Review Support ===
     @Column(nullable = false)
     private boolean checkValue = false;
 
@@ -70,7 +64,7 @@ public class TranscriptData {
     public String getCourseCode() {
         return this.courseCode;
     }
-    
+
     public void setCheckValue(boolean checked) {
         this.checkValue = checked;
     }

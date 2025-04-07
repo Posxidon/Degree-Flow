@@ -112,7 +112,7 @@ function Options() {
   };
 
   return (
-    <div className="course">
+    <div className="course-list">
       <div className="courses-options">
         {loading && (
           <div className="loading-indicator">
@@ -137,9 +137,12 @@ function Options() {
           </div>
         )}
 
+        {/* Removed courses count display */}
+
         {courses.map((course) => (
           <div key={course.id} className="course-box">
             <button
+              id={course.id}
               type="button"
               className="course-title"
               onClick={() => toggleCourse(course.id)}

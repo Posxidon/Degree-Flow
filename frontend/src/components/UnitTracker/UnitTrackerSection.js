@@ -8,7 +8,6 @@ function UnitTrackerSection() {
   const [electiveProgress, setElectiveProgress] = useState(0);
   const [overallProgress, setOverallProgress] = useState(0);
 
-
   const [requiredTotal, setRequiredTotal] = useState(0);
   const [technicalTotal, setTechnicalTotal] = useState(0);
   const [electiveTotal, setElectiveTotal] = useState(0);
@@ -21,72 +20,65 @@ function UnitTrackerSection() {
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
     if (!storedUserId) {
-      console.warn("User ID not found in localStorage.");
+      console.warn('User ID not found in localStorage.');
       return;
     }
 
     setUserId(storedUserId);
 
-    // Step 1: Get transcriptId
     fetch(`http://localhost:8080/api/transcript/getId?userId=${storedUserId}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const tid = data.transcript_id;
         setTranscriptId(tid);
-        console.log("Transcript ID:", tid);
+        console.log('Transcript ID:', tid);
 
-        // Step 2: Check if course requirements exist
         return fetch(`http://localhost:8080/api/transcript/requirementExists?transcriptId=${tid}`);
       })
-      .then(res => res.json())
-      .then(exists => {
+      .then((res) => res.json())
+      .then((exists) => {
         setRequirementsExist(exists);
       })
-      .catch(err => {
-        console.error("Error fetching transcript or requirements:", err);
+      .catch((err) => {
+        console.error('Error fetching transcript or requirements:', err);
       });
   }, []);
 
   useEffect(() => {
     if (requirementsExist && transcriptId) {
-      // Step 3: Fetch requirement groups
       fetch(`http://localhost:8080/api/requirementGroups?transcriptId=${transcriptId}`)
-        .then(res => res.json())
-        .then(groups => {
+        .then((res) => res.json())
+        .then((groups) => {
           let required = 0;
           let technical = 0;
           let elective = 0;
-          let overall =0;
+          let overall = 0;
 
           let comRequired = 0;
           let comTechnical = 0;
           let comElective = 0;
-          let comOverall =0;
+          let comOverall = 0;
 
-          groups.forEach(group => {
+          groups.forEach((group) => {
             const numCom = group.numCompleted;
             const numReq = group.numRequired;
+
             switch (group.type) {
-              case "Required":
+              case 'Required':
                 comRequired += numCom;
                 comOverall += numCom;
-
                 required += numReq;
                 overall += numReq;
                 break;
-              case "Technical Electives":
+              case 'Technical Electives':
                 comTechnical += numCom;
                 comOverall += numCom;
-
                 technical += numReq;
                 overall += numReq;
-
-
                 break;
-              case "Electives":
+              case 'Electives':
                 comElective += numCom;
                 comOverall += numCom;
-
                 elective += numReq;
                 overall += numReq;
                 break;
@@ -105,7 +97,7 @@ function UnitTrackerSection() {
           setElectiveTotal(elective);
           setOverallTotal(overall);
         })
-        .catch(err => console.error("Error fetching requirement groups:", err));
+        .catch((err) => console.error('Error fetching requirement groups:', err));
     }
   }, [requirementsExist, transcriptId]);
 

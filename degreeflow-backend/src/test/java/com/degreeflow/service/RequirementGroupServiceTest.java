@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.degreeflow.repository.RequirementGroupRepository;
-import com.degreeflow.model.RequirementGroup;
+import com.degreeflow.model.DataRequirementGroup;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -68,10 +68,10 @@ public class RequirementGroupServiceTest {
     requirementGroupService.saveFromRawData(rawGroups, transcriptId);
 
     // Fetch and assert
-    List<RequirementGroup> savedGroups = requirementGroupRepository.findByTranscriptId(transcriptId);
+    List<DataRequirementGroup> savedGroups = requirementGroupRepository.findByTranscriptId(transcriptId);
     assertEquals(1, savedGroups.size());
 
-    RequirementGroup saved = savedGroups.get(0);
+    DataRequirementGroup saved = savedGroups.get(0);
     assertEquals(5, saved.getNumRequired());
     assertEquals(transcriptId, saved.getTranscriptId());
     assertEquals("Required", saved.getType()); // because name is null
@@ -87,7 +87,7 @@ public class RequirementGroupServiceTest {
  * a RequirementGroup is saved with the given transcript ID.
  */
   /**
-   * Verifies that doesCourseRequirementExist returns true after saving a RequirementGroup.
+   * Verifies that doesCourseRequirementExist returns true after saving a DataRequirementGroup.
    * This test manually creates a group and persists it to the repository,
    * then checks if the service correctly detects its existence.
    */
@@ -96,7 +96,7 @@ public class RequirementGroupServiceTest {
   public void testDoesCourseRequirementExist_returnsTrueAfterSaving() {
     String transcriptId = "testTranscript001";
 
-    RequirementGroup group = new RequirementGroup();
+    DataRequirementGroup group = new DataRequirementGroup();
     group.setCourseGroupId(123);
     group.setTranscriptId(transcriptId);
     group.setNumRequired(3);
@@ -113,7 +113,7 @@ public class RequirementGroupServiceTest {
    * Integration-style test for fetchFromApiAndSave.
    * Requires the API at localhost:8080 to be running and returning valid data.
    * 
-   * Verifies that the RequirementGroups are saved and associated with the correct transcript ID.
+   * Verifies that the DataRequirementGroups are saved and associated with the correct transcript ID.
    */
   
   @Test
@@ -123,7 +123,7 @@ public class RequirementGroupServiceTest {
 
     requirementGroupService.fetchFromApiAndSave(fakeProgram, transcriptId);
 
-    List<RequirementGroup> groups = requirementGroupRepository.findByTranscriptId(transcriptId);
+    List<DataRequirementGroup> groups = requirementGroupRepository.findByTranscriptId(transcriptId);
 
     assertFalse(groups.isEmpty(), "Expected requirement groups to be saved.");
     assertEquals(transcriptId, groups.get(0).getTranscriptId());
@@ -131,11 +131,11 @@ public class RequirementGroupServiceTest {
 
 
     /**
-   * Tests that saveFromRawData does not insert duplicate data when a RequirementGroup
+   * Tests that saveFromRawData does not insert duplicate data when a DataRequirementGroup
    * already exists for a given transcript ID.
    *
    * This test:
-   * - Saves a RequirementGroup with a given transcript ID.
+   * - Saves a DataRequirementGroup with a given transcript ID.
    * - Calls saveFromRawData again using the same ID.
    * - Verifies that the repository still only contains one entry (no duplicates).
    */
@@ -144,7 +144,7 @@ public class RequirementGroupServiceTest {
   public void saveFromRawData_skipsIfTranscriptAlreadyExists() {
     String transcriptId = "dupeId";
   
-    RequirementGroup group = new RequirementGroup();
+    DataRequirementGroup group = new DataRequirementGroup();
     group.setCourseGroupId(123);
     group.setTranscriptId(transcriptId);
     group.setNumRequired(3);
@@ -168,7 +168,7 @@ public class RequirementGroupServiceTest {
     requirementGroupService.saveFromRawData(mockedData, transcriptId);
   
     // Assert repository size is still 1 (nothing new added)
-    List<RequirementGroup> allGroups = requirementGroupRepository.findByTranscriptId(transcriptId);
+    List<DataRequirementGroup> allGroups = requirementGroupRepository.findByTranscriptId(transcriptId);
     assertEquals(1, allGroups.size());
   }
 

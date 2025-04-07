@@ -1,6 +1,6 @@
 package com.degreeflow.service;
 
-import com.degreeflow.model.RequirementGroup;
+import com.degreeflow.model.DataRequirementGroup;
 import com.degreeflow.repository.RequirementGroupRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,7 +96,7 @@ public class RequirementGroupService {
         .map(course -> (String) course.get("courseCode"))
         .collect(Collectors.toList());
 
-      RequirementGroup requirementGroup = new RequirementGroup(groupId, numReq, transcriptId, type, courseCodes);
+      DataRequirementGroup requirementGroup = new DataRequirementGroup(groupId, numReq, transcriptId, type, courseCodes);
       repository.save(requirementGroup);
     }
   }

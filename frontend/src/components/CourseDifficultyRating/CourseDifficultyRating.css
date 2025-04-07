@@ -107,7 +107,7 @@
     text-align: center;
 }
 
-.submit-btn {
+.submit-rating-btn {
     width: 100%;
     padding: 12px;
     background-color: #85013c;
@@ -121,11 +121,11 @@
     font-size: 16px;
 }
 
-.submit-btn:hover:not(:disabled) {
+.submit-rating-btn:hover:not(:disabled) {
     background-color: #6e0030;
 }
 
-.submit-btn:disabled {
+.submit-rating-btn:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
@@ -174,24 +174,26 @@
 .course-info-label {
     font-weight: bold;
     margin-right: 5px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .course-info-value {
-    margin-right: 10px;  
-    font-size: 1.3rem; 
+    margin-right: 6px;  /* Reduced from 10px to make the gap narrower */
+    font-size: 1.2rem; 
 }
 
 .rating-button {
     background-color: #85013c;
     color: white;
     border: none;
-    border-radius: 12px;
-    padding: 7px 14px;
-    font-size: 1.3rem;
+    border-radius: 6px; /* Reduced from 12px */
+    padding: 4px 10px; /* Slightly smaller padding */
+    font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-left: 10px;
+    margin-left: 6px; /* Reduced from 10px to make the gap narrower */
+    vertical-align: middle; /* Helps with alignment */
+    line-height: 1.2; /* Better vertical alignment */
 }
 
 .rating-button:hover {

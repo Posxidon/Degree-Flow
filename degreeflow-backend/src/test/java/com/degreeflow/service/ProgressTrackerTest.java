@@ -1,7 +1,7 @@
 
 package com.degreeflow.service;
 
-import com.degreeflow.model.RequirementGroup;
+import com.degreeflow.model.DataRequirementGroup;
 import com.degreeflow.model.TranscriptData;
 import com.degreeflow.repository.RequirementGroupRepository;
 import com.degreeflow.repository.TranscriptDataRepository;
@@ -82,7 +82,7 @@ public class ProgressTrackerTest {
         transcriptRepo.save(td3);
 
         // Create matching requirement group
-        RequirementGroup group = new RequirementGroup(
+        DataRequirementGroup group = new DataRequirementGroup(
                 500, 3, transcriptId, "Required", List.of("COMPSCI1MD3", "COMPSCI1XD3")
         );
         requirementGroupRepo.save(group);
@@ -92,7 +92,7 @@ public class ProgressTrackerTest {
 
         // Fetch results
         List<TranscriptData> updatedCourses = transcriptRepo.findAllByTranscriptId(transcriptId);
-        List<RequirementGroup> updatedGroups = requirementGroupRepo.findByTranscriptId(transcriptId);
+        List<DataRequirementGroup> updatedGroups = requirementGroupRepo.findByTranscriptId(transcriptId);
 
         // Assert courses marked
         for (TranscriptData course : updatedCourses) {

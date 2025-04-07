@@ -2,7 +2,7 @@ package com.degreeflow.service;
 
 
 import com.degreeflow.model.TranscriptData;
-import com.degreeflow.model.RequirementGroup;
+import com.degreeflow.model.DataRequirementGroup;
 
 
 import com.degreeflow.repository.TranscriptDataRepository;
@@ -53,10 +53,10 @@ public class ProgressTracker {
             .findByTranscriptIdAndCheckValueFalseAndGradeNotIn(transcriptId, excludedGrades);
 
     // Get all the requirement Groups associated with a transcript ID
-    List<RequirementGroup> requirementGroups = requirementGroupRepository
+    List<DataRequirementGroup> requirementGroups = requirementGroupRepository
             .findByTranscriptId(transcriptId);
 
-    for (RequirementGroup group : requirementGroups) {
+    for (DataRequirementGroup group : requirementGroups) {
       List<String> courseCodes = group.getCourses(); // Courses in this requirement group
     
       for (TranscriptData course : validCourses) {

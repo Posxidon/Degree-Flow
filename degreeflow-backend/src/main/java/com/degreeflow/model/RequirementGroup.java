@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "requirement_groups")
 @Data
-public class RequirementGroup {
+public class DataRequirementGroup {
 
     @Id
     @Column(name = "course_group_id")
@@ -30,10 +30,10 @@ public class RequirementGroup {
     private List<String> courses;
 
     // No-argument constructor
-    public RequirementGroup() {}
+    public DataRequirementGroup() {}
 
     // Constructor with parameters
-    public RequirementGroup(Integer courseGroupId, Integer numRequired, String transcriptId, String type, List<String> courses) {
+    public DataRequirementGroup(Integer courseGroupId, Integer numRequired, String transcriptId, String type, List<String> courses) {
         this.courseGroupId = courseGroupId;
         this.numRequired = numRequired;
         this.numCompleted = 0;

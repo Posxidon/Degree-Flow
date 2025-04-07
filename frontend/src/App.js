@@ -1,21 +1,19 @@
 import React from 'react';
-import {
-  BrowserRouter as Router, Routes, Route, useLocation
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
 import Header from './Header';
 import MinimalHeader from './MinimalHeader';
 import Footer from './Footer';
 
-import HomePage from './HomePage'; // the landing page
+import HomePage from './HomePage';
 import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterPageButtons from './components/FilterSelection/FilterPageButtons';
 import FilterOptions from './components/FilterSelection/FilterOptions';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import SeatAlertPage from './pages/SeatAlertPage';
-import GenerateSchedule from './pages/GenerateSchedule'; // New page
+import GenerateSchedule from './pages/GenerateSchedule';
 
 function MainRoutes() {
   const location = useLocation();
@@ -23,7 +21,7 @@ function MainRoutes() {
 
   return (
     <>
-      {/* Header based on route */}
+      {/* Show different header on landing page */}
       {isLanding ? <MinimalHeader /> : <Header />}
 
       <main className="main-content">
@@ -47,20 +45,23 @@ function MainRoutes() {
           <Route
             path="/FilterSelection"
             element={(
-              <>
-                <FilterPageButtons />
-                <FilterSelection />
-                <FilterOptions />
-              </>
-                        )}
+              <div className="filter-course-container">
+                <div className="filter-box-wrapper">
+                  <FilterSelection />
+                </div>
+                <div className="course-list-wrapper">
+                  <FilterOptions />
+                </div>
+              </div>
+            )}
           />
 
           <Route path="/seat-alert" element={<SeatAlertPage />} />
           <Route path="/generate-schedule" element={<GenerateSchedule />} />
+          <Route path="/upload-transcript" element={<UploadTranscript />} />
         </Routes>
       </main>
 
-      {/* Footer is always shown */}
       <Footer />
     </>
   );
