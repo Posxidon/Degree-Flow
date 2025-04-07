@@ -1,11 +1,12 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import './Header.css';
 import mesLogo from './Logo_Name_White.png';
 
 function Header() {
   const navigate = useNavigate();
-  const currentPath = useLocation().pathname;
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   return (
     <div className="custom-header">
@@ -16,55 +17,38 @@ function Header() {
         <h1 className="app-title" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
           DegreeFlow
         </h1>
-        <button
-          type="button"
-          className="login-button"
-          onClick={() => navigate('/login')}
-        >
-          Login
-        </button>
+
+        {isAuthenticated ? (
+          <button
+            type="button"
+            className="login-button"
+            onClick={() => logout({ returnTo: window.location.origin })}
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="login-button"
+            onClick={() => loginWithRedirect({
+              authorizationParams: {
+                redirect_uri: `${window.location.origin}/dashboard`, // Fix this for the login redirect
+                audience: 'https://degreeflow-backend/api',
+                scope: 'read:data write:data'
+              }
+            })}
+          >
+            Login
+          </button>
+        )}
       </div>
 
       <div className="action-bar">
-        {/* HOME Button → Now points to /dashboard */}
-        <button
-          type="button"
-          onClick={() => navigate('/dashboard')}
-        >
-          Home
-        </button>
-
-        {/* Upload Transcript (optional route, update as needed) */}
-        <button
-          type="button"
-          onClick={() => navigate('/upload-transcript')}
-        >
-          Upload Transcript
-        </button>
-
-        <button
-          type="button"
-          onClick={() => navigate('/FilterSelection')}
-        >
-          Search Filtered Courses
-        </button>
-
-        {/* Generate New Schedules also points to /dashboard */}
-        <button
-          type="button"
-          className={currentPath === '/generate-schedule' ? 'active' : ''}
-          onClick={() => navigate('/generate-schedule')}
-
-        >
-          Generate Schedule
-        </button>
-
-        <button
-          type="button"
-          onClick={() => navigate('/seat-alert')}
-        >
-          Seat Alert
-        </button>
+        <button type="button" onClick={() => navigate('/dashboard')}>Home</button>
+        <button type="button" onClick={() => navigate('/upload-transcript')}>Upload Transcript</button>
+        <button type="button" onClick={() => navigate('/FilterSelection')}>Search Filtered Courses</button>
+        <button type="button" onClick={() => navigate('/generate-schedule')}>Generate Schedule</button>
+        <button type="button" onClick={() => navigate('/seat-alert')}>Seat Alert</button>
       </div>
     </div>
   );
