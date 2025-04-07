@@ -13,6 +13,7 @@ import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 
 // Wrapper component for FilterSelection
 function FilterSelectionWrapper() {
@@ -45,8 +46,6 @@ function DegreeProgressWrapper() {
 function App() {
   return (
     <div className="App">
-      {' '}
-      {/* Wrapper Div */}
       <Header />
       <main className="main-content">
         <Routes>
@@ -56,62 +55,72 @@ function App() {
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={(
+            element={
               <ProtectedRoute
                 component={UnitTracker}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
           />
 
           <Route
             path="/protected-data"
-            element={(
+            element={
               <ProtectedRoute
                 component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
           />
 
           <Route
             path="/seat-alert"
-            element={(
+            element={
               <ProtectedRoute
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
           />
 
           <Route
             path="/generate-schedule"
-            element={(
+            element={
               <ProtectedRoute
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
           />
 
           <Route
             path="/FilterSelection"
-            element={(
+            element={
               <ProtectedRoute
                 component={FilterSelectionWrapper}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
           />
 
           <Route
             path="/degree-progress"
-            element={(
+            element={
               <ProtectedRoute
                 component={DegreeProgressWrapper}
                 requiredRoles={['users', 'admin']}
               />
-                          )}
+            }
+          />
+
+          <Route
+            path="/upload-transcript"
+            element={
+              <ProtectedRoute
+                component={UploadTranscript}
+                requiredRoles={['users', 'admin']}
+              />
+            }
           />
 
           {/* Fallback Route */}

@@ -1,92 +1,119 @@
-.course {
-  font-family: sans-serif;
-  margin: 20px 0; 
-  width: 40%; 
-  position: absolute; 
-  right: 40px; 
-  top: 140px;
-  bottom: 10%;
-  box-sizing: border-box; 
-  
-  max-height: 100%;
-  overflow-y: auto; 
-  scrollbar-width: auto; 
+/* Course container adjustment */
+.course-list {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  height: auto;
+  max-height: 750px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-/* Button Styles */
+.courses-options {
+  background-color: transparent;
+  height: 100%;
+}
+
+/* Course result card styling */
+.course-box {
+  margin-bottom: 15px;
+  background-color: transparent;
+}
+
 .course-title {
-  background-color: rgb(198, 149, 171);
-  color: black;
+  background-color: #d0aabb;
+  color: #333;
   border: none;
-  padding: 10px 1px;
-  font-size: 1.5rem;
+  border-radius: 6px 6px 0 0;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   text-align: left;
-  justify-content: space-between;  
+  justify-content: space-between;
   align-items: center;
-  transition: background-color 0.3s ease;
-  width: 100%; 
+  width: 100%;
 }
 
 .course-title:hover {
-  /*background-color: rgb(229, 174, 199)  text-decoration: underline;*/
+  background-color: #c097ad;
 }
 
 .icon-change2 {
-  font-size:  36px;                /* Size of the + or − icon */
-  color: black;                   /* Color of the icon */
+  font-size: 24px;
+  color: #333;
 }
 
-/* Course Box Styles */
-.course-box { 
-  border:  2px solid white;
+.course-details {
+  background-color: #d0aabb;
+  border-radius: 0 0 6px 6px;
   padding: 15px;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.course-details p {
   margin: 0px 0;
-  background-color: rgb(198, 149, 171);
+  font-size: 17px;
+  line-height: 1.4;
+  color: #000;
+}
+
+.course-details strong {
+  color: #333;
+  font-weight: 900;
+}
+
+/* Course difficulty rating component styles */
+.course-info-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.course-info-label {
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #000;
+}
+
+.course-info-value {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #000;
+}
+
+.rating-button {
+  background-color: #85013c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 9px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
 }
 
-.course-box:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+.rating-button:hover {
+  background-color: #6d0131;
 }
 
-.course-box h3 {
-  margin: 0;
-  font-size: 1.2rem;
+/* Loading and no courses messages */
+.loading-indicator,
+.no-courses-message {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-size: larger;
+  font-weight: bold;
 }
 
-.course-box p {
-  margin: 5px 0;
-  font-size: 1.4rem;
-  color: black;
-}
-
-/* Course Details */
-.course-box div {
-  margin-top: 10px;
-  border-top: 2px solid black;
-  padding-top: 10px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .course {
-    margin: 10px;
-  }
-
-  .course-title {
-    width: 100%;
-    font-size: 0.9rem;
-    padding: 8px 10px;
-  }
-
-  .course-box {
-    padding: 10px;
-  }
-}
-
-.courses-options, .no-courses-message {
-  font-size: 25px;
+.no-courses-message ul {
+  list-style-type: none;
 }
