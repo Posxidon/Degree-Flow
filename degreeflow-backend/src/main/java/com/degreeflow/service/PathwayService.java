@@ -217,7 +217,7 @@ public class PathwayService {
      * @return a list of course nodes that represents the combination of the item details
      */
     public List<CourseNode> parseItemDetail(JSONArray itemDetails){
-        System.out.println(itemDetails);
+//        System.out.println(itemDetails);
         List<CourseNode> courseList = new ArrayList<>();
         // iterate through all item details with a item detail type of 'course list'
         for (int i=0;i<itemDetails.length();i++){
@@ -253,7 +253,7 @@ public class PathwayService {
      * @return a level group which represents a combination of all the requirement items aka represents the requirement
      */
     public LevelGroup parseReqItems(JSONArray reqItems, boolean includeTechElec){
-        System.out.println(reqItems);
+//        System.out.println(reqItems);
         int reqL = reqItems.length();
         // for id purposes on front end
         int electiveCnt = 0;
@@ -351,7 +351,7 @@ public class PathwayService {
         String baseUrl = "https://api.mcmaster.ca/academic-calendar/v2/plans/%s/requirement-groups";
         List<LevelGroup> lgs = new ArrayList<>();
         JSONObject degreeResp = makeMosaicApiCall(String.format(baseUrl,degreeName),false);
-        System.out.println(degreeResp);
+//        System.out.println(degreeResp);
         if (degreeResp == null){
             return null;
         }
@@ -372,12 +372,12 @@ public class PathwayService {
                     String shortDesc = j.getString("shortDescription");
                     // changes all computer science 1 requirement courses to year 1
                     if(Objects.equals(shortDesc.toLowerCase(),"computer science i")){
-                        System.out.println("level changed 1");
+//                        System.out.println("level changed 1");
                         lg = changeCourseYear(lg,1);
                     //for all requirements with the description following the format 'level x' parse x and change all courses to year x
                     }else if(shortDesc.toLowerCase().contains("level") && Character.isDigit(shortDesc.charAt(shortDesc.length()-1)) && shortDesc.length() == 7){
-                        System.out.println("level changed");
-                        System.out.println(shortDesc.charAt(shortDesc.length()-1));
+//                        System.out.println("level changed");
+//                        System.out.println(shortDesc.charAt(shortDesc.length()-1));
                         lg = changeCourseYear(lg,Character.getNumericValue(shortDesc.charAt(shortDesc.length()-1)));
                     }
                     lgs.add(lg);
@@ -395,7 +395,6 @@ public class PathwayService {
      */
     public Degree parseDegreePlan(String degreeName,boolean includeTechElec){
         System.out.println("fetched");
-        printCodes();
         return parseDegree(degreeName, includeTechElec);
     }
 
@@ -439,8 +438,7 @@ public class PathwayService {
     public boolean addToDB(String json, String userId){
         // get list of all previous records and remove them
         Optional<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
-        System.out.println(prevRecords);
-        System.out.println("body");
+        System.out.println("adding to db");
         System.out.println(json);
         if (prevRecords.isPresent()) {
             JsonSchedule schedule = prevRecords.get();
