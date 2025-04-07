@@ -1,5 +1,6 @@
 package com.degreeflow.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +10,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Course {
+    private static long idCnt = 0;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,5 +28,7 @@ public class Course {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.description = description;
+        this.id = idCnt;
+        idCnt ++;
     }
 }

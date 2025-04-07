@@ -49,6 +49,7 @@ function Header() {
         <button type="button" onClick={() => navigate('/FilterSelection')}>Search Filtered Courses</button>
         <button type="button" onClick={() => navigate('/generate-schedule')}>Generate Schedule</button>
         <button type="button" onClick={() => navigate('/seat-alert')}>Seat Alert</button>
+        <button type="button" onClick={() => navigate('/what-if')}>What if</button>
       </div>
     </div>
   );

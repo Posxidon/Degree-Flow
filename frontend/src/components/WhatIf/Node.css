@@ -1,0 +1,39 @@
+.courseNode {
+    padding: 10px;
+    border: #333333 solid 1px;
+    width: 200px;
+    border-radius: 5px;
+    margin: 10px;
+    color: black;
+    background-color: white;
+}
+.desc-window {
+    background-color: lightgray;
+    color: black;
+    border: 1px white solid;
+    border-radius: 5px;
+    font-weight: 400;
+}
+.info-btn{
+    border: none;
+    background-color: white;
+}
+.info-icon{
+    width: 10px;
+    height: 10px;
+}
+.year-option{
+    padding: 5px;
+    border: 1px solid black;
+    background: white;
+}
+.year-option:hover{
+    background-color: lightgray;
+}
+.add-year{
+    border: 1px solid black;
+    background: white;
+}
+.add-year:hover{
+    background-color: lightgray;
+}
