@@ -22,10 +22,10 @@
     border-top: 8px solid #85013c;
 }
 
-.modal-close-btn {
+.rating-modal-content .modal-close-btn {
     position: absolute;
     right: 15px;
-    top: -1px;
+    top: 12px;
     background: none;
     border: none;
     font-size: 38px;
@@ -33,6 +33,9 @@
     cursor: pointer;
     color: #666;
     padding: 5px;
+    width: auto; /* Override fixed width */
+    height: auto; /* Override fixed height */
+    border-radius: 0; /* Override border-radius */
 }
 
 .modal-close-btn:hover {
@@ -65,11 +68,11 @@
 
 .star-rating span {
     position: absolute;
-    right: 33px;
-    top: 146px;
+    right: 28px;
+    top: 141px;
 }
 
-.star-btn {
+.star-rating .star-btn {
     font-size: 32px;
     color: #ddd;
     cursor: pointer;
@@ -78,17 +81,20 @@
     padding: 0;
     margin: 0 4px;
     transition: transform 0.2s;
+    width: auto; /* Override fixed width */
+    height: auto; /* Override fixed height */
+    border-radius: 0; /* Override border-radius */
 }
 
-.star-btn:hover {
+.star-rating .star-btn:hover {
     transform: scale(1.2);
 }
 
-.star-btn.active {
+.star-rating .star-btn.active {
     color: #f0ad4e;
 }
 
-.star-btn:focus {
+.star-rating .star-btn:focus {
     outline: none;
     color: #f0ad4e;
 }
@@ -182,20 +188,22 @@
     font-size: 1.2rem; 
 }
 
-.rating-button {
+.course-info-row .rating-button {
     background-color: #85013c;
     color: white;
     border: none;
-    border-radius: 6px; /* Reduced from 12px */
-    padding: 4px 10px; /* Slightly smaller padding */
+    border-radius: 6px; 
+    padding: 4px 10px;
     font-size: 1.1rem;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-left: 6px; /* Reduced from 10px to make the gap narrower */
-    vertical-align: middle; /* Helps with alignment */
-    line-height: 1.2; /* Better vertical alignment */
+    margin-left: 6px;
+    vertical-align: middle;
+    line-height: 1.2;
+    width: auto; /* Override fixed width */
+    height: auto; /* Override fixed height */
 }
 
-.rating-button:hover {
+.course-info-row .rating-button:hover {
     background-color: #6e0030;
 }

@@ -2,9 +2,17 @@ const RatingApiService = {
   // Base URL for the API
   baseUrl: 'http://localhost:8080/api/ratings',
 
-  async getRatingSummary(courseCode) {
+  async getRatingSummary(courseCode, getAccessTokenSilently) {
     try {
-      const response = await fetch(`${this.baseUrl}/summary/${courseCode}`);
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+      const response = await fetch(`${this.baseUrl}/summary/${courseCode}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       if (!response.ok) {
         throw new Error(`Error fetching rating summary: ${response.statusText}`);
       }
@@ -21,12 +29,17 @@ const RatingApiService = {
     }
   },
 
-  async submitRating(email, courseCode, stars) {
+  async submitRating(email, courseCode, stars, getAccessTokenSilently) {
     try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           email,
@@ -47,19 +60,28 @@ const RatingApiService = {
     }
   },
 
-  async getStudentRating(email, courseCode) {
+  async getStudentRating(email, courseCode, getAccessTokenSilently) {
     try {
-      const response = await fetch(`${this.baseUrl}/student/${email}/course/${courseCode}`);
-      if (response.status === 404) {
-        // Student hasn't rated this course yet
-        return null;
-      }
-
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+      const response = await fetch(`${this.baseUrl}/student/${email}/course/${courseCode}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       if (!response.ok) {
         throw new Error(`Error fetching student rating: ${response.statusText}`);
       }
 
-      return response.json();
+      const data = await response.json();
+      // Check if it's our "not found" indicator
+      if (data.found === false) {
+        return null;
+      }
+
+      return data;
     } catch (error) {
       console.error('Failed to fetch student rating:', error);
       return null;
