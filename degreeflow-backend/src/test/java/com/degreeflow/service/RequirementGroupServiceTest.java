@@ -125,7 +125,7 @@ public class RequirementGroupServiceTest {
   @Test
   public void testFetchFromApiAndSave_savesRequirementGroupsFromApi() {
     String transcriptId = "testTranscript002";
-    String fakeProgram = "HCOMPSCI"; // must match available test API response
+    String fakeProgram = "HCOMPSCICO"; // must match available test API response
 
     requirementGroupService.fetchFromApiAndSave(fakeProgram, transcriptId);
 

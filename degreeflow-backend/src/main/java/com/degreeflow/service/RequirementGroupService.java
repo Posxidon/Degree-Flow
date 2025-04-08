@@ -1,9 +1,13 @@
 package com.degreeflow.service;
 
 import com.degreeflow.model.DataRequirementGroup;
+import com.degreeflow.model.Degree;
 import com.degreeflow.repository.RequirementGroupRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.checkerframework.checker.units.qual.A;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +16,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +26,14 @@ import java.util.stream.Collectors;
 @Service
 public class RequirementGroupService {
 
+  private final PathwayService pathwayService;
   private final RequirementGroupRepository repository;
   private final RestTemplate restTemplate = new RestTemplate();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  public RequirementGroupService(RequirementGroupRepository repository) {
+  public RequirementGroupService(RequirementGroupRepository repository, PathwayService pathwayService) {
     this.repository = repository;
+    this.pathwayService = pathwayService;
   }
 
   /**
@@ -37,18 +44,10 @@ public class RequirementGroupService {
    * @param transcriptId the student’s transcript ID to associate with the fetched data
    */
   public void fetchFromApiAndSave(String degreeName, String transcriptId) {
-    String httpResponse = "";
-    String url = "http://localhost:8080/api/degree/requirement?";
-    try {
-      HttpClient client = HttpClient.newHttpClient();
-      HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
-              .header("degreeName",degreeName)
-              .header("showTech", "true").build();
-      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-      httpResponse = response.body();
-    } catch (Exception e) {
-      System.out.println("http failed");
-    }
+    Degree degree = pathwayService.parseDegreePlan(degreeName,true);
+    System.out.println(degree.getName());
+    JSONObject resp = new JSONObject(degree);
+    System.out.println(resp);
   }
 
   /**
