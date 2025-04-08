@@ -21,7 +21,7 @@ public class DegreeFlowApplication {
             System.out.println("Printing all rows from json_schedule:");
             for (Schedule s : scheduleRepository.findAll()) {
                 System.out.println("User ID: " + s.getUserId());
-                System.out.println("Schedule JSON: " + s.getScheduleJson());
+                System.out.println("JSON data: " + s.getScheduleJson());
                 System.out.println("----------------------------------------");
             }
         };

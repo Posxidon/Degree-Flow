@@ -16,6 +16,7 @@ public class SchedulingController {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
+    // GET a single user's schedule JSON
     @GetMapping("/{userId}")
     public ResponseEntity<?> getScheduleForUser(@PathVariable String userId) {
         return scheduleRepository.findById(userId)
@@ -23,6 +24,7 @@ public class SchedulingController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // GET all schedule rows (optional)
     @GetMapping("/all")
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
