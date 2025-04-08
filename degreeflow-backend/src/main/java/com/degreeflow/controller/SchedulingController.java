@@ -1,13 +1,16 @@
 package com.degreeflow.controller;
 
+import com.degreeflow.model.JsonSchedule;
 import com.degreeflow.service.SchedulingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/public/schedules")  // <-- add 'public' here
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/schedules")
+@CrossOrigin(origins = "*")
 public class SchedulingController {
     private final SchedulingService schedulingService;
 
@@ -16,11 +19,13 @@ public class SchedulingController {
         this.schedulingService = schedulingService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getLatestScheduleByUserId(@PathVariable String userId) {
-        String scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userId);
-        if (scheduleJson != null) {
-            return ResponseEntity.ok(scheduleJson);
+    @GetMapping("/getSchedule")
+    public ResponseEntity<?> getLatestScheduleByUserId(@RequestParam("userID") String userID) {
+        System.out.println("requested");
+        Optional<JsonSchedule> scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userID);
+        System.out.println(scheduleJson.isPresent());
+        if (scheduleJson.isPresent()) { 
+            return ResponseEntity.ok(scheduleJson.get());
         } else {
             return ResponseEntity.notFound().build();
         }

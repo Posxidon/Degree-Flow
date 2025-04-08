@@ -3,55 +3,54 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
 import './GenerateSchedule.css';
 
 function GenerateSchedule() {
   const navigate = useNavigate();
-  const {
-    user, isAuthenticated, isLoading
-  } = useAuth0();
-
+  const { getAccessTokenSilently } = useAuth0();
   const [selectedYear, setSelectedYear] = useState('1');
+  const [loading, setLoading] = useState(false);
   const [coursesByYear, setCoursesByYear] = useState({});
   const [error, setError] = useState('');
-
-  const fetchSchedule = async (userId) => {
+  const [courses, setCourses] = useState([]);
+  const url = 'http://localhost:8080/api/schedules/getSchedule?';
+  const fetchSchedule = async () => {
+    console.log('requesting');
+    setLoading(true);
     try {
-      console.log('👤 Logged-in user ID:', userId);
-
-      const res = await axios.get(`http://localhost:8080/api/public/schedules/${encodeURIComponent(userId)}`);
-      if (!res.data) throw new Error('No data returned from backend');
-
-      console.log('✅ Raw JSON from backend:', res.data);
-      const parsed = JSON.parse(res.data);
-      console.log('✅ Parsed schedule by year:', parsed);
-
-      setCoursesByYear(parsed);
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+      const response = await (await fetch(url + new URLSearchParams({
+        userID: token
+      }), {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })).json();
+      setCoursesByYear(response);
+      setLoading(false);
+      console.log(response);
+      console.log('success');
     } catch (err) {
-      console.error('❌ Error fetching schedule:', err);
-      setError('Failed to load schedule. Please try again.');
+      console.log(err.message);
+      setError('Failed to get degree data, please try again.');
     }
   };
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated && user?.sub) {
-      fetchSchedule(user.sub).catch(console.error);
-    }
-  }, [isAuthenticated, isLoading, user]);
+    fetchSchedule();
+  }, []);
 
   const handleYearChange = (e) => {
-    const year = e.target.value;
-    setSelectedYear(year);
-    const courses = coursesByYear[year] || [];
-    console.log(`📅 Selected Year: ${year}`);
-    courses.forEach((course) => {
-      const shortDesc = course.desc?.split('.')[0] || 'No description available';
-      console.log(`➡️ ${course.courseCode}: ${shortDesc}`);
-    });
+    setSelectedYear(e);
   };
 
-  const courses = coursesByYear[selectedYear] || [];
+  useEffect(() => {
+    setCourses(coursesByYear[selectedYear]);
+  }, [coursesByYear, selectedYear]);
 
   return (
     <div className="schedule-container">
