@@ -14,7 +14,7 @@ root.render(
         domain="dev-ga3kbufgkmbbq0sw.us.auth0.com"
         clientId="vqJ6wTK3EEsqMAXCFdGLZfBIwrMRrrZA"
         authorizationParams={{
-          redirect_uri: window.location.origin,
+          redirect_uri: `${window.location.origin}/dashboard`,
           audience: 'https://degreeflow-backend/api',
           scope: 'openid profile email read:data write:data'
         }}
