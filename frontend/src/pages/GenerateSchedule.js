@@ -22,17 +22,16 @@ function GenerateSchedule() {
         audience: 'https://degreeflow-backend/api',
         scope: 'read:data write:data'
       });
-      const response = await (await fetch(url + new URLSearchParams({
-        userID: token
-      }), {
+      const res = await fetch(url + new URLSearchParams({ userID: token }), {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
         }
-      })).json();
-      setCoursesByYear(response);
-      setLoading(false);
-      console.log(response);
+      });
+      const result = await res.json();
+      const parsedData = JSON.parse(result.json); // ← this is the actual course data
+      setCoursesByYear(parsedData);
+      console.log(parsedData);
       console.log('success');
     } catch (err) {
       console.log(err.message);
@@ -58,12 +57,21 @@ function GenerateSchedule() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
 
-      <select className="schedule-select" value={selectedYear} onChange={handleYearChange}>
-        <option value="1">Year 1</option>
-        <option value="2">Year 2</option>
-        <option value="3">Year 3</option>
-        <option value="4">Year 4</option>
+      {Object.keys(coursesByYear).length > 0 && (
+      <select
+        className="schedule-select"
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
+      >
+        {Object.keys(coursesByYear).map((year) => (
+          <option key={year} value={year}>
+            Year
+            {' '}
+            {year}
+          </option>
+        ))}
       </select>
+      )}
 
       {Array.isArray(courses) && courses.length > 0 ? (
         courses.map((course) => (
