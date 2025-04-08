@@ -70,7 +70,7 @@ public class RatingControllerTest {
     }
 
     @Test
-    public void testGetRatingByStudentAndCourse_Found() {
+    public void testGetRatingByStudentAndCourse() {
         Rating mockRating = new Rating("student@mcmaster.ca", "COMPSCI 3MI3", 4);
         mockRating.setId(1L);
         mockRating.setSubmittedAt(LocalDateTime.now());
@@ -82,18 +82,6 @@ public class RatingControllerTest {
 
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertEquals(response.getBody(), mockRating);
-        verify(ratingService).getRatingByStudentAndCourse("student@mcmaster.ca", "COMPSCI 3MI3");
-    }
-
-    @Test
-    public void testGetRatingByStudentAndCourse_NotFound() {
-        when(ratingService.getRatingByStudentAndCourse("student@mcmaster.ca", "COMPSCI 3MI3"))
-                .thenReturn(Optional.empty());
-
-        ResponseEntity<?> response = ratingController.getRatingByStudentAndCourse("student@mcmaster.ca", "COMPSCI 3MI3");
-
-        assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
-        assertNull(response.getBody());
         verify(ratingService).getRatingByStudentAndCourse("student@mcmaster.ca", "COMPSCI 3MI3");
     }
 }

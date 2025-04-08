@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import RatingApiService from '../../services/RatingApiService';
 import LoginPromptModal from './LoginModal/LoginPromptModal';
 import './CourseDifficultyRating.css';
@@ -15,6 +16,7 @@ function CourseDifficultyRating({ courseId, email }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
 
   // Refs for focus trapping
   const modalRef = useRef(null);
@@ -32,14 +34,18 @@ function CourseDifficultyRating({ courseId, email }) {
       try {
         setIsLoading(true);
         // Get the rating summary for this course
-        const summary = await RatingApiService.getRatingSummary(courseId);
+        const summary = await RatingApiService.getRatingSummary(courseId, getAccessTokenSilently);
         setAverageRating(summary.averageRating);
         setTotalRatings(summary.totalRatings);
         setDifficultyCategory(summary.difficultyCategory);
 
         // Check if the current student has already rated this course
         if (isLoggedIn) {
-          const existingRating = await RatingApiService.getStudentRating(email, courseId);
+          const existingRating = await RatingApiService.getStudentRating(
+            email,
+            courseId,
+            getAccessTokenSilently
+          );
           if (existingRating) {
             setUserRating(existingRating.stars);
           }
@@ -101,10 +107,10 @@ function CourseDifficultyRating({ courseId, email }) {
 
     try {
       // Submit the rating to the backend
-      await RatingApiService.submitRating(email, courseId, userRating);
+      await RatingApiService.submitRating(email, courseId, userRating, getAccessTokenSilently);
 
       // Refresh the rating summary
-      const summary = await RatingApiService.getRatingSummary(courseId);
+      const summary = await RatingApiService.getRatingSummary(courseId, getAccessTokenSilently);
       setAverageRating(summary.averageRating);
       setTotalRatings(summary.totalRatings);
       setDifficultyCategory(summary.difficultyCategory);
@@ -189,7 +195,13 @@ function CourseDifficultyRating({ courseId, email }) {
         <div
           className="rating-modal-backdrop"
           onClick={handleOverlayClick}
-          aria-hidden="true"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setModalOpen(false);
+            }
+          }}
+          role="presentation"
+          tabIndex={-1}
         >
           <div
             ref={modalRef}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth0 } from '@auth0/auth0-react'; // ✅ Import Auth0
+import { useAuth0 } from '@auth0/auth0-react'; //  Import Auth0
 import LegalPopUp from './LegalPopUp';
 import TranscriptTable from './TranscriptTable';
 import './UploadTranscript.css';
@@ -12,7 +12,7 @@ function UploadTranscript() {
   const [transcriptData, setTranscriptData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0(); // ✅ Auth hooks
+  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0(); //  Auth hooks
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -59,7 +59,7 @@ function UploadTranscript() {
       const response = await axios.post('http://localhost:8080/api/transcripts/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}` // ✅ Add token
+          Authorization: `Bearer ${token}` //  Add token
         }
       });
 

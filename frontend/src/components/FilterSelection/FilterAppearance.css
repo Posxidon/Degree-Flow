@@ -25,7 +25,7 @@
 }
 
 /* Filter section headers */
-.filter-title {
+.filter-selection .filter-title {
     font-family: sans-serif;
     display: flex;
     width: 100%;
@@ -89,6 +89,7 @@
     font-size: 14px;
     border-radius: 3px;
     margin-right: 8px;
+    cursor: pointer;
 }
 
 .checkbox-checkmark {
