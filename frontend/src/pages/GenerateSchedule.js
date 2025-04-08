@@ -3,144 +3,43 @@ import { useNavigate } from 'react-router-dom';
 
 function GenerateSchedule() {
   const navigate = useNavigate();
-  const [selectedTerm, setSelectedTerm] = useState('Fall 2025');
-  const [schedule, setSchedule] = useState([]);
 
-  // Define course data for each term (5 courses per term)
-  const coursesByTerm = {
-    'Fall 2025': [
-      {
-        code: 'COMPSCI 1MD3',
-        name: 'Discrete Math for Comp Sci',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 1JC3',
-        name: 'Intro to Computational Thinking',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 1AD3',
-        name: 'Intro to Programming',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      },
-      {
-        code: 'COMPSCI 1XC3',
-        name: 'Development Basics',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 1XD3',
-        name: 'Intro to Software Development',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      }
-    ],
-    'Winter 2025': [
-      {
-        code: 'MATH 1B03',
-        name: 'Linear Algebra',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'MATH 1ZA3',
-        name: 'Engineering Mathematics I',
-        instructor: 'N/A',
-        room: 'KTH 107'
-      },
-      {
-        code: 'MATH 1ZB3',
-        name: 'Engineering Mathematics II-A',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      },
-      {
-        code: 'ECON 1B03',
-        name: 'Introductory Microeconomics',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2BC3',
-        name: 'Computer Science Fundamentals',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      }
-    ],
-    'Fall 2026': [
-      {
-        code: 'COMPSCI 2AC3',
-        name: 'Automata and Computability',
-        instructor: 'N/A',
-        room: 'MDCL 1005'
-      },
-      {
-        code: 'COMPSCI 2C03',
-        name: 'Data Structures and Algorithms',
-        instructor: 'N/A',
-        room: 'LRWB 1003'
-      },
-      {
-        code: 'COMPSCI 2DB3',
-        name: 'Database Systems',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2GA3',
-        name: 'Computer Architecture',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 2LC3',
-        name: 'Logical Reasoning',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      }
-    ],
-    'Winter 2026': [
-      {
-        code: 'COMPSCI 2ME3',
-        name: 'Intro to Software Development',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2SD3',
-        name: 'Concurrent systems',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 2XC3',
-        name: 'Algorithms and software design',
-        instructor: 'N/A',
-        room: 'MDCL 1007'
-      },
-      {
-        code: 'COMPSCI 3SD3',
-        name: 'Computer Graphics',
-        instructor: 'N/A',
-        room: 'LRWB 1003'
-      },
-      {
-        code: 'COMPSCI 4AL3',
-        name: 'Applications of machine learning',
-        instructor: 'N/A',
-        room: 'TSH 108'
-      }
-    ]
-  };
+  // We'll store the parsed JSON object here
+  const [scheduleByYear, setScheduleByYear] = useState({});
+  const [selectedYear, setSelectedYear] = useState('1');
+  const [loading, setLoading] = useState(true);
+
+  // Use a valid user ID that exists in your json_schedule table (e.g. "1")
+  const userId = '1';
 
   useEffect(() => {
-    setSchedule(coursesByTerm[selectedTerm] || []);
-  }, [selectedTerm]);
+    async function fetchSchedule() {
+      try {
+        const response = await fetch(`http://localhost:8080/api/schedules/${userId}`);
+        if (response.ok) {
+          // The endpoint returns a JSON string
+          const scheduleJsonString = await response.json();
+          // Convert the JSON string to an object
+          const parsedData = JSON.parse(scheduleJsonString);
+          setScheduleByYear(parsedData);
+        } else {
+          console.error('Schedule not found or error occurred');
+        }
+      } catch (error) {
+        console.error('Error fetching schedule:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchSchedule();
+  }, [userId]);
+
+  if (loading) {
+    return <p>Loading schedule...</p>;
+  }
+
+  // The user selected "1", "2", "3", or "4". We'll show that year's array of courses
+  const coursesForYear = scheduleByYear[selectedYear] || [];
 
   const containerStyle = {
     margin: '20px auto',
@@ -158,13 +57,6 @@ function GenerateSchedule() {
     color: '#85013c',
     textAlign: 'center',
     marginBottom: '20px'
-  };
-
-  const messageStyle = {
-    textAlign: 'center',
-    marginBottom: '20px',
-    fontSize: '16px',
-    color: '#333'
   };
 
   const selectStyle = {
@@ -211,40 +103,54 @@ function GenerateSchedule() {
   return (
     <div style={containerStyle}>
       <h2 style={headerStyle}>Generate Schedule</h2>
-      <p style={messageStyle}>
+      <p style={{
+        textAlign: 'center', marginBottom: '20px', fontSize: '16px', color: '#333'
+      }}
+      >
         Your transcript was parsed successfully and your schedule is ready.
       </p>
+
+      {/* Year dropdown */}
       <select
         style={selectStyle}
-        value={selectedTerm}
-        onChange={(e) => setSelectedTerm(e.target.value)}
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
       >
-        <option value="Fall 2025">Fall 2025</option>
-        <option value="Winter 2025">Winter 2025</option>
-        <option value="Fall 2026">Fall 2026</option>
-        <option value="Winter 2026">Winter 2026</option>
+        <option value="1">Year 1</option>
+        <option value="2">Year 2</option>
+        <option value="3">Year 3</option>
+        <option value="4">Year 4</option>
       </select>
-      {schedule
-       && schedule.length > 0
-       && schedule.map((course) => (
-         <div key={course.code} style={courseBlockStyle}>
-           <div style={courseTitleStyle}>
-             <span>{course.code}</span>
-             <span>{': '}</span>
-             <span>{course.name}</span>
-           </div>
-           <div style={courseDetailsStyle}>
-             <p>
-               <strong>Instructor:</strong>
-               <span>{course.instructor}</span>
-             </p>
-             <p>
-               <strong>Room:</strong>
-               <span>{course.room}</span>
-             </p>
-           </div>
-         </div>
-       ))}
+
+      {/* Display courses for the selected year */}
+      {coursesForYear.map((course) => (
+        <div key={course.id} style={courseBlockStyle}>
+          <div style={courseTitleStyle}>
+            <span>{course.courseCode}</span>
+            <span>{': '}</span>
+            <span>{course.name}</span>
+          </div>
+          <div style={courseDetailsStyle}>
+            <p>
+              <strong>Unit:</strong>
+              {' '}
+              {course.unit}
+            </p>
+            <p>
+              <strong>Description:</strong>
+              {' '}
+              {course.desc}
+            </p>
+            <p>
+              <strong>Years:</strong>
+              {' '}
+              {course.years}
+            </p>
+            {/* Additional fields like prereqs, antireqs can be displayed if desired */}
+          </div>
+        </div>
+      ))}
+
       <button
         type="button"
         style={backButtonStyle}
