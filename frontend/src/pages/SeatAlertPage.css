@@ -7,8 +7,9 @@
     border-radius: 8px;
     padding: 20px;
     text-align: center;
-    background-color: #fff;
+    background-color: #ffffff;
     position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .input-wrapper {
@@ -18,26 +19,38 @@
 
 .seat-alert-header {
     margin-bottom: 15px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 22px;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
 }
 
 .seat-alert-label {
     display: block;
     text-align: left;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 6px;
+    font-weight: 600;
     font-family: 'Inter', sans-serif;
+    color: #333;
 }
 
 .seat-alert-input,
 .seat-alert-select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    width: 96%;
+    padding: 10px;
+    margin-bottom: 12px;
     font-size: 16px;
     font-family: 'Inter', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.seat-alert-input:focus,
+.seat-alert-select:focus {
+    border-color: #7a003c;
+    box-shadow: 0 0 0 2px rgba(122, 0, 60, 0.2);
 }
 
 .seat-alert-dropdown {
@@ -45,12 +58,12 @@
     top: 100%;
     left: 0;
     width: 100%;
-    max-width: 350px;
-    background-color: #fff;
+    max-width: 100%;
+    background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-height: 180px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
     margin-top: 4px;
@@ -60,35 +73,43 @@
     display: block;
     width: 100%;
     text-align: left;
-    padding: 10px;
-    font-size: 14px;
-    border: none;
-    background: white;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    background: #ffffff;
     cursor: pointer;
-    border-bottom: 1px solid #f1f1f1;
-    transition: background 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
 }
 
-.dropdown-item:hover {
-    background-color: #f0f0f0;
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: #f8f8f8;
+    color: #000;
 }
 
 .seat-alert-button {
     width: 100%;
     padding: 12px;
     font-size: 16px;
+    font-weight: bold;
     color: #fff;
     background-color: #7a003c;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.seat-alert-button:hover {
+    background-color: #5d002f;
 }
 
 .error-box {
     margin-top: 10px;
     background-color: #ffe6e6;
-    color: red;
+    color: #c10000;
     padding: 10px;
     border-radius: 4px;
     font-weight: bold;
@@ -98,7 +119,7 @@
 .success-box {
     margin-top: 10px;
     background-color: #e6ffe6;
-    color: green;
+    color: #006400;
     padding: 10px;
     border-radius: 4px;
     font-weight: bold;

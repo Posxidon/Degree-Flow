@@ -1,55 +1,71 @@
 /* HomePage.css */
 
+/* ============ BASE ============ */
 .homepage {
     font-family: 'Poppins', sans-serif;
     background-color: #7a003c;
     color: white;
     text-align: center;
     min-height: 100vh;
-    padding-bottom: 50px;
+    padding: 0;
+    margin: 0;
     overflow-x: hidden;
-    padding: 0; /* ✅ remove bottom padding */
 }
 
+/* ============ HERO SECTION ============ */
+/* ============ HERO SECTION ============ */
 .hero {
+    width: 100%;
+    height: 70vh;
     padding: 80px 20px 60px;
-    width: 100vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #7a003c;
+    margin: 0;
 }
-
 .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+    font-size: 3.2rem;
     font-weight: 700;
+    margin-bottom: 20px;
+    max-width: 800px;
+    line-height: 1.3;
 }
 
 .hero .subtext {
     font-size: 1.2rem;
-    margin-bottom: 30px;
+    font-weight: 400;
+    margin-bottom: 40px;
+    max-width: 700px;
+    color: #f0f0f0;
 }
 
 .hero button {
     background-color: white;
     color: #7a003c;
     border: none;
-    padding: 12px 24px;
+    padding: 14px 30px;
     font-size: 1rem;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .hero button:hover {
-    background-color: #f2f2f2;
+    background-color: #f8f8f8;
 }
 
+/* ============ FEATURES SECTION ============ */
 .features-section {
     background-color: white;
     color: #2c2c2c;
     padding: 60px 20px;
     border-radius: 40px 40px 0 0;
-    margin-top: 40px;
-    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .features-section h2 {
@@ -65,6 +81,7 @@
     line-height: 1.6;
 }
 
+/* ============ FEATURES GRID ============ */
 .features-grid {
     display: flex;
     flex-wrap: wrap;
@@ -92,10 +109,11 @@
     color: #333;
 }
 
+/* ============ CTA Section ============ */
 .call-to-action {
     background-color: #7a003c;
     color: white;
-    padding: 60px 20px 0; /* Removed extra bottom padding */
+    padding: 60px 20px 0;
     margin-bottom: 0;
     border-radius: 0;
 }
@@ -120,6 +138,8 @@
 .call-to-action button:hover {
     background-color: #f2f2f2;
 }
+
+/* ============ DISCLAIMER ============ */
 .disclaimer-note {
     max-width: 800px;
     margin: 40px auto 0;

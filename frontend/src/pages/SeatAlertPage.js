@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './SeatAlertPage.css';
 
 function SeatAlertPage() {
@@ -8,11 +9,11 @@ function SeatAlertPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
   const [suggestions, setSuggestions] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-
   const containerRef = useRef(null);
+
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -25,11 +26,26 @@ function SeatAlertPage() {
   }, []);
 
   const fetchSinglePattern = async (subject, pattern) => {
-    const url = `http://localhost:8080/api/courses/wildcard?subjectCode=${subject}&catalogPattern=${pattern}`;
-    const resp = await fetch(url);
-    if (!resp.ok) return [];
-    const data = await resp.json();
-    return data;
+    try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+
+      const url = `http://localhost:8080/api/courses/wildcard?subjectCode=${subject}&catalogPattern=${pattern}`;
+      const resp = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!resp.ok) return [];
+      const data = await resp.json();
+      return data;
+    } catch (err) {
+      console.error('Error fetching courses:', err);
+      return [];
+    }
   };
 
   const handleCourseCodeChange = async (e) => {
@@ -57,18 +73,15 @@ function SeatAlertPage() {
       if (/^[1-4]$/.test(firstChar)) {
         const pattern = `${firstChar}***`;
         const data = await fetchSinglePattern(subject, pattern);
-
-        if (numPart.length > 1) {
-          const remainder = numPart.substring(1).toUpperCase();
-          results = data.filter((course) => course.catalogNumber.toUpperCase().includes(remainder));
-        } else {
-          results = data;
-        }
+        results = numPart.length > 1
+        // eslint-disable-next-line max-len
+          ? data.filter((course) => course.catalogNumber.toUpperCase().includes(numPart.substring(1)))
+          : data;
       } else {
-        const patterns = ['1***', '2***', '3***', '4***'];
-        const allPromises = patterns.map((p) => fetchSinglePattern(subject, p));
-        const allResults = await Promise.all(allPromises);
-        results = allResults.flat();
+        const allData = await Promise.all(
+          ['1***', '2***', '3***', '4***'].map((p) => fetchSinglePattern(subject, p))
+        );
+        results = allData.flat();
       }
 
       setSuggestions(results);
@@ -97,14 +110,24 @@ function SeatAlertPage() {
 
     setLoading(true);
     try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+
       const resp = await fetch('http://localhost:8080/api/seat-alerts/subscribe', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({ courseCode, email, term })
       });
+
       if (!resp.ok) {
         throw new Error('Course not offered in this term.');
       }
+
       setSuccessMessage(`Subscribed successfully for ${courseCode} in ${term}!`);
     } catch (err) {
       setErrorMessage(err.message);
@@ -119,9 +142,7 @@ function SeatAlertPage() {
 
       <div className="input-wrapper">
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label className="seat-alert-label" htmlFor="courseCodeInput">
-          Course Code
-        </label>
+        <label className="seat-alert-label" htmlFor="courseCodeInput">Course Code</label>
         <input
           id="courseCodeInput"
           className="seat-alert-input"
@@ -129,9 +150,7 @@ function SeatAlertPage() {
           placeholder="e.g. COMPSCI 3CR3"
           value={courseCode}
           onChange={handleCourseCodeChange}
-          onFocus={() => {
-            if (suggestions.length > 0) setShowDropdown(true);
-          }}
+          onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
         />
         {showDropdown && suggestions.length > 0 && (
           <div className="seat-alert-dropdown">
@@ -142,9 +161,7 @@ function SeatAlertPage() {
                 className="dropdown-item"
                 onClick={() => handleSuggestionClick(course)}
               >
-                {`${course.subjectCode} ${course.catalogNumber}${
-                  course.title ? ` — ${course.title}` : ''
-                }`}
+                {`${course.subjectCode} ${course.catalogNumber}${course.title ? ` — ${course.title}` : ''}`}
               </button>
             ))}
           </div>
@@ -152,9 +169,7 @@ function SeatAlertPage() {
       </div>
 
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="seat-alert-label" htmlFor="emailInput">
-        Email
-      </label>
+      <label className="seat-alert-label" htmlFor="emailInput">Email</label>
       <input
         id="emailInput"
         className="seat-alert-input"
@@ -165,9 +180,7 @@ function SeatAlertPage() {
       />
 
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="seat-alert-label" htmlFor="termSelect">
-        Term
-      </label>
+      <label className="seat-alert-label" htmlFor="termSelect">Term</label>
       <select
         id="termSelect"
         className="seat-alert-select"
