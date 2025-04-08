@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 import com.degreeflow.repository.RequirementGroupRepository;
 import com.degreeflow.model.DataRequirementGroup;
@@ -15,9 +17,13 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Disabled;
 
+import org.springframework.test.annotation.Rollback;
+
+
 
 @SpringBootTest
 @Transactional
+@Rollback
 public class RequirementGroupServiceTest {
 
   @Autowired
@@ -125,7 +131,20 @@ public class RequirementGroupServiceTest {
 
     List<DataRequirementGroup> groups = requirementGroupRepository.findByTranscriptId(transcriptId);
 
-    assertFalse(groups.isEmpty(), "Expected requirement groups to be saved.");
+    assertTrue(requirementGroupService.doesCourseRequirementExist(transcriptId), "Expected requirement groups to be saved.");
+    assertEquals(transcriptId, groups.get(0).getTranscriptId());
+  }
+  @Rollback(false)
+  @Test
+  public void testFetchFromApiAndSave_savesRequirementGroupsFromApi2() {
+    String transcriptId = "testTranscript003";
+    String fakeProgram = "CHEMENGCO"; // must match available test API response
+
+    requirementGroupService.fetchFromApiAndSave(fakeProgram, transcriptId);
+
+    List<DataRequirementGroup> groups = requirementGroupRepository.findByTranscriptId(transcriptId);
+
+    assertTrue(requirementGroupService.doesCourseRequirementExist(transcriptId), "Expected requirement groups to be saved.");
     assertEquals(transcriptId, groups.get(0).getTranscriptId());
   }
 

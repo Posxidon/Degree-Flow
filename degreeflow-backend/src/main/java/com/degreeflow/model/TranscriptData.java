@@ -2,7 +2,7 @@ package com.degreeflow.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+@Data
 @Entity
 @Getter
 @Setter
@@ -56,20 +56,4 @@ public class TranscriptData {
 
     @Column(nullable = false)
     private boolean checkValue = false;
-
-    public String getProgram() {
-        return program;
-    }
-
-    public String getCourseCode() {
-        return this.courseCode;
-    }
-
-    public void setCheckValue(boolean checked) {
-        this.checkValue = checked;
-    }
-
-    public String getGrade() {
-        return this.grade;
-    }
 }

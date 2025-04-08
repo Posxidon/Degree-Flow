@@ -16,20 +16,20 @@ public class RequirementGroupController {
         this.service = service;
     }
 
-    // ✅ Fetch requirement groups for a given transcript
+    // Fetch requirement groups for a given transcript
     @GetMapping
     public List<DataRequirementGroup> getGroups(@RequestParam String transcriptId) {
-        return service.computeAndReturnGroups(transcriptId);
+        return service.getRequirementGroupsForTranscript(transcriptId); // <- Add this
     }
 
-    // ✅ Process transcript: fetch requirements & return updated groups
+    // Process transcript: fetch requirements & return updated groups
     @PostMapping("/process")
     public List<DataRequirementGroup> processTranscript(
-            @RequestParam String transcriptId,
-            @RequestParam String degreeName
+        @RequestParam String transcriptId,
+        @RequestParam String degreeName
     ) {
-        service.fetchFromApiAndSave(degreeName, transcriptId); // pulls + saves requirements
-        return service.computeAndReturnGroups(transcriptId);   // returns progress groups
+        service.fetchFromApiAndSave(degreeName, transcriptId);
+        return service.getRequirementGroupsForTranscript(transcriptId);
     }
-}
 
+}

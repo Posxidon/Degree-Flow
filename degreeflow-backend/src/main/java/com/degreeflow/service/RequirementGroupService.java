@@ -46,7 +46,7 @@ public class RequirementGroupService {
       ResponseEntity<String> response = restTemplate.exchange(
         url, HttpMethod.GET, entity, String.class
       );
-
+      System.out.println("API Response: " + response.getBody());
       List<Map<String, Object>> rawGroups = objectMapper.readValue(
         response.getBody(),
         new TypeReference<>() {}
@@ -105,4 +105,8 @@ public class RequirementGroupService {
     return repository.existsByTranscriptId(transcriptId);
   }
 
+
+  public List<DataRequirementGroup> getRequirementGroupsForTranscript(String transcriptId) {
+    return repository.findByTranscriptId(transcriptId);
+  }
 }
