@@ -16,8 +16,8 @@ public class CourseFilterController {
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
     // Subscription keys
-    private static final String PRIMARY_KEY = "3da32390cf04415e91ed4feac51c9f00";
-    private static final String SECONDARY_KEY = "f86eee675259432cb3e367128453e9b6";
+    private static final String PRIMARY_KEY = System.getenv("WILDCARD_PRIMARY_KEY");
+    private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY");
 
     private static final String baseUrl = "https://api.mcmaster.ca/academic-calendar/v2";
 
