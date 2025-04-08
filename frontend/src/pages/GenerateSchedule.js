@@ -65,7 +65,7 @@ function GenerateSchedule() {
         <option value="4">Year 4</option>
       </select>
 
-      {courses.length > 0 ? (
+      {Array.isArray(courses) && courses.length > 0 ? (
         courses.map((course) => (
           <div key={course.id} className="course-block">
             <div className="course-title">
