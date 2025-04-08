@@ -442,6 +442,7 @@ public class PathwayService {
         System.out.println(json);
         if (prevRecords.isPresent()) {
             JsonSchedule schedule = prevRecords.get();
+            degreeRepository.delete(schedule);
             schedule.setJson(json);
             degreeRepository.save(schedule);
         }else {
