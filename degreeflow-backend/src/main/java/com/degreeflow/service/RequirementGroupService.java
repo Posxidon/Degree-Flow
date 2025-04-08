@@ -50,6 +50,11 @@ public class RequirementGroupService {
     System.out.println(resp);
   }
 
+  public List<List<String>> fetchDegreeList() {
+    List<List<String>> degreeLst = pathwayService.printCodes();
+    return degreeLst;
+  }
+
   /**
    * Parses and saves raw requirement group data retrieved from {@code fetchFromApiAndSave} into the database,
    * associating each entry with a specific transcript ID. 
