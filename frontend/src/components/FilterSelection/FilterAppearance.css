@@ -1,121 +1,144 @@
-.custom-checkbox {
-    display: inline-block;          /* Ensure it's visible inline */
-    width: 15px;                   /* Set the size of the checkbox */
-    height: 15px;                  /* Same height as width */
-    border: 2px solid #000;        /* Add a visible border */
-    background-color: #fff;        /* Set a white background */
-    text-align: center;            /* Center text inside */
-    line-height: 15px;             /* Align the text vertically */
-    font-size: 14px;               /* Adjust font size for symbols */
-    font-weight: bold;             /* Make the symbols bold */
-    user-select: none;             /* Prevent text selection */
-    cursor: pointer;               /* Show pointer cursor on hover */
-    min-width: 15px;
-    min-height: 15px;
-}
-.checkbox-checkmark {
-    color: green;
-    font-weight: bold;
-    font-size: 20px;
+.filter {
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 98%;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
-/* Style for X */
-.checkbox-x {
-    color: rgb(165, 1, 75);
-    font-weight: bold;
-    font-size: 20px;
+#filterH2 {
+    font-size: 28px;
 }
 
-.custom-checkbox:hover {
-    background-color: #f0f0f0;     /* Add a hover effect */
+.filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the filter contents */
+    width: 100%;
 }
 
-/* Label styling */
-label {
-    margin-left: 10px;
-}
-
-.filter-title{
+/* Filter section headers */
+.filter-title {
     font-family: sans-serif;
-    display: flex;         
-    width: 100%;           
-    margin-bottom: 5px;      
-    padding: 10px;
+    display: flex;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 12px 15px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     background-color: white;
-    color: black;
+    color: #333;
     border: none;
+    border-radius: 6px;
     text-align: left;
     justify-content: space-between;
     align-items: center;
-}
-.icon-change{
-    font-size:  26px;                /* Size of the + or − icon */
-    color: black;                   /* Color of the icon */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+.icon-change {
+    font-size: 24px;
+    color: #85013c;
+}
+
+/* Filter options container */
 .filter-selection {
-    width: 100%;                    /* Let it scale with screen size */
-    max-width: 700px;               /* Prevent it from getting too wide */
-    min-width: 300px;               /* Prevent it from shrinking too much */
-    
+    width: 100%;
     padding: 10px;
-    background-color: rgb(225, 228, 230);
+    background-color: #f5f5f5;
     display: flex;
     flex-direction: column;
-    gap: 1px;
-  
-    box-sizing: border-box;         /* Ensure padding doesn’t cause overflow */
-  }
+    gap: 8px;
+    margin-bottom: 20px; /* Add space between filter options and button */
+}
 
+/* Filter options display */
 .filter-subtitles {
-    display: grid;             /* Enables flexbox flex; */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;                    /* Adds space between each option */
-    margin-top: 10px;             /* Adds some spacing above the options */
-    align-items: center;
-
-
-    max-height: 300px; /* Limits the height of the options container */
-    overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
-    scrollbar-width: thin; /* Makes scrollbar thinner for Firefox */
-   
-    border-radius: 5px; /* Rounds edges for better design */
-    padding: 10px; /* Adds internal padding */
-    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    padding: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 5px;
 }
 
-.filter-subtitles::-webkit-scrollbar {
-  width: 15px; /* Adjusts scrollbar width */
+@media screen and (max-width: 1310px) {
+    .filter-subtitles {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
 }
 
-.option-div {
-    font-family: sans-serif;
-    display: flex;         /* Ensures each option is inline and aligns next to each other */
-    align-items: center;          /* Vertically centers the checkbox and label */
-    gap: 5px;                     /* Adds space between the checkbox and label */
-    height: 60px;
+/* Checkbox styling */
+.custom-checkbox {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    background-color: #fff;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-right: 8px;
 }
 
-.filter {   
-    margin-top: 4%;
-    margin-left: 1%;
-    font-size:  20px;   
-    font-family: sans-serif;
-    width: 725px;                   /* Set the width of the container */
-    padding:  20px;                  /* Add padding inside the rectangle */
-    border-radius: 15px;            /* Rounds the edges of the rectangle */
-    background-color: rgb(225, 228, 230);      /* Light gray background color */
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
-    border: 1px solid #ccc;         /* Optional: Adds a subtle border */
-    
-    max-width: 725px;
-    max-height: 700px; /* Limits the height of the options container */
-    overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
-    scrollbar-width: auto; /* Makes scrollbar thinner for Firefox */
+.checkbox-checkmark {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.checkbox-x {
+    color: #85013c;
+    font-weight: bold;
+}
+
+.custom-checkbox:hover {
+    background-color: #f0f0f0;
 }
 
 .filter h2 {
-    margin: 0; /* Remove default margin around the h2 title */
+    margin: 0 0 15px 0;
+    color: #85013c;
+    font-size: 20px;
+    width: 100%;
+}
+
+/* Apply Filters button styling */
+.apply-filters-btn {
+    width: 100%;
+    height: 48px;
+    padding: 12px 20px;
+    background-color: #85013c;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+
+    margin: 10px auto; /* Center the button */
+    display: block; /* Required for margin auto to work */
+}
+
+.apply-filters-btn:hover {
+    background-color: #6d0131;
+}
+
+.apply-filters-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }

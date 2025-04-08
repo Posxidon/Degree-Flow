@@ -15,6 +15,12 @@ public class CourseFilterController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
+    // Subscription keys
+    private static final String PRIMARY_KEY = System.getenv("WILDCARD_PRIMARY_KEY");
+    private static final String SECONDARY_KEY = System.getenv("WILDCARD_SECONDARY_KEY");
+
+    private static final String baseUrl = "https://api.mcmaster.ca/academic-calendar/v2";
+
     @GetMapping("/by-subject-level")
     public ResponseEntity<?> getCoursesBySubjectAndLevel(
             @RequestParam String subjectCode,
@@ -22,13 +28,12 @@ public class CourseFilterController {
 
         try {
             String catalogPattern = level + "***";
-            String baseUrl = "https://api.mcmaster.ca/academic-calendar/v2";
             String url = baseUrl + "/courses/wildcard-search?catalogNumberPattern=" + catalogPattern + "&subjectCode=" + subjectCode;
 
-            String apiKey = "3da32390cf04415e91ed4feac51c9f00";
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("Ocp-Apim-Subscription-Key", apiKey)
+                    .header("Ocp-Apim-Subscription-Key", PRIMARY_KEY)
+                    .header("secondary-key", SECONDARY_KEY)
                     .GET()
                     .build();
 

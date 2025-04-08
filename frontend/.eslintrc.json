@@ -20,6 +20,8 @@
     "react/prop-types": "off",  // Disables prop-types rule for React
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
-    "arrow-parens": ["error", "always"] // Corrected configuration
+    "arrow-parens": ["error", "always"], // Corrected configuration
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0
   }
 }
