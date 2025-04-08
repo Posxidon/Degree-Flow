@@ -16,6 +16,7 @@ import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
+import WhatIf from './components/WhatIf/WhatIf';
 
 function FilterSelectionWrapper() {
   return (
@@ -116,6 +117,16 @@ function MainRoutes() {
                 requiredRoles={['users', 'admin']}
               />
                         )}
+          />
+
+          <Route
+            path="/what-if"
+            element={(
+              <ProtectedRoute
+                component={WhatIf}
+                requiredRoles={['users', 'admin']}
+              />
+            )}
           />
 
           <Route path="*" element={<Navigate to="/" />} />
