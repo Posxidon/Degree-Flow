@@ -14,4 +14,8 @@ public class JsonSchedule {
     private String json;
     @Column(length = 60000)
     private String userId;
+
+    public Object getScheduleData() {
+        return json;
+    }
 }
