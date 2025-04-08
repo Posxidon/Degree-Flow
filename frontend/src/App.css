@@ -239,10 +239,10 @@ html, body {
 .left-content {
  flex: 1;
  max-width: 300px;
- background-color: #f9f9f9;
+
  padding: 20px;
  border-radius: 10px;
- border: 1px solid #ccc;
+
 }
 
 .center-panel {
@@ -250,5 +250,4 @@ html, body {
  background-color: #fff;
  padding: 20px;
  border-radius: 10px;
- border: 1px solid #ccc;
 }
