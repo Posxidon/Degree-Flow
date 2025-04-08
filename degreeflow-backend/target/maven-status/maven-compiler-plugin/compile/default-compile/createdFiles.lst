@@ -36,7 +36,6 @@ com/degreeflow/model/Schedule.class
 com/degreeflow/model/TranscriptData.class
 com/degreeflow/model/CourseNode.class
 com/degreeflow/controller/TranscriptController.class
-com/degreeflow/service/RequirementGroupService$1.class
 com/degreeflow/service/SeatAlertService.class
 com/degreeflow/service/TranscriptParser.class
 com/degreeflow/controller/CourseFilterController.class
