@@ -319,12 +319,15 @@ function WhatIf() {
       {/* on toggle dropdown table that selects degree */}
       <div className="input-container">
         {/* calls api and toggles dropdown */}
-        <button name="degreeName" onClick={() => handleClickDegree()} className="submission-fld">
-          {Object.keys(degreeTable).includes(degree)
-            ? degreeTable[degree]
-            : 'Select Degree' }
-          <img src={dropdown} alt="select courses" className="icon" />
-        </button>
+        {!inuse
+          && (
+          <button name="degreeName" onClick={() => handleClickDegree()} className="submission-fld">
+            {Object.keys(degreeTable).includes(degree)
+              ? degreeTable[degree]
+              : 'Select Degree' }
+            <img src={dropdown} alt="select courses" className="icon" />
+          </button>
+          )}
         {/* if dropdown is toggled then show list of all degrees */}
         {showDegree && (
           <div className="dropdown">
@@ -380,7 +383,8 @@ function WhatIf() {
           && (
           <div className="component-container">
             {/* add a new year to year data */}
-            <button onClick={
+            <button
+              onClick={
               function () {
                 const newYearData = {};
                 for (let i = 0; i < Object.keys(yearData).length; i += 1) {
@@ -390,8 +394,9 @@ function WhatIf() {
                 setYearData(newYearData);
               }
             }
+              className="new-year-btn"
             >
-              add year
+              Add year to schedule
             </button>
             {/* generate year schedule */}
             {Object.keys(yearData).length > 0 && Object.keys(yearData).map((years) => (
@@ -442,8 +447,11 @@ function WhatIf() {
             ))}
             {!submitting
               && (
-              <button onClick={() => handleSubmit()}>
-                submit schedule
+              <button
+                onClick={() => handleSubmit()}
+                className="new-year-btn"
+              >
+                Save to generate schedule
               </button>
               )}
           </div>

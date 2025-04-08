@@ -4,7 +4,11 @@
     border-radius: 10px;
     margin-right: 10px;
     text-align: center;
+    align-content: stretch;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .grp-title{
     font-weight: 600;
+    margin: 20px;
 }

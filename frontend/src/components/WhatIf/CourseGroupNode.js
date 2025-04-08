@@ -29,7 +29,7 @@ function CourseGroupNode({ courseNodes, returnData, years }) {
         <div className="grp-title title">
           <p>
             {numReq}
-            &nbsp; is required for this course group
+            &nbsp; more courses from the following list is required to satisfy this requirement
           </p>
         </div>
         {/* generate courses */}

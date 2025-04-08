@@ -35,7 +35,7 @@ function Node({ courseNode, sendParentData, years }) {
         }
           className="add-year"
         >
-          Add to year
+          Add to schedule at year
         </button>
         {/* dropdown menu that shows which year you can move the course to */}
         {showDropdown && (

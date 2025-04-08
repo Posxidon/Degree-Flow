@@ -13,6 +13,7 @@ import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
+import WhatIf from './components/WhatIf/WhatIf';
 
 // Wrapper component for degree-progress
 function DegreeProgressWrapper() {
@@ -103,6 +104,16 @@ function App() {
             element={(
               <ProtectedRoute
                 component={UploadTranscript}
+                requiredRoles={['users', 'admin']}
+              />
+            )}
+          />
+
+          <Route
+            path="/what-if"
+            element={(
+              <ProtectedRoute
+                component={WhatIf}
                 requiredRoles={['users', 'admin']}
               />
             )}
