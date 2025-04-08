@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.degreeflow.service.RequirementGroupServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 2, Errors: 0, Skipped: 4, Time elapsed: 0.243 s <<< FAILURE! - in com.degreeflow.service.RequirementGroupServiceTest
-com.degreeflow.service.RequirementGroupServiceTest.testFetchFromApiAndSave_savesRequirementGroupsFromApi2  Time elapsed: 0.162 s  <<< FAILURE!
+Tests run: 6, Failures: 2, Errors: 0, Skipped: 4, Time elapsed: 0.266 s <<< FAILURE! - in com.degreeflow.service.RequirementGroupServiceTest
+com.degreeflow.service.RequirementGroupServiceTest.testFetchFromApiAndSave_savesRequirementGroupsFromApi2  Time elapsed: 0.184 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: Expected requirement groups to be saved. ==> expected: <true> but was: <false>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)

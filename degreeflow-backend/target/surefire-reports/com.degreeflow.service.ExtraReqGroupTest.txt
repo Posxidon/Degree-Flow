@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.degreeflow.service.ExtraReqGroupTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.214 s - in com.degreeflow.service.ExtraReqGroupTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.738 s - in com.degreeflow.service.ExtraReqGroupTest
