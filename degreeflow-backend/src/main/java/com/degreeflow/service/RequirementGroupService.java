@@ -8,6 +8,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -33,30 +37,17 @@ public class RequirementGroupService {
    * @param transcriptId the student’s transcript ID to associate with the fetched data
    */
   public void fetchFromApiAndSave(String degreeName, String transcriptId) {
+    String httpResponse = "";
+    String url = "http://localhost:8080/api/degree/requirement?";
     try {
-      String url = "http://localhost:8080/api/degree/requirements?degreeName=" + degreeName+ "&showTech=true";
-
-      HttpHeaders headers = new HttpHeaders();
-      String auth = "user:1148626e-f576-48fa-add3-a9d9403815aa";
-      String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
-      headers.set("Authorization", "Basic " + encodedAuth);
-
-      HttpEntity<String> entity = new HttpEntity<>(headers);
-
-      ResponseEntity<String> response = restTemplate.exchange(
-        url, HttpMethod.GET, entity, String.class
-      );
-      System.out.println("API Response: " + response.getBody());
-      List<Map<String, Object>> rawGroups = objectMapper.readValue(
-        response.getBody(),
-        new TypeReference<>() {}
-      );
-
-      saveFromRawData(rawGroups, transcriptId);
-
-      System.out.println("Degree requirements successfully saved.");
+      HttpClient client = HttpClient.newHttpClient();
+      HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+              .header("degreeName",degreeName)
+              .header("showTech", "true").build();
+      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+      httpResponse = response.body();
     } catch (Exception e) {
-      System.err.println("Failed to fetch and save degree requirements: " + e.getMessage());
+      System.out.println("http failed");
     }
   }
 
