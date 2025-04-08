@@ -1,35 +1,25 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
+
+// Layout Components
 import Header from './Header';
 import Footer from './Footer';
+
+// Pages and Components
 import HomePage from './HomePage';
 import UnitTracker from './components/UnitTracker/UnitTracker';
 import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
-import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterOptions from './components/FilterSelection/FilterOptions';
+import FilterWrapper from './components/FilterSelection/FilterWrapper';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
+import WhatIf from './components/WhatIf/WhatIf';
 
-// Wrapper component for FilterSelection
-function FilterSelectionWrapper() {
-  return (
-    <div className="filter-course-container">
-      <div className="filter-box-wrapper">
-        <FilterSelection />
-      </div>
-      <div className="course-list-wrapper">
-        <FilterOptions />
-      </div>
-    </div>
-  );
-}
-
-// Wrapper component for degree-progress
+// Wrapper component for Degree Progress
 function DegreeProgressWrapper() {
   return (
     <>
@@ -55,72 +45,83 @@ function App() {
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={
+            element={(
               <ProtectedRoute
                 component={UnitTracker}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
           <Route
             path="/protected-data"
-            element={
+            element={(
               <ProtectedRoute
                 component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
           <Route
             path="/seat-alert"
-            element={
+            element={(
               <ProtectedRoute
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
           <Route
             path="/generate-schedule"
-            element={
+            element={(
               <ProtectedRoute
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
+          {/* IMPORTANT: match the path exactly as you navigate in your app */}
           <Route
-            path="/FilterSelection"
-            element={
+            path="/filter-selection"
+            element={(
               <ProtectedRoute
-                component={FilterSelectionWrapper}
+                component={FilterWrapper}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
           <Route
             path="/degree-progress"
-            element={
+            element={(
               <ProtectedRoute
                 component={DegreeProgressWrapper}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
           />
 
           <Route
             path="/upload-transcript"
-            element={
+            element={(
               <ProtectedRoute
                 component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
-            }
+                          )}
+          />
+
+          <Route
+            path="/what-if"
+            element={(
+              <ProtectedRoute
+                component={WhatIf}
+                requiredRoles={['users', 'admin']}
+              />
+                          )}
           />
 
           {/* Fallback Route */}

@@ -214,3 +214,34 @@ html, body {
       padding: 5px;
    }
 }
+/* =========================
+   LANDING PAGE FIX (ONLY AT '/')
+   ========================= */
+body.landing .main-content {
+    padding: 0 !important;
+    display: block !important;
+}
+/* =========================
+   DASHBOARD WRAPPER FIX
+   ========================= */
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 2rem 4rem;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto; /* Centers the dashboard horizontally */
+}
+
+.left-content {
+    flex: 1;
+    max-width: 400px;
+}
+
+.center-panel {
+    flex: 2;
+    min-width: 600px;
+}

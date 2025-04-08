@@ -1,19 +1,41 @@
-/* HomePage.css */
+/* =============================
+   HomePage.css
+   Fully Aligned, Gap-Free Layout
+============================= */
 
+/* ============ GLOBAL RESET ============ */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* ============ ROOT CONTAINER ============ */
 .homepage {
     font-family: 'Poppins', sans-serif;
     background-color: #7a003c;
     color: white;
     text-align: center;
     min-height: 100vh;
-    padding-bottom: 50px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
     overflow-x: hidden;
-    padding: 0; /* ✅ remove bottom padding */
+    box-sizing: border-box;
 }
 
+/* ============ HERO SECTION ============ */
 .hero {
+    height: 100vh;
+    width: 100%;
     padding: 80px 20px 60px;
-    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .hero h1 {
@@ -25,6 +47,8 @@
 .hero .subtext {
     font-size: 1.2rem;
     margin-bottom: 30px;
+    max-width: 700px;
+    color: #f0f0f0;
 }
 
 .hero button {
@@ -43,13 +67,13 @@
     background-color: #f2f2f2;
 }
 
+/* ============ FEATURES SECTION ============ */
 .features-section {
     background-color: white;
     color: #2c2c2c;
     padding: 60px 20px;
     border-radius: 40px 40px 0 0;
-    margin-top: 40px;
-    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .features-section h2 {
@@ -65,6 +89,7 @@
     line-height: 1.6;
 }
 
+/* ============ FEATURES GRID ============ */
 .features-grid {
     display: flex;
     flex-wrap: wrap;
@@ -92,10 +117,11 @@
     color: #333;
 }
 
+/* ============ CTA SECTION ============ */
 .call-to-action {
     background-color: #7a003c;
     color: white;
-    padding: 60px 20px 0; /* Removed extra bottom padding */
+    padding: 60px 20px 0;
     margin-bottom: 0;
     border-radius: 0;
 }
@@ -120,6 +146,8 @@
 .call-to-action button:hover {
     background-color: #f2f2f2;
 }
+
+/* ============ DISCLAIMER ============ */
 .disclaimer-note {
     max-width: 800px;
     margin: 40px auto 0;
