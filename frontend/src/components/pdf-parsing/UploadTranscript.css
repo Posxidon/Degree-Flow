@@ -1,92 +1,130 @@
-/* Ensure the main container is centered */
 .transcript-upload {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
-    margin-top: 20px;
+    padding-top: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Center the table */
-.table-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 50px;
-}
-
-/* Fix Table Styles */
-table {
-    width: 80%;
-    max-width: 800px;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 2px solid #ddd;
-    background-color: white;
-}
-
-table, th, td {
-    border: 2px solid #ddd;
-    padding: 12px;
-    text-align: center;
-}
-
-th {
-    background-color: #5e002d;
-    color: white;
-    font-weight: bold;
-}
-
-td {
-    background-color: #fff;
-}
-
-/* Center buttons and ensure alignment */
+.upload-section,
 .file-upload-section {
     display: flex;
     justify-content: center;
-    align-items: center; /* Aligns input and button */
-    width: 100%;
-    gap: 10px; /* Ensures spacing */
-    margin-top: 30px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-/* Style the file input */
 input[type="file"] {
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 5px;
     border: 1px solid #ccc;
     background-color: white;
-    width: 220px; /* Matches button width */
+    width: 240px;
+    font-size: 14px;
 }
 
-/* Style buttons */
 button {
-    width: 220px;
-    height: 42px; /* Ensures uniform height */
-    background-color: #5e002d; /* McMaster Maroon */
+    width: 240px;
+    height: 42px;
+    background-color: #5e002d;
     color: white;
     border: none;
-    padding: 10px;
     font-size: 16px;
-    cursor: pointer;
+    font-weight: 600;
     border-radius: 6px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #3c001f; /* Darker maroon on hover */
+    background-color: #3c001f;
 }
 
-/* Legal Pop-up Styling */
-.popup-overlay {
+.instruction-note {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5e002d;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.program-next-gpa-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin: 30px auto;
+    width: 100%;
+}
+
+.program-summary-box,
+.next-steps-box,
+.gpa-summary-text {
+    max-width: 800px;
+    width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    padding: 25px 30px;
+}
+
+.program-summary-box {
+    background-color: #f5f5fa;
+    text-align: left;
+}
+
+.program-summary-box h2 {
+    margin-bottom: 15px;
+    color: #5e002d;
+}
+
+.program-summary-box p {
+    margin: 6px 0;
+    font-size: 17px;
+    color: #333;
+}
+
+.next-steps-box {
+    background-color: #f9f4fb;
+    border-left: 6px solid #5e002d;
+    text-align: left;
+}
+
+.next-steps-box h3 {
+    color: #5e002d;
+    margin-bottom: 10px;
+}
+
+.next-steps-box p, .next-steps-box ul {
+    color: #333;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.next-steps-box ul {
+    padding-left: 20px;
+}
+
+.next-steps-box li {
+    margin-bottom: 6px;
+}
+
+.gpa-summary-text {
+    background-color: #f9f4fb;
+    border-left: 6px solid #5e002d;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+.legal-popup-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -94,39 +132,51 @@ button:hover {
     z-index: 1000;
 }
 
-.popup-content {
+.legal-popup-card {
     background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    width: 80%;
+    padding: 2.5rem;
+    border-radius: 12px;
     max-width: 600px;
+    width: 90%;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
     text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: popupFadeIn 0.3s ease-in-out;
 }
 
-.popup-content h2 {
-    color: #5e002d; /* McMaster Maroon */
-    margin-bottom: 10px;
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.popup-content p {
-    color: #333;
-    font-size: 16px;
-    line-height: 1.5;
+.legal-popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-.popup-content button {
-    background-color: #5e002d; /* McMaster Maroon */
-    color: white;
+.legal-popup-buttons button {
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
     border: none;
-    padding: 14px 24px;
-    font-size: 16px;
-    cursor: pointer;
     border-radius: 6px;
-    transition: background-color 0.3s ease;
-    margin: 10px;
+    cursor: pointer;
+    min-width: 120px;
 }
 
-.popup-content button:hover {
-    background-color: #3c001f; /* Darker maroon */
+.legal-popup-buttons .agree {
+    background-color: #5e002d;
+    color: white;
+}
+
+.legal-popup-buttons .cancel {
+    background-color: #888;
+    color: white;
 }

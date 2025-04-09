@@ -3,24 +3,21 @@ import {
   Routes, Route, Navigate, useLocation
 } from 'react-router-dom';
 import './App.css';
+
 import Header from './Header';
 import Footer from './Footer';
 import HomePage from './HomePage';
-import UnitTracker from './components/UnitTracker/UnitTracker';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript';
+import SeatAlertPage from './pages/SeatAlertPage';
+import GenerateSchedule from './pages/GenerateSchedule';
+import WhatIf from './components/WhatIf/WhatIf';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterOptions from './components/FilterSelection/FilterOptions';
-import FilterWrapper from './components/FilterSelection/FilterWrapper';
-import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
-import YearlySchedule from './components/YearlySchedule/YearlySchedule';
-import SeatAlertPage from './pages/SeatAlertPage';
-import GenerateSchedule from './pages/GenerateSchedule';
-import UploadTranscript from './components/pdf-parsing/UploadTranscript';
-import WhatIf from './components/WhatIf/WhatIf';
-import PrivacyPolicy from './pages/PrivacyPolicy';
 
-// Wrapper component for /FilterSelection
+// Combined FilterSelection wrapper
 function FilterSelectionWrapper() {
   return (
     <div className="filter-course-container">
@@ -34,19 +31,6 @@ function FilterSelectionWrapper() {
   );
 }
 
-// Wrapper component for /dashboard
-function DashboardWrapper() {
-  return (
-    <div className="dashboard-wrapper">
-      <div className="left-content">
-        <UnitTrackerSection />
-      </div>
-      <div className="center-panel">
-        <YearlySchedule />
-      </div>
-    </div>
-  );
-}
 function MainRoutes() {
   const location = useLocation();
 
@@ -54,33 +38,27 @@ function MainRoutes() {
     const isLanding = location.pathname === '/';
     document.body.classList.toggle('landing', isLanding);
   }, [location.pathname]);
+
   return (
     <>
       <Header />
       <main className={location.pathname === '/' ? '' : 'dashboard-main'}>
         <Routes>
-          {/*  Public Routes */}
+          {/* 🌐 Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-          {/*  Protected Routes */}
+
+          {/* 🔐 Protected Routes */}
           <Route
             path="/dashboard"
             element={(
               <ProtectedRoute
-                component={DashboardWrapper}
+                component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
-          <Route
-            path="/protected-data"
-            element={(
-              <ProtectedRoute
-                component={ProtectedData}
-                requiredRoles={['users', 'admin']}
-              />
-            )}
-          />
+
           <Route
             path="/seat-alert"
             element={(
@@ -88,8 +66,9 @@ function MainRoutes() {
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
+
           <Route
             path="/generate-schedule"
             element={(
@@ -97,26 +76,9 @@ function MainRoutes() {
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
-          <Route
-            path="/FilterSelection"
-            element={(
-              <ProtectedRoute
-                component={FilterSelectionWrapper}
-                requiredRoles={['users', 'admin']}
-              />
-            )}
-          />
-          <Route
-            path="/upload-transcript"
-            element={(
-              <ProtectedRoute
-                component={UploadTranscript}
-                requiredRoles={['users', 'admin']}
-              />
-            )}
-          />
+
           <Route
             path="/what-if"
             element={(
@@ -124,9 +86,30 @@ function MainRoutes() {
                 component={WhatIf}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
-          {/* Catch-all fallback */}
+
+          <Route
+            path="/FilterSelection"
+            element={(
+              <ProtectedRoute
+                component={FilterSelectionWrapper}
+                requiredRoles={['users', 'admin']}
+              />
+                        )}
+          />
+
+          <Route
+            path="/protected-data"
+            element={(
+              <ProtectedRoute
+                component={ProtectedData}
+                requiredRoles={['users', 'admin']}
+              />
+                        )}
+          />
+
+          {/* fallback redirect */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
