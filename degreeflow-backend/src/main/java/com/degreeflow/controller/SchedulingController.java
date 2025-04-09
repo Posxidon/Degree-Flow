@@ -2,6 +2,7 @@ package com.degreeflow.controller;
 
 import com.degreeflow.model.JsonSchedule;
 import com.degreeflow.service.SchedulingService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,10 @@ public class SchedulingController {
     @GetMapping("/getSchedule")
     public ResponseEntity<?> getLatestScheduleByUserId(@RequestParam("userID") String userID) {
         System.out.println("requested");
-        Optional<JsonSchedule> scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userID);
-        System.out.println(scheduleJson.isPresent());
-        if (scheduleJson.isPresent()) { 
-            return ResponseEntity.ok(scheduleJson.get());
+        JSONObject scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userID);
+        System.out.println(scheduleJson);
+        if (scheduleJson != null) {
+            return ResponseEntity.ok(scheduleJson);
         } else {
             return ResponseEntity.notFound().build();
         }

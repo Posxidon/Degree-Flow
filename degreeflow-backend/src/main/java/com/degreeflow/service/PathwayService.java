@@ -56,6 +56,7 @@ public class PathwayService {
      */
     public List<CourseNode> parseCourse(String url){
         JSONObject cJson = makeMosaicApiCall(url,false);
+        System.out.println(cJson);
         if (cJson == null){
             return null;
         }
@@ -437,12 +438,15 @@ public class PathwayService {
      */
     public boolean addToDB(String json, String userId){
         // get list of all previous records and remove them
-        Optional<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
+        List<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
         System.out.println("adding to db");
         System.out.println(json);
-        if (prevRecords.isPresent()) {
-            JsonSchedule schedule = prevRecords.get();
-            degreeRepository.delete(schedule);
+        if (prevRecords.size() > 0) {
+            for (JsonSchedule js : prevRecords) {
+                degreeRepository.delete(js);
+            }
+            JsonSchedule schedule = new JsonSchedule();
+            schedule.setUserId(userId);
             schedule.setJson(json);
             degreeRepository.save(schedule);
         }else {

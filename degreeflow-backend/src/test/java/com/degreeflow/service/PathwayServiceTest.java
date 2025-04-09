@@ -311,10 +311,11 @@ public class PathwayServiceTest {
         JsonSchedule schedule = new JsonSchedule();
         schedule.setJson(body);
         schedule.setUserId(id);
-
+        List<JsonSchedule> r = new ArrayList<>();
+        r.add(schedule);
         when(pathwayService.addToDB(body,id)).thenReturn(true);
 
-        when(degreeRepository.findByUserId(id)).thenReturn(Optional.of(schedule));
+        when(degreeRepository.findByUserId(id)).thenReturn(r);
 
     }
 
