@@ -14,6 +14,7 @@ import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import WhatIf from './components/WhatIf/WhatIf';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // Wrapper component for degree-progress
 function DegreeProgressWrapper() {
@@ -35,8 +36,10 @@ function App() {
       <Header />
       <main className="main-content">
         <Routes>
-          {/* Public Route */}
+          {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          {' '}
 
           {/* Protected Routes */}
           <Route
@@ -46,7 +49,7 @@ function App() {
                 component={UnitTracker}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -56,7 +59,7 @@ function App() {
                 component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -66,7 +69,7 @@ function App() {
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -76,7 +79,7 @@ function App() {
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -86,7 +89,7 @@ function App() {
                 component={FilterWrapper}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -96,7 +99,7 @@ function App() {
                 component={DegreeProgressWrapper}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -106,7 +109,7 @@ function App() {
                 component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           <Route
@@ -116,7 +119,7 @@ function App() {
                 component={WhatIf}
                 requiredRoles={['users', 'admin']}
               />
-            )}
+                        )}
           />
 
           {/* Fallback Route */}
