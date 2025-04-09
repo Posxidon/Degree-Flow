@@ -9,12 +9,12 @@ function GenerateSchedule() {
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [selectedYear, setSelectedYear] = useState('1');
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [coursesByYear, setCoursesByYear] = useState({});
   const [error, setError] = useState('');
   const [courses, setCourses] = useState([]);
   const url = 'http://localhost:8080/api/schedules/getSchedule?';
+
   const fetchSchedule = async () => {
     console.log('requesting');
     setLoading(true);
@@ -23,18 +23,20 @@ function GenerateSchedule() {
         audience: 'https://degreeflow-backend/api',
         scope: 'read:data write:data'
       });
-      const response = await (await fetch(url + new URLSearchParams({
-        userID: token
-      }), {
+
+      const res = await fetch(url + new URLSearchParams({ userID: token }), {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`
         }
-      })).json();
-      setCoursesByYear(response);
-      setLoading(false);
-      console.log(response);
+      });
+
+      const result = await res.json();
+      const parsedData = JSON.parse(result.scheduleData || result.json);
+      setCoursesByYear(parsedData);
+      console.log(parsedData);
       console.log('success');
+      setLoading(false);
     } catch (err) {
       console.log(err.message);
       setError('Failed to get degree data, please try again.');
@@ -45,12 +47,8 @@ function GenerateSchedule() {
     fetchSchedule();
   }, []);
 
-  const handleYearChange = (e) => {
-    setSelectedYear(e);
-  };
-
   useEffect(() => {
-    setCourses(coursesByYear[selectedYear]);
+    setCourses(coursesByYear[selectedYear] || []);
   }, [coursesByYear, selectedYear]);
 
   return (
@@ -59,28 +57,26 @@ function GenerateSchedule() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
 
-      {Object.keys(coursesByYear).length > 0 && (
-          <select
-              className="schedule-select"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-          >
-            {Object.keys(coursesByYear).map((year) => (
-                <option key={year} value={year}>
-                  Year {year}
-                </option>
-            ))}
-          </select>
-      )}
-
+      <select
+        className="schedule-select"
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
+      >
+        {[1, 2, 3, 4, 5, 6].map((year) => (
+          <option key={year} value={year.toString()}>
+            Year
+            {' '}
+            {year}
+          </option>
+        ))}
+      </select>
 
       {Array.isArray(courses) && courses.length > 0 ? (
-        courses.map((course) => (
-          <div key={course.id} className="course-block">
+        courses.map((course, index) => (
+          <div key={course.id || index} className="course-block">
             <div className="course-title">
               {course.courseCode}
               :
-              {' '}
               {course.name}
             </div>
             <div className="course-details">
