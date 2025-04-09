@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface DegreeRepository extends JpaRepository<JsonSchedule, Long> {
-    Optional<JsonSchedule> findByUserId(String userId);
+    List<JsonSchedule> findByUserId(String userId);
 }

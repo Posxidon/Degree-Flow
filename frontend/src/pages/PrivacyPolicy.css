@@ -1,0 +1,40 @@
+.privacy-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    color: #333;
+}
+
+.privacy-container h1 {
+    font-size: 2.2rem;
+    color: #800000;
+    margin-bottom: 20px;
+}
+
+.privacy-container h2 {
+    font-size: 1.6rem;
+    margin-top: 30px;
+    color: #5a0000;
+}
+
+.privacy-container h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+.privacy-container p {
+    margin-bottom: 15px;
+}
+
+.privacy-download {
+    margin-top: 40px;
+}
+
+.privacy-download a {
+    color: #800000;
+    text-decoration: underline;
+    font-weight: bold;
+}

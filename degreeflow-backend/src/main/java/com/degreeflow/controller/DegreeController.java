@@ -2,85 +2,70 @@ package com.degreeflow.controller;
 
 import com.degreeflow.model.Degree;
 import com.degreeflow.service.PathwayService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import netscape.javascript.JSObject;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-import java.util.Collections;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
+@Tag(
+        name = "Degree Plans",
+        description = "Manage and fetch degree requirements and saved schedules"
+)
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/degree")
+@CrossOrigin(
+        origins = {"*"}
+)
+@RequestMapping({"/api/degree"})
 public class DegreeController {
-
     @Autowired
     private PathwayService pathwayService;
 
-    /**
-     * api endpoint for get request to get requirement of certain degree
-     * @param degreeName - the degree code of the degree to be fetched
-     * @param showTech - whether to list technical electives or not
-     * @return - degree object representing the requirements of the degree
-     */
-    @GetMapping("/requirement")
+    public DegreeController() {
+    }
+
+    @Operation(
+            summary = "Get degree requirements",
+            description = "Returns requirements for a given degree code"
+    )
+    @GetMapping({"/requirement"})
     public ResponseEntity<Degree> getRequirement(@RequestParam("degreeName") String degreeName, @RequestParam("showTech") String showTech) {
         System.out.println("param");
         System.out.println(degreeName);
         System.out.println("showTech");
         System.out.println(showTech);
         boolean showParam = Objects.equals(showTech, "true");
-        Degree resp = pathwayService.parseDegreePlan(degreeName,showParam);
-        if (resp != null){
-            return ResponseEntity.ok(resp);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
+        Degree resp = this.pathwayService.parseDegreePlan(degreeName, showParam);
+        return resp != null ? ResponseEntity.ok(resp) : ResponseEntity.notFound().build();
     }
 
-    /**
-     * api endpoint for get list of all degree names and codes
-     * @return an ordered list of all degree names and codes
-     */
-    @GetMapping("/degreeName")
+    @Operation(
+            summary = "Get all degree names and codes",
+            description = "Returns a list of all degrees"
+    )
+    @GetMapping({"/degreeName"})
     public ResponseEntity<List<List<String>>> getAllDegree() {
-        List<List<String>> output = pathwayService.printCodes();
-        if (output == null){
-            return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok(output);
-        }
+        List<List<String>> output = this.pathwayService.printCodes();
+        return output == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(output);
     }
 
-    /**
-     * post user schedule to db
-     * @param schedule - schedule json to be posted
-     * @return - http response indicating success status
-     */
-    @PostMapping("/addSchedule")
+    @Operation(
+            summary = "Save user schedule",
+            description = "Post a user’s schedule to the database"
+    )
+    @PostMapping({"/addSchedule"})
     public ResponseEntity<?> addSchedule(@RequestBody String schedule, @RequestParam("userid") String userid) {
         System.out.println("schedule");
         System.out.println(schedule);
-        if (pathwayService.addToDB(schedule,userid)) {
-            return ResponseEntity.ok("success");
-        }
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("failed db");
+        return this.pathwayService.addToDB(schedule, userid) ? ResponseEntity.ok("success") : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("failed db");
     }
 }

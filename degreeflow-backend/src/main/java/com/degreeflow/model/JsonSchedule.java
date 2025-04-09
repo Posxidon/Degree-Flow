@@ -1,17 +1,24 @@
 package com.degreeflow.model;
+
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
+@Table(name = "json_schedule") // Explicitly specify the table name
 @Data
 public class JsonSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(columnDefinition="TEXT")
+
+    @Column(columnDefinition = "TEXT")
     private String json;
-    @Column(length = 60000)
+
+    @Column(name = "user_id", length = 60000) // Explicitly map to the correct column name
     private String userId;
+
+    public Object getScheduleData() {
+        return json;
+    }
 }
+
