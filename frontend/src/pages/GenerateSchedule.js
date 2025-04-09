@@ -14,6 +14,7 @@ function GenerateSchedule() {
   const [error, setError] = useState('');
   const [courses, setCourses] = useState([]);
   const url = 'http://localhost:8080/api/schedules/getSchedule?';
+
   const fetchSchedule = async () => {
     console.log('requesting');
     setLoading(true);
@@ -28,11 +29,13 @@ function GenerateSchedule() {
           Authorization: `Bearer ${token}`
         }
       });
+
       const result = await res.json();
-      const parsedData = JSON.parse(result.json); // ← this is the actual course data
+      const parsedData = JSON.parse(result.scheduleData || result.json);
       setCoursesByYear(parsedData);
       console.log(parsedData);
       console.log('success');
+      setLoading(false);
     } catch (err) {
       console.log(err.message);
       setError('Failed to get degree data, please try again.');
@@ -43,12 +46,8 @@ function GenerateSchedule() {
     fetchSchedule();
   }, []);
 
-  const handleYearChange = (e) => {
-    setSelectedYear(e);
-  };
-
   useEffect(() => {
-    setCourses(coursesByYear[selectedYear]);
+    setCourses(coursesByYear[selectedYear] || []);
   }, [coursesByYear, selectedYear]);
 
   return (
@@ -57,7 +56,6 @@ function GenerateSchedule() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
 
-      {Object.keys(coursesByYear).length > 0 && (
       <select
         className="schedule-select"
         value={selectedYear}
@@ -74,12 +72,11 @@ function GenerateSchedule() {
       )}
 
       {Array.isArray(courses) && courses.length > 0 ? (
-        courses.map((course) => (
-          <div key={course.id} className="course-block">
+        courses.map((course, index) => (
+          <div key={course.id || index} className="course-block">
             <div className="course-title">
               {course.courseCode}
               :
-              {' '}
               {course.name}
             </div>
             <div className="course-details">
