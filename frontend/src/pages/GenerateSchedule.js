@@ -1,255 +1,112 @@
-import React, { useState, useEffect } from 'react';
+// GenerateSchedule.js
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import './GenerateSchedule.css';
 
 function GenerateSchedule() {
   const navigate = useNavigate();
-  const [selectedTerm, setSelectedTerm] = useState('Fall 2025');
-  const [schedule, setSchedule] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
+  const [selectedYear, setSelectedYear] = useState('1');
+  const [loading, setLoading] = useState(false);
+  const [coursesByYear, setCoursesByYear] = useState({});
+  const [error, setError] = useState('');
+  const [courses, setCourses] = useState([]);
+  const url = 'http://localhost:8080/api/schedules/getSchedule?';
 
-  // Define course data for each term (5 courses per term)
-  const coursesByTerm = {
-    'Fall 2025': [
-      {
-        code: 'COMPSCI 1MD3',
-        name: 'Discrete Math for Comp Sci',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 1JC3',
-        name: 'Intro to Computational Thinking',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 1AD3',
-        name: 'Intro to Programming',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      },
-      {
-        code: 'COMPSCI 1XC3',
-        name: 'Development Basics',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 1XD3',
-        name: 'Intro to Software Development',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      }
-    ],
-    'Winter 2025': [
-      {
-        code: 'MATH 1B03',
-        name: 'Linear Algebra',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'MATH 1ZA3',
-        name: 'Engineering Mathematics I',
-        instructor: 'N/A',
-        room: 'KTH 107'
-      },
-      {
-        code: 'MATH 1ZB3',
-        name: 'Engineering Mathematics II-A',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      },
-      {
-        code: 'ECON 1B03',
-        name: 'Introductory Microeconomics',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2BC3',
-        name: 'Computer Science Fundamentals',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      }
-    ],
-    'Fall 2026': [
-      {
-        code: 'COMPSCI 2AC3',
-        name: 'Automata and Computability',
-        instructor: 'N/A',
-        room: 'MDCL 1005'
-      },
-      {
-        code: 'COMPSCI 2C03',
-        name: 'Data Structures and Algorithms',
-        instructor: 'N/A',
-        room: 'LRWB 1003'
-      },
-      {
-        code: 'COMPSCI 2DB3',
-        name: 'Database Systems',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2GA3',
-        name: 'Computer Architecture',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 2LC3',
-        name: 'Logical Reasoning',
-        instructor: 'N/A',
-        room: 'TSH 127'
-      }
-    ],
-    'Winter 2026': [
-      {
-        code: 'COMPSCI 2ME3',
-        name: 'Intro to Software Development',
-        instructor: 'N/A',
-        room: 'BSB 108'
-      },
-      {
-        code: 'COMPSCI 2SD3',
-        name: 'Concurrent systems',
-        instructor: 'N/A',
-        room: 'KTH 104'
-      },
-      {
-        code: 'COMPSCI 2XC3',
-        name: 'Algorithms and software design',
-        instructor: 'N/A',
-        room: 'MDCL 1007'
-      },
-      {
-        code: 'COMPSCI 3SD3',
-        name: 'Computer Graphics',
-        instructor: 'N/A',
-        room: 'LRWB 1003'
-      },
-      {
-        code: 'COMPSCI 4AL3',
-        name: 'Applications of machine learning',
-        instructor: 'N/A',
-        room: 'TSH 108'
-      }
-    ]
+  const fetchSchedule = async () => {
+    console.log('requesting');
+    setLoading(true);
+    try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://degreeflow-backend/api',
+        scope: 'read:data write:data'
+      });
+      const res = await fetch(url + new URLSearchParams({ userID: token }), {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const result = await res.json();
+      const parsedData = JSON.parse(result.scheduleData || result.json);
+      setCoursesByYear(parsedData);
+      console.log(parsedData);
+      console.log('success');
+      setLoading(false);
+    } catch (err) {
+      console.log(err.message);
+      setError('Failed to get degree data, please try again.');
+    }
   };
 
   useEffect(() => {
-    setSchedule(coursesByTerm[selectedTerm] || []);
-  }, [selectedTerm]);
+    fetchSchedule();
+  }, []);
 
-  const containerStyle = {
-    margin: '20px auto',
-    width: '90%',
-    maxWidth: '800px',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '20px',
-    backgroundColor: '#fff'
-  };
-
-  const headerStyle = {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#85013c',
-    textAlign: 'center',
-    marginBottom: '20px'
-  };
-
-  const messageStyle = {
-    textAlign: 'center',
-    marginBottom: '20px',
-    fontSize: '16px',
-    color: '#333'
-  };
-
-  const selectStyle = {
-    width: '100%',
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    marginBottom: '20px'
-  };
-
-  const courseBlockStyle = {
-    border: '1px solid #85013c',
-    borderRadius: '6px',
-    padding: '10px',
-    marginBottom: '15px'
-  };
-
-  const courseTitleStyle = {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    color: '#85013c',
-    marginBottom: '5px'
-  };
-
-  const courseDetailsStyle = {
-    fontSize: '14px',
-    color: '#333'
-  };
-
-  const backButtonStyle = {
-    width: '100%',
-    padding: '12px 20px',
-    fontSize: '16px',
-    color: '#fff',
-    backgroundColor: '#85013c',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '20px',
-    textAlign: 'center'
-  };
+  useEffect(() => {
+    setCourses(coursesByYear[selectedYear] || []);
+  }, [coursesByYear, selectedYear]);
 
   return (
-    <div style={containerStyle}>
-      <h2 style={headerStyle}>Generate Schedule</h2>
-      <p style={messageStyle}>
-        Your transcript was parsed successfully and your schedule is ready.
-      </p>
+    <div className="schedule-container">
+      <h2 className="schedule-header">Generate Schedule</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
+
       <select
-        style={selectStyle}
-        value={selectedTerm}
-        onChange={(e) => setSelectedTerm(e.target.value)}
+        className="schedule-select"
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(e.target.value)}
       >
-        <option value="Fall 2025">Fall 2025</option>
-        <option value="Winter 2025">Winter 2025</option>
-        <option value="Fall 2026">Fall 2026</option>
-        <option value="Winter 2026">Winter 2026</option>
+        {Object.keys(coursesByYear).map((year) => (
+          <option key={year} value={year}>
+            Year
+            {' '}
+            {year}
+          </option>
+        ))}
       </select>
-      {schedule
-       && schedule.length > 0
-       && schedule.map((course) => (
-         <div key={course.code} style={courseBlockStyle}>
-           <div style={courseTitleStyle}>
-             <span>{course.code}</span>
-             <span>{': '}</span>
-             <span>{course.name}</span>
-           </div>
-           <div style={courseDetailsStyle}>
-             <p>
-               <strong>Instructor:</strong>
-               <span>{course.instructor}</span>
-             </p>
-             <p>
-               <strong>Room:</strong>
-               <span>{course.room}</span>
-             </p>
-           </div>
-         </div>
-       ))}
-      <button
-        type="button"
-        style={backButtonStyle}
-        onClick={() => navigate('/dashboard')}
-      >
+
+      {Array.isArray(courses) && courses.length > 0 ? (
+        courses.map((course, index) => (
+          <div key={course.id || index} className="course-block">
+            <div className="course-title">
+              {course.courseCode}
+              :
+              {course.name}
+            </div>
+            <div className="course-details">
+              <p>
+                <strong>Description:</strong>
+                {' '}
+                {course.desc}
+              </p>
+              <p>
+                <strong>Prereqs:</strong>
+                {' '}
+                {course.prereqs?.join(', ') || 'None'}
+              </p>
+              <p>
+                <strong>Antireqs:</strong>
+                {' '}
+                {course.antireqs?.join(', ') || 'None'}
+              </p>
+              <p>
+                <strong>Units:</strong>
+                {' '}
+                {course.unit}
+              </p>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="schedule-message">No courses available for this year.</p>
+      )}
+
+      <button type="button" className="back-button" onClick={() => navigate('/dashboard')}>
         Back to Dashboard
       </button>
     </div>

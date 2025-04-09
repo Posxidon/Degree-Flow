@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.testng.Assert.assertTrue;
@@ -26,7 +27,7 @@ public class DegreeRepositoryTest {
 
         degreeRepository.save(schedule);
 
-        Optional<JsonSchedule> retrievedSchedule = degreeRepository.findByUserId(schedule.getUserId());
-        assertTrue(retrievedSchedule.isPresent());
+        List<JsonSchedule> retrievedSchedule = degreeRepository.findByUserId(schedule.getUserId());
+        assertTrue(retrievedSchedule.size()>0);
     }
 }

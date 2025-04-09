@@ -3,21 +3,22 @@ import {
   Routes, Route, Navigate, useLocation
 } from 'react-router-dom';
 import './App.css';
-
 import Header from './Header';
 import Footer from './Footer';
 import HomePage from './HomePage';
+import UnitTracker from './components/UnitTracker/UnitTracker';
 import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterOptions from './components/FilterSelection/FilterOptions';
+import FilterWrapper from './components/FilterSelection/FilterWrapper';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import WhatIf from './components/WhatIf/WhatIf';
-import PrivacyPolicy from './pages/PrivacyPolicy'; 
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // Wrapper component for /FilterSelection
 function FilterSelectionWrapper() {
@@ -46,7 +47,6 @@ function DashboardWrapper() {
     </div>
   );
 }
-
 function MainRoutes() {
   const location = useLocation();
 
@@ -54,7 +54,6 @@ function MainRoutes() {
     const isLanding = location.pathname === '/';
     document.body.classList.toggle('landing', isLanding);
   }, [location.pathname]);
-
   return (
     <>
       <Header />
@@ -63,7 +62,6 @@ function MainRoutes() {
           {/*  Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-
           {/*  Protected Routes */}
           <Route
             path="/dashboard"
@@ -128,7 +126,6 @@ function MainRoutes() {
               />
             )}
           />
-
           {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

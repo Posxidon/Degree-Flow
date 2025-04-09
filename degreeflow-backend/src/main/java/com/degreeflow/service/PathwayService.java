@@ -437,20 +437,18 @@ public class PathwayService {
      */
     public boolean addToDB(String json, String userId){
         // get list of all previous records and remove them
-        Optional<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
+        List<JsonSchedule> prevRecords = degreeRepository.findByUserId(userId);
         System.out.println("adding to db");
         System.out.println(json);
-        if (prevRecords.isPresent()) {
-            JsonSchedule schedule = prevRecords.get();
-            degreeRepository.delete(schedule);
-            schedule.setJson(json);
-            degreeRepository.save(schedule);
-        }else {
-            JsonSchedule schedule = new JsonSchedule();
-            schedule.setJson(json);
-            schedule.setUserId(userId);
-            degreeRepository.save(schedule);
+        JsonSchedule schedule = new JsonSchedule();
+        schedule.setJson(json);
+        schedule.setUserId(userId);
+        if (prevRecords.size()>0) {
+            for (JsonSchedule s : prevRecords) {
+                degreeRepository.delete(s);
+            }
         }
+        degreeRepository.save(schedule);
         return true;
     }
 }

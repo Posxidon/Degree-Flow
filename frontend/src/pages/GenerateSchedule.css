@@ -1,0 +1,73 @@
+/* GenerateSchedule.css */
+
+.schedule-container {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.schedule-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #85013c;
+    margin-bottom: 20px;
+}
+
+.schedule-message {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.schedule-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-family: inherit;
+}
+
+.course-block {
+    border: 1px solid #85013c;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.course-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #85013c;
+    margin-bottom: 5px;
+}
+
+.course-details {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.course-details p {
+    margin: 5px 0;
+}
+
+.back-button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #85013c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
