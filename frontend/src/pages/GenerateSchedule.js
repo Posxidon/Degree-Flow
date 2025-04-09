@@ -55,7 +55,7 @@ function GenerateSchedule() {
     <div className="schedule-container">
       <h2 className="schedule-header">Generate Schedule</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
+      <p className="schedule-message">Your detailed What-If scenario is below</p>
 
       {Object.keys(coursesByYear).length > 0 && (
       <select

@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +18,13 @@ public class SchedulingService {
 
     private final DegreeRepository degreeRepository;
     private final SeatAlertService seatAlertService;
+    private final TimeTableScraperService timeTableScraperService;
 
     @Autowired
-    public SchedulingService(DegreeRepository degreeRepository, SeatAlertService seatAlertService) {
+    public SchedulingService(DegreeRepository degreeRepository, SeatAlertService seatAlertService, TimeTableScraperService timeTableScraperService) {
         this.seatAlertService = seatAlertService;
         this.degreeRepository = degreeRepository;
+        this.timeTableScraperService = timeTableScraperService;
     }
 
     public JSONObject getLatestScheduleJsonByUserId(String userId) {
@@ -44,7 +48,16 @@ public class SchedulingService {
                         c.put("courseCode",courseCode);
                         c.put("desc",description);
                         c.put("years",years);
+                        List<String> l = new ArrayList<>();
+                        l.add(courseCode);
                         boolean isFall = seatAlertService.courseExistsInTerm(courseCode,"Fall-2024");
+                        try {
+                            System.out.println("get time table");
+                            System.out.println(timeTableScraperService.getOpenSeats("Fall-2024",l));
+                        }catch (Exception e){
+                            System.out.println("failed to get time");
+                        }
+
                         if (isFall){
                             fallCourses.put(c);
                         }else {
