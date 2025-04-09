@@ -1,5 +1,7 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {
+  Routes, Route, Navigate, useLocation
+} from 'react-router-dom';
 import './App.css';
 import Header from './Header';
 import Footer from './Footer';
@@ -7,6 +9,8 @@ import HomePage from './HomePage';
 import UnitTracker from './components/UnitTracker/UnitTracker';
 import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
+import FilterSelection from './components/FilterSelection/FilterSelection';
+import FilterOptions from './components/FilterSelection/FilterOptions';
 import FilterWrapper from './components/FilterSelection/FilterWrapper';
 import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
 import YearlySchedule from './components/YearlySchedule/YearlySchedule';
@@ -14,31 +18,56 @@ import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import WhatIf from './components/WhatIf/WhatIf';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+
+// Wrapper component for /FilterSelection
+function FilterSelectionWrapper() {
   return (
-    <>
+    <div className="filter-course-container">
+      <div className="filter-box-wrapper">
+        <FilterSelection />
+      </div>
+      <div className="course-list-wrapper">
+        <FilterOptions />
+      </div>
+    </div>
+  );
+}
+
+// Wrapper component for /dashboard
+function DashboardWrapper() {
+  return (
+    <div className="dashboard-wrapper">
       <div className="left-content">
         <UnitTrackerSection />
       </div>
       <div className="center-panel">
         <YearlySchedule />
       </div>
-    </>
+    </div>
   );
 }
+function MainRoutes() {
+  const location = useLocation();
 
-function App() {
+  useEffect(() => {
+    const isLanding = location.pathname === '/';
+    document.body.classList.toggle('landing', isLanding);
+  }, [location.pathname]);
   return (
-    <div className="App">
+    <>
       <Header />
-      <main className="main-content">
+      <main className={location.pathname === '/' ? '' : 'dashboard-main'}>
         <Routes>
+          {/*  Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          {/*  Protected Routes */}
           <Route
             path="/dashboard"
             element={(
               <ProtectedRoute
-                component={UnitTracker}
+                component={DashboardWrapper}
                 requiredRoles={['users', 'admin']}
               />
             )}
@@ -74,17 +103,7 @@ function App() {
             path="/FilterSelection"
             element={(
               <ProtectedRoute
-                component={FilterWrapper}
-                requiredRoles={['users', 'admin']}
-              />
-                        )}
-          />
-
-          <Route
-            path="/degree-progress"
-            element={(
-              <ProtectedRoute
-                component={DegreeProgressWrapper}
+                component={FilterSelectionWrapper}
                 requiredRoles={['users', 'admin']}
               />
             )}
@@ -107,10 +126,19 @@ function App() {
               />
             )}
           />
+          {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
       <Footer />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <div className="App">
+      <MainRoutes />
     </div>
   );
 }
