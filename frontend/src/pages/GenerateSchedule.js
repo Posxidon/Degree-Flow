@@ -9,6 +9,7 @@ function GenerateSchedule() {
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [selectedYear, setSelectedYear] = useState('1');
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [coursesByYear, setCoursesByYear] = useState({});
   const [error, setError] = useState('');
@@ -58,14 +59,22 @@ function GenerateSchedule() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <p className="schedule-message">Your transcript was parsed successfully and your schedule is ready.</p>
 
-      <select className="schedule-select" value={selectedYear} onChange={handleYearChange}>
-        <option value="1">Year 1</option>
-        <option value="2">Year 2</option>
-        <option value="3">Year 3</option>
-        <option value="4">Year 4</option>
-      </select>
+      {Object.keys(coursesByYear).length > 0 && (
+          <select
+              className="schedule-select"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+          >
+            {Object.keys(coursesByYear).map((year) => (
+                <option key={year} value={year}>
+                  Year {year}
+                </option>
+            ))}
+          </select>
+      )}
 
-      {courses.length > 0 ? (
+
+      {Array.isArray(courses) && courses.length > 0 ? (
         courses.map((course) => (
           <div key={course.id} className="course-block">
             <div className="course-title">
