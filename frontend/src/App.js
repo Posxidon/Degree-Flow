@@ -17,7 +17,9 @@ import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
 import UploadTranscript from './components/pdf-parsing/UploadTranscript';
 import WhatIf from './components/WhatIf/WhatIf';
+import PrivacyPolicy from './pages/PrivacyPolicy'; 
 
+// Wrapper component for /FilterSelection
 function FilterSelectionWrapper() {
   return (
     <div className="filter-course-container">
@@ -31,6 +33,7 @@ function FilterSelectionWrapper() {
   );
 }
 
+// Wrapper component for /dashboard
 function DashboardWrapper() {
   return (
     <div className="dashboard-wrapper">
@@ -57,8 +60,11 @@ function MainRoutes() {
       <Header />
       <main className={location.pathname === '/' ? '' : 'dashboard-main'}>
         <Routes>
+          {/*  Public Routes */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
+          {/*  Protected Routes */}
           <Route
             path="/dashboard"
             element={(
@@ -66,9 +72,8 @@ function MainRoutes() {
                 component={DashboardWrapper}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/protected-data"
             element={(
@@ -76,9 +81,8 @@ function MainRoutes() {
                 component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/seat-alert"
             element={(
@@ -86,9 +90,8 @@ function MainRoutes() {
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/generate-schedule"
             element={(
@@ -96,9 +99,8 @@ function MainRoutes() {
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/FilterSelection"
             element={(
@@ -106,9 +108,8 @@ function MainRoutes() {
                 component={FilterSelectionWrapper}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/upload-transcript"
             element={(
@@ -116,9 +117,8 @@ function MainRoutes() {
                 component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
-                        )}
+            )}
           />
-
           <Route
             path="/what-if"
             element={(
@@ -129,6 +129,7 @@ function MainRoutes() {
             )}
           />
 
+          {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
