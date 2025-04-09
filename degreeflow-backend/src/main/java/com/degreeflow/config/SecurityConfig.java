@@ -22,7 +22,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        .requestMatchers("/api/public").permitAll()
                         .requestMatchers("/api/protected", "/api/protected-data").hasAuthority("SCOPE_read:data")
                         .anyRequest().authenticated()
                 )
