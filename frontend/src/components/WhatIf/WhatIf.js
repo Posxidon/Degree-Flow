@@ -10,7 +10,7 @@ import CourseGroupNode from './CourseGroupNode';
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable jsx-a11y/control-has-associated-label,react/button-has-type */
-const password = '7fdcff03-83e6-4d99-81c4-d3e39532165d';
+// const password = '7fdcff03-83e6-4d99-81c4-d3e39532165d';
 
 /**
  * parses course group and all its given courses
@@ -339,6 +339,7 @@ function WhatIf() {
                   key={k}
                   className="option"
                   onClick={
+                    // eslint-disable-next-line func-names
                   function () {
                     setShowDegree(false);
                     setDegree(k);
@@ -385,6 +386,7 @@ function WhatIf() {
             {/* add a new year to year data */}
             <button
               onClick={
+                // eslint-disable-next-line func-names
               function () {
                 const newYearData = {};
                 for (let i = 0; i < Object.keys(yearData).length; i += 1) {
@@ -408,6 +410,7 @@ function WhatIf() {
                     // delete year function
                     // moves all courses from deleted year to previous year
                     // shift all courses after deleted year one down
+                    // eslint-disable-next-line func-names
                     function () {
                       const newYearData = {};
                       for (let i = 0; i < Object.keys(yearData).length; i += 1) {
