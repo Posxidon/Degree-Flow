@@ -14,7 +14,11 @@ function Header() {
         <img src={mesLogo} alt="MES Logo" className="mes-logo" />
         {/* eslint-disable-next-line max-len */}
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-        <h1 className="app-title" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
+        <h1
+          className="app-title"
+          onClick={() => navigate('/dashboard')}
+          style={{ cursor: 'pointer' }}
+        >
           DegreeFlow
         </h1>
 
@@ -32,7 +36,7 @@ function Header() {
             className="login-button"
             onClick={() => loginWithRedirect({
               authorizationParams: {
-                redirect_uri: `${window.location.origin}/dashboard`, // Fix this for the login redirect
+                redirect_uri: `${window.location.origin}/dashboard`,
                 audience: 'https://degreeflow-backend/api',
                 scope: 'read:data write:data'
               }
@@ -45,7 +49,6 @@ function Header() {
 
       <div className="action-bar">
         <button type="button" onClick={() => navigate('/dashboard')}>Home</button>
-        <button type="button" onClick={() => navigate('/upload-transcript')}>Upload Transcript</button>
         <button type="button" onClick={() => navigate('/FilterSelection')}>Search Filtered Courses</button>
         <button type="button" onClick={() => navigate('/generate-schedule')}>Generate Schedule</button>
         <button type="button" onClick={() => navigate('/seat-alert')}>Seat Alert</button>

@@ -6,16 +6,15 @@ import './App.css';
 
 import Header from './Header';
 import Footer from './Footer';
-import HomePage from './HomePage';
+import HomePage from './HomePage'; // public landing page
 import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
-import FilterSelection from './components/FilterSelection/FilterSelection';
-import FilterOptions from './components/FilterSelection/FilterOptions';
-import UnitTrackerSection from './components/UnitTracker/UnitTrackerSection';
-import YearlySchedule from './components/YearlySchedule/YearlySchedule';
+import UploadTranscript from './components/pdf-parsing/UploadTranscript'; // new "Home"
 import SeatAlertPage from './pages/SeatAlertPage';
 import GenerateSchedule from './pages/GenerateSchedule';
-import UploadTranscript from './components/pdf-parsing/UploadTranscript';
+import WhatIf from './components/WhatIf/WhatIf';
+import FilterSelection from './components/FilterSelection/FilterSelection';
+import FilterOptions from './components/FilterSelection/FilterOptions';
 
 function FilterSelectionWrapper() {
   return (
@@ -25,19 +24,6 @@ function FilterSelectionWrapper() {
       </div>
       <div className="course-list-wrapper">
         <FilterOptions />
-      </div>
-    </div>
-  );
-}
-
-function DashboardWrapper() {
-  return (
-    <div className="dashboard-wrapper">
-      <div className="left-content">
-        <UnitTrackerSection />
-      </div>
-      <div className="center-panel">
-        <YearlySchedule />
       </div>
     </div>
   );
@@ -56,23 +42,15 @@ function MainRoutes() {
       <Header />
       <main className={location.pathname === '/' ? '' : 'dashboard-main'}>
         <Routes>
+          {/* 🌐 Public landing page */}
           <Route path="/" element={<HomePage />} />
 
+          {/* 🏠 Authenticated Dashboard (was UploadTranscript) */}
           <Route
             path="/dashboard"
             element={(
               <ProtectedRoute
-                component={DashboardWrapper}
-                requiredRoles={['users', 'admin']}
-              />
-                        )}
-          />
-
-          <Route
-            path="/protected-data"
-            element={(
-              <ProtectedRoute
-                component={ProtectedData}
+                component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
                         )}
@@ -99,6 +77,16 @@ function MainRoutes() {
           />
 
           <Route
+            path="/what-if"
+            element={(
+              <ProtectedRoute
+                component={WhatIf}
+                requiredRoles={['users', 'admin']}
+              />
+                        )}
+          />
+
+          <Route
             path="/FilterSelection"
             element={(
               <ProtectedRoute
@@ -109,15 +97,16 @@ function MainRoutes() {
           />
 
           <Route
-            path="/upload-transcript"
+            path="/protected-data"
             element={(
               <ProtectedRoute
-                component={UploadTranscript}
+                component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
                         )}
           />
 
+          {/* fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
@@ -133,5 +122,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

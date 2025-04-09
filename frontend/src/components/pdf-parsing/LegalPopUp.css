@@ -1,0 +1,58 @@
+.legal-popup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.legal-popup-card {
+    background-color: white;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+}
+
+.legal-popup-card h2 {
+    margin-bottom: 1rem;
+    color: #5e002d;
+}
+
+.legal-popup-card p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.legal-popup-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.legal-popup-buttons button {
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.legal-popup-buttons .agree {
+    background-color: #5e002d;
+    color: white;
+}
+
+.legal-popup-buttons .cancel {
+    background-color: #aaa;
+    color: white;
+}

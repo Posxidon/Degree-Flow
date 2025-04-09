@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-@CrossOrigin(origins = "*")
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/transcripts")
 @RequiredArgsConstructor
@@ -22,26 +22,36 @@ public class TranscriptController {
 
     private final TranscriptService transcriptService;
 
+    /**
+     * Endpoint to upload a transcript PDF, parse its contents, and save it.
+     * Now returns decrypted data after saving.
+     */
     @PostMapping("/upload")
     public ResponseEntity<List<TranscriptData>> uploadTranscript(@RequestParam("transcript") MultipartFile file,
                                                                  @RequestParam("studentId") String studentId) {
         try {
-            // Extract raw text from PDF
+            // Step 1: Extract raw text from PDF
             String pdfText = extractTextFromPdf(file);
 
-            // Parse the text into TranscriptData
+            // Step 2: Parse into TranscriptData
             List<TranscriptData> parsedData = TranscriptParser.parseTranscript(pdfText, studentId);
 
-            // Save using service layer
+            // Step 3: Save encrypted data
             transcriptService.saveOrUpdateTranscript(parsedData);
 
-            // Return parsed rows to frontend
-            return ResponseEntity.ok(parsedData);
+            //  Step 4: Return DECRYPTED transcript data to frontend
+            List<TranscriptData> decrypted = transcriptService.getTranscript(studentId);
+            return ResponseEntity.ok(decrypted);
+
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    /**
+     * Retrieve decrypted transcript data for a specific student ID.
+     */
     @GetMapping("/{studentId}")
     public ResponseEntity<List<TranscriptData>> getTranscript(@PathVariable String studentId) {
         List<TranscriptData> transcriptList = transcriptService.getAllTranscripts(studentId);
@@ -51,7 +61,9 @@ public class TranscriptController {
         return ResponseEntity.ok(transcriptList);
     }
 
-    // Helper method to extract text from PDF file
+    /**
+     * Helper method to extract plain text from a PDF file.
+     */
     private String extractTextFromPdf(MultipartFile file) throws IOException {
         try (PDDocument document = PDDocument.load(file.getInputStream())) {
             PDFTextStripper stripper = new PDFTextStripper();

@@ -20,10 +20,10 @@ public class TranscriptData {
     @Column(nullable = false)
     private String studentId;
 
-    @Column(name = "transcript_id", nullable = false, length = 100)
+    @Column(name = "transcript_id", nullable = false)
     private String transcriptId;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String term;
 
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -33,23 +33,23 @@ public class TranscriptData {
     private String coOp;
 
     // === Term-level GPA Info ===
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private String units;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     private String gpa;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, name = "total_gpa")
     private String totalGpa;
 
-    // === Per-Course Fields (if applicable) ===
-    @Column(length = 100)
+    // === Per-Course Fields ===
+    @Column
     private String courseCode;
 
     @Column(columnDefinition = "TEXT")
     private String courseTitle;
 
-    @Column(length = 10)
+    @Column
     private String grade;
 
     // === Raw Extraction Backups (Optional) ===

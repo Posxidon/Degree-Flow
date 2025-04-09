@@ -1,56 +1,72 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { Builder, By, until } = require('selenium-webdriver');
 // eslint-disable-next-line import/no-extraneous-dependencies
+require('chromedriver');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');
 
+// Set timeout for Jest (30 sec max)
 // eslint-disable-next-line no-undef
-jest.setTimeout(30000); // in case things are slow
+jest.setTimeout(30000);
 
 // eslint-disable-next-line no-undef
-describe('Transcript Upload Flow (Selenium)', () => {
+describe('E2E: Upload Transcript Flow', () => {
   let driver;
 
   // eslint-disable-next-line no-undef
   beforeAll(async () => {
     const options = new chrome.Options();
-    options.addArguments('--headless');
-    options.addArguments('--no-sandbox');
-    options.addArguments('--disable-dev-shm-usage');
+    options.addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage');
 
     driver = await new Builder()
       .forBrowser('chrome')
       .setChromeOptions(options)
       .build();
 
-    await driver.get('http://localhost:3000/upload-transcript'); // update route if needed
+    await driver.get('http://localhost:3000/dashboard');
   });
 
   // eslint-disable-next-line no-undef
   afterAll(async () => {
-    await driver.quit();
+    if (driver) await driver.quit();
   });
 
   // eslint-disable-next-line no-undef
-  test('Uploads a transcript PDF and displays results', async () => {
-    // Locate file input
-    const fileInput = await driver.findElement(By.css('input[type="file"]'));
+  test('can upload a transcript and see program summary', async () => {
+    const uploadBtn = await driver.wait(
+      until.elementLocated(By.xpath("//button[text()='Upload Transcript']")),
+      10000
+    );
+    await uploadBtn.click();
 
-    // Upload file (make sure test.pdf exists in root/tests directory)
-    const filePath = path.resolve(__dirname, 'test.pdf');
-    await fileInput.sendKeys(filePath);
+    const agreeBtn = await driver.wait(
+      until.elementLocated(By.xpath("//button[text()='I Agree']")),
+      10000
+    );
+    await agreeBtn.click();
 
-    // Click Submit
-    const submitBtn = await driver.findElement(By.xpath("//button[normalize-space()='Submit']"));
-    await submitBtn.click();
-
-    // Wait for transcript table to show up
-    const table = await driver.wait(
-      until.elementLocated(By.css('.transcript-table')),
+    const fileInput = await driver.wait(
+      until.elementLocated(By.css('input[type="file"]')),
       10000
     );
 
+    const filePath = path.resolve(__dirname, 'test.pdf'); // ✅ ensure this file exists
+    await fileInput.sendKeys(filePath);
+
+    const submitBtn = await driver.wait(
+      until.elementLocated(By.xpath("//button[text()='Submit']")),
+      10000
+    );
+    await submitBtn.click();
+
+    const programSummary = await driver.wait(
+      until.elementLocated(By.xpath("//*[contains(text(),'Program Summary')]")),
+      10000
+    );
+
+    const summaryText = await programSummary.getText();
     // eslint-disable-next-line no-undef
-    expect(await table.isDisplayed()).toBe(true);
+    expect(summaryText).toContain('Program Summary');
   });
 });
