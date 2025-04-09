@@ -3,8 +3,8 @@ import './UploadTranscript.css';
 
 function LegalPopUp({ onConfirm, onCancel }) {
   return (
-    <div className="popup-overlay">
-      <div className="popup-content">
+    <div className="legal-popup-container">
+      <div className="legal-popup-card">
         <h2>Legal Notice</h2>
         <p>
           By uploading your transcript, you agree to share your academic
@@ -12,10 +12,12 @@ function LegalPopUp({ onConfirm, onCancel }) {
           identifiable information (PII). Only your program, grades, GPA, and co-op
           details will be stored securely for analysis.
         </p>
-        {/* eslint-disable-next-line react/button-has-type */}
-        <button onClick={onConfirm}>I Agree</button>
-        {/* eslint-disable-next-line react/button-has-type */}
-        <button onClick={onCancel}>Cancel</button>
+        <div className="legal-popup-buttons">
+          {/* eslint-disable-next-line react/button-has-type */}
+          <button className="agree" onClick={onConfirm}>I Agree</button>
+          {/* eslint-disable-next-line react/button-has-type */}
+          <button className="cancel" onClick={onCancel}>Cancel</button>
+        </div>
       </div>
     </div>
   );

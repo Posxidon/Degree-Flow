@@ -1,0 +1,80 @@
+.legal-popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5); /* darkens background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* ensure it overlays everything */
+    backdrop-filter: blur(3px); /* subtle background blur for modern look */
+}
+
+.legal-popup-card {
+    background-color: #ffffff;
+    padding: 2.5rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    z-index: 1001; /* above background blur */
+    animation: popupFadeIn 0.3s ease-in-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.legal-popup-card h2 {
+    margin-bottom: 1rem;
+    color: #5e002d;
+}
+
+.legal-popup-card p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.legal-popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.legal-popup-buttons button {
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    min-width: 120px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.legal-popup-buttons button:hover {
+    transform: scale(1.05);
+}
+
+.legal-popup-buttons .agree {
+    background-color: #5e002d;
+    color: white;
+}
+
+.legal-popup-buttons .cancel {
+    background-color: #888;
+    color: white;
+}
