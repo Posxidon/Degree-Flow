@@ -69,7 +69,6 @@ function GenerateSchedule() {
           </option>
         ))}
       </select>
-      )}
 
       {Array.isArray(courses) && courses.length > 0 ? (
         courses.map((course, index) => (

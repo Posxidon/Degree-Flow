@@ -22,10 +22,10 @@ public class SchedulingController {
     @GetMapping("/getSchedule")
     public ResponseEntity<?> getLatestScheduleByUserId(@RequestParam("userID") String userID) {
         System.out.println("requested");
-        Optional<JsonSchedule> scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userID);
-        System.out.println(scheduleJson.isPresent());
-        if (scheduleJson.isPresent()) { 
-            return ResponseEntity.ok(scheduleJson.get());
+        JsonSchedule scheduleJson = schedulingService.getLatestScheduleJsonByUserId(userID);
+        System.out.println(scheduleJson);
+        if (scheduleJson!=null) {
+            return ResponseEntity.ok(scheduleJson);
         } else {
             return ResponseEntity.notFound().build();
         }
