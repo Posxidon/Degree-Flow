@@ -17,7 +17,7 @@ function HomePage() {
             scope: 'read:data write:data'
           });
 
-          const response = await fetch('https://degreeflow-api.azurewebsites.net/api/protected', {
+          const response = await fetch('https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/protected', {
             headers: { Authorization: `Bearer ${token}` }
           });
 
