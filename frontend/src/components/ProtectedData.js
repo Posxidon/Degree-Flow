@@ -15,7 +15,7 @@ function ProtectedData() {
             scope: 'read:data write:data'
           }
         });
-        const response = await fetch('degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/protected', {
+        const response = await fetch('https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/protected', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('API call failed');
