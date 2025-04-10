@@ -1,5 +1,3 @@
-// GenerateSchedule.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -13,7 +11,7 @@ function GenerateSchedule() {
   const [coursesByYear, setCoursesByYear] = useState({});
   const [error, setError] = useState('');
   const [courses, setCourses] = useState([]);
-  const url = 'http://localhost:8080/api/schedules/getSchedule?';
+  const url = 'https://degreeflow-api.azurewebsites.net/api/schedules/getSchedule?';
 
   const fetchSchedule = async () => {
     console.log('requesting');
