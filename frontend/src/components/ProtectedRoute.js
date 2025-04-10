@@ -12,7 +12,7 @@ function ProtectedRoute({ component: Component, requiredRoles }) {
     const checkUserRole = async () => {
       if (isAuthenticated && user) {
         try {
-          const roles = user['http://localhost:3000/roles'] || []; // Get roles from the JWT claim
+          const roles = user['https://degreeflow.netlify.app/roles'] || []; // Get roles from the JWT claim
           const hasRequiredRole = requiredRoles.some((role) => roles.includes(role));
           setHasRole(hasRequiredRole);
         } catch (error) {
