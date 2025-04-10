@@ -11,7 +11,7 @@ function GenerateSchedule() {
   const [coursesByYear, setCoursesByYear] = useState({});
   const [error, setError] = useState('');
   const [courses, setCourses] = useState([]);
-  const url = 'https://degreeflow-api.azurewebsites.net/api/schedules/getSchedule?';
+  const url = 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/schedules/getSchedule?';
 
   const fetchSchedule = async () => {
     console.log('requesting');
