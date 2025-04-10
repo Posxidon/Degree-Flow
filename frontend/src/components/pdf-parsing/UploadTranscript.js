@@ -53,7 +53,7 @@ function UploadTranscript() {
       formData.append('transcript', file);
       formData.append('studentId', user.sub);
 
-      const response = await axios.post('http://localhost:8080/api/transcripts/upload', formData, {
+      const response = await axios.post('https://degreeflow-api.azurewebsites.net/api/transcripts/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
