@@ -32,7 +32,7 @@ function SeatAlertPage() {
         scope: 'read:data write:data'
       });
 
-      const url = `https://degreeflow-api.azurewebsites.net/api/courses/wildcard?subjectCode=${subject}&catalogPattern=${pattern}`;
+      const url = `https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/courses/wildcard?subjectCode=${subject}&catalogPattern=${pattern}`;
       const resp = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`
