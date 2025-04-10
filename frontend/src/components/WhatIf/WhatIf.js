@@ -149,8 +149,8 @@ function WhatIf() {
   const [data, setData] = useState({ courseHistory: [], courseDict: {}, courseGroupHistory: [] });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const url = 'https://degreeflow-api.azurewebsites.net/api/degree/requirement?';
-  const degreeUrl = 'https://degreeflow-api.azurewebsites.net/api/degree/degreeName?';
+  const url = 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/degree/requirement?';
+  const degreeUrl = 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/degree/degreeName?';
   // for updating self using data from node objects
   function handleChildData(yearNum, course) {
     const newYearData = {};
@@ -282,7 +282,7 @@ function WhatIf() {
     console.log('posting');
     console.log(JSON.stringify(yearData));
     setSubmitting(true);
-    const pstUrl = 'https://degreeflow-api.azurewebsites.net/api/degree/addSchedule?';
+    const pstUrl = 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/degree/addSchedule?';
     try {
       const token = await getAccessTokenSilently({
         audience: 'https://degreeflow-backend/api',
