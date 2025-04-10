@@ -19,6 +19,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Set executable permissions for Maven wrapper
+        run: chmod +x degreeflow-backend/mvnw
+
       - name: Build with Maven
         run: |
           cd degreeflow-backend
