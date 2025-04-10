@@ -1,6 +1,6 @@
 const RatingApiService = {
   // Base URL for the API
-  baseUrl: 'baseUrl: `${process.env.REACT_APP_API_BASE_URL}/api/ratings',
+  baseUrl: `${process.env.REACT_APP_API_BASE_URL}/api/ratings`,
 
   async getRatingSummary(courseCode, getAccessTokenSilently) {
     try {
