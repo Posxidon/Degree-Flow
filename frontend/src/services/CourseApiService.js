@@ -1,6 +1,6 @@
 const CourseApiService = {
   // Base URL now points to your backend proxy
-  baseUrl: 'http://localhost:8080/api/courses',
+  baseUrl: `${process.env.REACT_APP_API_BASE_URL}/api/courses`,
 
   async getCoursesBySubjectAndLevel(subjectCode, level, getAccessTokenSilently) {
     try {
