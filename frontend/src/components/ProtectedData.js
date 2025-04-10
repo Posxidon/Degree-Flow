@@ -15,7 +15,7 @@ function ProtectedData() {
             scope: 'read:data write:data'
           }
         });
-        const response = await fetch('http://localhost:8080/api/protected', {
+        const response = await fetch('https://degreeflow-api.azurewebsites.net/api/protected', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('API call failed');
