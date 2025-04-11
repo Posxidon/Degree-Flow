@@ -26,7 +26,7 @@ jobs:
       - name: Install and build React app
         run: |
           cd frontend
-          npm ci
+          npm install --force
           npm run build
 
       - name: Deploy to Azure Static Web Apps
