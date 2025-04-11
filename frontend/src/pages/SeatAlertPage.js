@@ -115,7 +115,7 @@ function SeatAlertPage() {
         scope: 'read:data write:data'
       });
 
-      const resp = await fetch('https://degreeflow-api.azurewebsites.net/api/seat-alerts/subscribe', {
+      const resp = await fetch('https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/seat-alerts/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
