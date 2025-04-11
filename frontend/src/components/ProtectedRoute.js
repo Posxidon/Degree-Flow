@@ -12,7 +12,7 @@ function ProtectedRoute({ component: Component, requiredRoles }) {
     const checkUserRole = async () => {
       if (isAuthenticated && user) {
         try {
-          const roles = user['https://degree-flow.vercel.app//roles'] || []; // Get roles from the JWT claim
+          const roles = user['https://degree-flow.vercel.app/roles'] || []; // Get roles from the JWT claim
           const hasRequiredRole = requiredRoles.some((role) => roles.includes(role));
           setHasRole(hasRequiredRole);
         } catch (error) {
