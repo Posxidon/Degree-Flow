@@ -1,6 +1,6 @@
 const CourseApiService = {
   // Base URL now points to your backend proxy
-  baseUrl: `https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/courses`,
+  baseUrl: 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/courses',
 
   async getCoursesBySubjectAndLevel(subjectCode, level, getAccessTokenSilently) {
     try {
