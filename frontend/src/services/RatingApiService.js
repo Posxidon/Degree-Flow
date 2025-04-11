@@ -1,6 +1,6 @@
 const RatingApiService = {
   // Base URL for the API
-  baseUrl: `${process.env.REACT_APP_API_BASE_URL}/api/ratings`,
+  baseUrl: 'https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net/api/ratings',
 
   async getRatingSummary(courseCode, getAccessTokenSilently) {
     try {
