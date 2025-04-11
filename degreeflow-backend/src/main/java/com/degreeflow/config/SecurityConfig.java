@@ -42,7 +42,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("https://degreeflow-api-dnfnaqhababxdjg8.canadacentral-01.azurewebsites.net");
+        config.addAllowedOrigin("https://degree-flow.vercel.app");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
