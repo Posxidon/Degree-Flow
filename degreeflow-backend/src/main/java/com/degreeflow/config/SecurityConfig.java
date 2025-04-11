@@ -42,7 +42,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("https://degreeflow.netlify.app");
+        config.addAllowedOrigin("https://delightful-tree-016eee80f.6.azurestaticapps.net");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
