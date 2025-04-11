@@ -6,7 +6,7 @@ Welcome to **DegreeFlow**, an academic planning tool developed for McMaster Univ
 
 The application is hosted and available at:
 
-**[https://degreeflow.macengsociety.ca](https://degreeflow.macengsociety.ca)**
+**[https://degree-flow.vercel.app/](https://degree-flow.vercel.app)**
 
 No installation or setup is required. The site is live and ready to use.
 
