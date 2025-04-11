@@ -35,7 +35,7 @@ jobs:
             return await coredemo.getIDToken()
           result-encoding: string
 
-      - name: Build React App Manually
+      - name: Build React App
         run: |
           cd frontend
           npm install --force
@@ -47,8 +47,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_TREE_016EEE80F }}
           action: "upload"
-          app_location: "./frontend"
-          output_location: "build"
+          app_location: "./frontend/build"
           skip_app_build: true
           app_build_command: "npm install --force && CI=false npm run build"
           github_id_token: ${{ steps.idtoken.outputs.result }}
