@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+/* import React, { useRef, useState } from 'react';
 import './Contact.css';
 // import { HiOutlineMail, HiOutlineArrowSmRight } from 'react-icons/hi';
 import emailjs from '@emailjs/browser';
@@ -57,7 +57,7 @@ function Contact() {
 
           <form ref={form} onSubmit={sendEmail} className="contact__form">
             <div className="contact__form-div">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */ /*} 
               <label className="contact__form-tag">Name</label>
               <input
                 type="text"
@@ -69,7 +69,7 @@ function Contact() {
             </div>
 
             <div className="contact__form-div">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */ /*}
               <label className="contact__form-tag">Email</label>
               <input
                 type="email"
@@ -81,7 +81,7 @@ function Contact() {
             </div>
 
             <div className="contact__form-div contact__form-area">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */ /*}
               <label className="contact__form-tag">Message</label>
               <textarea
                 name="reason"
@@ -93,7 +93,7 @@ function Contact() {
               />
             </div>
 
-            {/* eslint-disable-next-line react/button-has-type */}
+            {/* eslint-disable-next-line react/button-has-type */ /*}
             <button className="send-msg-btn">
               <span className="btn-inner">
                 <span className="btn-text">Send Message</span>
@@ -127,6 +127,6 @@ function Contact() {
       </div>
     </section>
   );
-}
+} 
 
-export default Contact;
+export default Contact; */
