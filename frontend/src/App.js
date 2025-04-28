@@ -16,7 +16,7 @@ import ProtectedData from './components/ProtectedData';
 import ProtectedRoute from './components/ProtectedRoute';
 import FilterSelection from './components/FilterSelection/FilterSelection';
 import FilterOptions from './components/FilterSelection/FilterOptions';
-import Contact from './components/Contact/Contact';
+//import Contact from './components/Contact/Contact';
 
 // Combined FilterSelection wrapper
 function FilterSelectionWrapper() {
@@ -45,12 +45,12 @@ function MainRoutes() {
       <Header />
       <main className={location.pathname === '/' ? '' : 'dashboard-main'}>
         <Routes>
-          {/* 🌐 Public Routes */}
+          {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/contact" element={<Contact />} />
+          //<Route path="/contact" element={<Contact />} />
 
-          {/* 🔐 Protected Routes */}
+          {/*  Protected Routes */}
           <Route
             path="/dashboard"
             element={(
