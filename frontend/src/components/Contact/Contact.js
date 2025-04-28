@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import './Contact.css';
-import { HiOutlineMail, HiOutlineArrowSmRight } from 'react-icons/hi';
+// import { HiOutlineMail, HiOutlineArrowSmRight } from 'react-icons/hi';
 import emailjs from '@emailjs/browser';
 
 function Contact() {
@@ -40,13 +40,13 @@ function Contact() {
           <h3 className="contact__title">Send us an email</h3>
           <div className="contact__info">
             <div className="contact__card">
-              <HiOutlineMail className="contact__card-icon" />
+              <className="contact__card-icon" />
               <h3 className="contact__card-title">DegreeFlow Email</h3>
               <span className="contact__card-data">degreeflow@gmail.com</span>
               <a href="mailto:degreeflow@gmail.com" className="contact__button">
                 Write to us
                 {' '}
-                <HiOutlineArrowSmRight className="contact__button-icon" />
+                <className="contact__button-icon" />
               </a>
             </div>
           </div>
