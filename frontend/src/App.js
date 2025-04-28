@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
-  useLocation,
+  useLocation
 } from 'react-router-dom';
 import './App.css';
 
