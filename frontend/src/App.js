@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import './App.css';
 
 import Header from './Header';
@@ -53,57 +58,57 @@ function MainRoutes() {
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={
+            element={(
               <ProtectedRoute
                 component={UploadTranscript}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
           <Route
             path="/seat-alert"
-            element={
+            element={(
               <ProtectedRoute
                 component={SeatAlertPage}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
           <Route
             path="/generate-schedule"
-            element={
+            element={(
               <ProtectedRoute
                 component={GenerateSchedule}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
           <Route
             path="/what-if"
-            element={
+            element={(
               <ProtectedRoute
                 component={WhatIf}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
           <Route
             path="/FilterSelection"
-            element={
+            element={(
               <ProtectedRoute
                 component={FilterSelectionWrapper}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
           <Route
             path="/protected-data"
-            element={
+            element={(
               <ProtectedRoute
                 component={ProtectedData}
                 requiredRoles={['users', 'admin']}
               />
-            }
+            )}
           />
 
           {/* fallback redirect */}
